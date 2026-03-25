@@ -3,209 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio</title>
+<title>Portfolio - Junio Cesar Kore</title>
+
+<!-- SEO Metadata -->
+<meta name="description" content="Portfolio of Junio Cesar Kore - showcasing engineering and graphic design projects, programming, and creative works.">
+<meta name="keywords" content="Junio Cesar Kore, portfolio, Solidworks, Python, Arduino, Figma, Graphic Design, Engineering Projects, PowerPoint, Illustrations, Flyer">
+<meta name="author" content="Junio Cesar Kore">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background:#0a0a0a;color:white;overflow-x:hidden;}
 
-body{
-  background:#0a0a0a;
-  color:white;
-  overflow-x:hidden;
-}
+/* INTRO */
+.intro{position:fixed;top:0;left:0;width:100%;height:100vh;background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover no-repeat;display:flex;justify-content:center;align-items:center;flex-direction:column;z-index:1000;transition:transform 1s ease;}
+.intro.hidden{transform:translateY(-100%);} 
+.overlay{position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.6);} 
 
-/* FULL SCREEN INTRO */
-.intro{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
-  background:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover no-repeat;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:1000;
-  transition:transform 1s ease;
-}
+.intro-text{position:relative;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.intro-text span{white-space:nowrap;overflow:hidden;}
 
-.intro.hidden{
-  transform:translateY(-100%);
-}
+/* Individual text styles */
+.intro-text span:first-child{font-size:4rem;font-weight:bold;text-align:center;display:block;animation:typewriterSlide 2s steps(30,end) forwards;border-right:3px solid #00ff88;margin-bottom:20px;}
+.intro-text span:nth-child(2){font-size:1.5rem;font-weight:300;text-align:left;align-self:flex-start;margin-left:20px;animation:typing 2s steps(30,end) forwards, blink 0.7s infinite;animation-delay:2s;border-right:3px solid #00ff88;}
+.intro-text span:nth-child(3){font-size:3.5rem;font-weight:bold;text-align:left;align-self:flex-start;margin-left:60px;animation:typing 2s steps(30,end) forwards, blink 0.7s infinite;animation-delay:4s;border-right:3px solid #00ff88;}
 
-.overlay{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.6);
-}
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes typewriterSlide{from{width:0; transform:translateX(-50%);} to{width:100%; transform:translateX(0);} }
 
-.intro-text{
-  position:relative;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+/* BUTTONS */
+.back-btn{position:fixed;bottom:20px;right:20px;padding:10px 18px;background:linear-gradient(90deg,#00f5ff,#00ff88);color:#000;border:none;border-radius:25px;cursor:pointer;font-weight:bold;z-index:1100;}
+.contact-bar{position:fixed;bottom:20px;left:20px;display:flex;gap:10px;z-index:1100;}
+.contact-btn{padding:10px 15px;border-radius:25px;border:none;cursor:pointer;font-weight:bold;color:#000;background:linear-gradient(90deg,#00f5ff,#00ff88);} 
 
-.intro-text span{
-  font-size:3rem;
-  opacity:0;
-}
+/* MAIN */
+.main{padding-top:120vh;text-align:center;}
+.profile{margin-top:-80vh;}
+.profile img{width:150px;height:150px;border-radius:50%;border:4px solid white;}
+.name{font-size:2rem;margin-top:10px;}
 
-.intro-text span:nth-child(1){
-  animation:fadeIn 1.5s forwards;
-}
-
-.intro-text span:nth-child(2){
-  animation:fadeIn 1.5s forwards;
-  animation-delay:1.5s;
-}
-
-.intro-text span:nth-child(3){
-  animation:fadeIn 1.5s forwards;
-  animation-delay:3s;
-}
-
-@keyframes fadeIn{
-  from{opacity:0; transform:translateY(20px);} 
-  to{opacity:1; transform:translateY(0);} 
-}
-}
-
-/* BACK TO INTRO BUTTON */
-.back-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  padding:10px 18px;
-  background:linear-gradient(90deg,#00f5ff,#00ff88);
-  color:#000;
-  border:none;
-  border-radius:25px;
-  cursor:pointer;
-  font-weight:bold;
-  z-index:1100;
-  box-shadow:0 0 10px rgba(0,255,200,0.5);
-  transition:0.3s;
-}
-
-.back-btn:hover{
-  transform:scale(1.1);
-}
-
-/* MAIN CONTENT */
-.main{
-  padding-top:120vh;
-  text-align:center;
-}
-
-.profile{
-  margin-top:-80vh;
-}
-
-.profile img{
-  width:150px;
-  height:150px;
-  border-radius:50%;
-  border:4px solid white;
-}
-
-.name{
-  font-size:2rem;
-  margin-top:10px;
-}
-
-/* GRID LINKS */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-  padding:50px;
-}
-
-.card{
-  background:#111;
-  border-radius:15px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:0.3s;
-  padding-bottom:15px;
-}
-
-.card:hover{
-  transform:scale(1.05);
-}
-
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-}
-
-.card p{
-  padding:10px;
-  font-size:1.2rem;
-}
-
-/* PROGRESS BAR */
-.progress-container{
-  width:80%;
-  height:8px;
-  background:#333;
-  border-radius:10px;
-  margin:10px auto;
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  width:0;
-  background:linear-gradient(90deg,#00f5ff,#00ff88);
-  border-radius:10px;
-  transition:width 2s ease;
-}
-
-
-
-/* CONTACT BUTTONS */
-.contact-bar{
-  position:fixed;
-  bottom:20px;
-  left:20px;
-  display:flex;
-  gap:10px;
-  z-index:1100;
-}
-
-.contact-btn{
-  padding:10px 15px;
-  border-radius:25px;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-  color:#000;
-  background:linear-gradient(90deg,#00f5ff,#00ff88);
-  box-shadow:0 0 10px rgba(0,255,200,0.5);
-  transition:0.3s;
-}
-
-.contact-btn:hover{
-  transform:scale(1.1);
-}
-
+/* SECTIONS */
+.section{padding:60px 20px;margin:40px;border-radius:20px;}
+.engineering{background:#0f172a;}
+.design{background:#1a0f1f;}
+.section-title{font-size:2rem;}
+.section-hover-text{opacity:0;margin-top:5px;margin-bottom:15px;white-space:nowrap;overflow:hidden;border-right:2px solid #00ff88;width:0;}
+.section:hover .section-hover-text{opacity:1;animation:typing 1.5s steps(25,end) forwards, blink 0.7s infinite;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.card{background:#111;border-radius:15px;overflow:hidden;cursor:pointer;transition:0.3s;padding-bottom:15px;}
+.card:hover{transform:scale(1.05);} 
+.card img{width:100%;height:180px;object-fit:cover;}
+.card p{padding:10px;font-size:1.2rem;}
+.progress-container{width:80%;height:8px;background:#333;border-radius:10px;margin:10px auto;overflow:hidden;}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#00f5ff,#00ff88);transition:width 2s ease;}
 </style>
 </head>
 
 <body>
-
-<!-- INTRO SCREEN -->
 <div class="intro" id="intro">
   <div class="overlay"></div>
   <div class="intro-text">
@@ -213,10 +67,8 @@ body{
     <span>I Design, Build & Create</span>
     <span>Scroll Down to Explore</span>
   </div>
-  
-  </div>
+</div>
 
-<!-- CONTACT BUTTONS (STICKY AFTER SCROLL) -->
 <div class="contact-bar">
   <button class="contact-btn" onclick="openWhatsApp()">WhatsApp</button>
   <button class="contact-btn" onclick="sendEmail()">Email</button>
@@ -224,141 +76,67 @@ body{
   <button class="contact-btn" onclick="toggleLanguage()">Language</button>
 </div>
 
-<!-- BACK BUTTON -->
 <button class="back-btn" onclick="goBackToIntro()">Back to Intro</button>
 
-<!-- MAIN CONTENT -->
 <div class="main">
-
   <div class="profile">
-    <img src="https://via.placeholder.com/150" alt="Profile">
-    <div class="name">Your Name</div>
+    <img src="https://via.placeholder.com/150">
+    <div class="name">Junio Cesar Kore</div>
   </div>
 
-  <div class="grid">
-
-    <div class="card" onclick="alert('Solidwork Designs')">
-      <img src="https://images.unsplash.com/photo-1581091012184-5c8b0c77c9c1">
-      <p>Solidwork Designs</p>
-      <div class="progress-container"><div class="progress-bar" data-width="90%"></div></div>
+  <div class="section engineering">
+    <div class="section-title">Engineering Orientation</div>
+    <div class="section-hover-text">Technical Skills & Development</div>
+    <div class="grid">
+      <div class="card"><img src="https://images.unsplash.com/photo-1581091012184-5c8b0c77c9c1"><p>Solidwork Designs</p><div class="progress-container"><div class="progress-bar" data-width="90%"></div></div></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d"><p>Projects Worked</p><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475"><p>Python Codes</p><div class="progress-container"><div class="progress-bar" data-width="80%"></div></div></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1581093588401-22c0f1e32d47"><p>Arduino Codes</p><div class="progress-container"><div class="progress-bar" data-width="75%"></div></div></div>
     </div>
-
-    <div class="card" onclick="alert('Projects Worked')">
-      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d">
-      <p>Projects Worked</p>
-      <div class="progress-container"><div class="progress-bar" data-width="85%"></div></div>
-    </div>
-
-    <div class="card" onclick="alert('Python Codes')">
-      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
-      <p>Python Codes</p>
-      <div class="progress-container"><div class="progress-bar" data-width="80%"></div></div>
-    </div>
-
-    <div class="card" onclick="alert('Arduino Codes')">
-      <img src="https://images.unsplash.com/photo-1581093588401-22c0f1e32d47">
-      <p>Arduino Codes</p>
-      <div class="progress-container"><div class="progress-bar" data-width="75%"></div></div>
-    </div>
-
-    <div class="card" onclick="alert('PowerPoint Conceived')">
-      <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0">
-      <p>PowerPoint Conceived</p>
-      <div class="progress-container"><div class="progress-bar" data-width="85%"></div></div>
-    </div>
-
-    <div class="card" onclick="alert('Illustrations')">
-      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-      <p>Illustrations</p>
-      <div class="progress-container"><div class="progress-bar" data-width="70%"></div></div>
-    </div>
-
-    <div class="card" onclick="alert('Flyer Created')">
-      <img src="https://images.unsplash.com/photo-1529336953121-ad4db8b7a0d3">
-      <p>Flyer Created</p>
-      <div class="progress-container"><div class="progress-bar" data-width="78%"></div></div>
-    </div>
-
   </div>
 
+  <div class="section design">
+    <div class="section-title">Graphic Design Orientation</div>
+    <div class="section-hover-text">Creative & Visual Work</div>
+    <div class="grid">
+      <div class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7"><p>Figma Design</p><div class="progress-container"><div class="progress-bar" data-width="82%"></div></div></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0"><p>PowerPoint Conceived</p><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"><p>Illustrations</p><div class="progress-container"><div class="progress-bar" data-width="70%"></div></div></div>
+      <div class="card"><img src="https://images.unsplash.com/photo-1529336953121-ad4db8b7a0d3"><p>Flyer Created</p><div class="progress-container"><div class="progress-bar" data-width="78%"></div></div></div>
+    </div>
+  </div>
 </div>
 
 <script>
-
-// Scroll animation
-window.addEventListener('scroll', () => {
-  const intro = document.getElementById('intro');
-
-  if(window.scrollY > 100){
-    intro.classList.add('hidden');
-  }
-
-  if(window.scrollY === 0){
-    intro.classList.remove('hidden');
-  }
-
-  // Animate progress bars
-  document.querySelectorAll('.progress-bar').forEach(bar => {
-    const rect = bar.getBoundingClientRect();
-    if(rect.top < window.innerHeight){
-      bar.style.width = bar.getAttribute('data-width');
-    }
+window.addEventListener('scroll',()=>{
+  const intro=document.getElementById('intro');
+  if(window.scrollY>100){intro.classList.add('hidden');}
+  if(window.scrollY===0){intro.classList.remove('hidden');}
+  document.querySelectorAll('.progress-bar').forEach(bar=>{
+    const rect=bar.getBoundingClientRect();
+    if(rect.top<window.innerHeight){bar.style.width=bar.getAttribute('data-width');}
   });
 });
 
-// Back to intro function
-function goBackToIntro(){
-  const intro = document.getElementById('intro');
+function goBackToIntro(){window.scrollTo({top:0,behavior:'smooth'});document.getElementById('intro').classList.remove('hidden');}
+function openWhatsApp(){window.open('https://wa.me/233XXXXXXXXX','_blank');}
+function sendEmail(){window.location.href='mailto:youremail@example.com';}
+function downloadCV(){window.location.href='cv.html';}
 
-  intro.classList.remove('hidden');
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}
-
-
-
-// Contact functions
-function openWhatsApp(){
-  window.open('https://wa.me/233XXXXXXXXX', '_blank');
-}
-
-function sendEmail(){
-  window.location.href = 'mailto:youremail@example.com';
-}
-
-function downloadCV(){
-  window.location.href = 'cv.html';
-}
-
-// Simple language toggle
-let isEnglish = true;
+let isEnglish=true;
 function toggleLanguage(){
-  const texts = document.querySelectorAll('.intro-text span');
-
+  const t=document.querySelectorAll('.intro-text span');
   if(isEnglish){
-    texts[0].textContent = 'Bienvenue sur Mon Portfolio';
-    texts[1].textContent = 'Je Conçois, Construis et Crée';
-    texts[2].textContent = 'Faites défiler pour explorer';
+    t[0].textContent='Bienvenue sur Mon Portfolio';
+    t[1].textContent='Je Conçois, Construis et Crée';
+    t[2].textContent='Faites défiler pour explorer';
   }else{
-    texts[0].textContent = 'Welcome to My Portfolio';
-    texts[1].textContent = 'I Design, Build & Create';
-    texts[2].textContent = 'Scroll Down to Explore';
+    t[0].textContent='Welcome to My Portfolio';
+    t[1].textContent='I Design, Build & Create';
+    t[2].textContent='Scroll Down to Explore';
   }
-
-  isEnglish = !isEnglish;
+  isEnglish=!isEnglish;
 }
-
-function sendEmail(){
-  window.location.href = 'mailto:youremail@example.com';
-}
-
-function downloadCV(){
-  window.location.href = 'cv.html';
-}
-
 </script>
 
 </body>
