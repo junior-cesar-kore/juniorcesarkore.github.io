@@ -18,7 +18,7 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
 .intro.hidden{transform:translateY(-100%);} 
 
 .intro-text{width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-.intro-text span{white-space:nowrap;overflow:hidden;opacity:0;}
+.intro-text span{white-space:nowrap;overflow:hidden;opacity:0;width:0;}
 
 .intro-text span:nth-child(1){font-size:clamp(2rem,5vw,4rem);font-weight:bold;animation:slideType 2s steps(30,end) forwards;border-right:3px solid #00ff88;animation-fill-mode:forwards;}
 .intro-text span:nth-child(2){
@@ -57,8 +57,18 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
 .engineering{background:#0f172a;}
 .design{background:#1a0f1f;}
 
-.section-hover-text{opacity:0;width:0;overflow:hidden;border-right:2px solid #00ff88;}
-.section:hover .section-hover-text{animation:type 1.5s steps(25,end) forwards;}
+.section-hover-text{
+  opacity:0;
+  overflow:hidden;
+  border-right:2px solid #00ff88;
+  display:block;
+  pointer-events:none; /* prevent hover flicker */
+  transition:opacity 0.3s ease;
+}
+.section:hover .section-hover-text{
+  opacity:1;
+  animation:type 1.5s steps(25,end) forwards;
+}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
 .card{display:block;background:#111;border-radius:15px;overflow:hidden;cursor:pointer;text-decoration:none;color:white;}
@@ -73,12 +83,14 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
 
 <div class="intro" id="intro">
   <div class="intro-text">
-    <span>Junior Cesar Kore Portfolio</span>
-    <span>Driven by a deep passion for technology, I am fully immersed in the pursuit of never-ended-advanced 
-knowledge with the goal of becoming an exceptional mechatronics engineer. My purpose is to seamlessly integrate 
-engineering knowledge, innovation, and problem-solving, into every aspect of life with a tangible touch of 
-aesthetics. This philosophy shapes my mindset, drives my every step, and is embodied in my motto:</span>
-    <span>LET'S MAKE IT POSSIBLE!</span>
+    <span>Junior Cesar KORE</span>
+    <span>Driven by a deep passion for technology, I am fully immersed in 
+    the pursuit of never-ended-advanced knowledge with the goal of becoming 
+    an exceptional mechatronics engineer. My purpose is to seamlessly integrate 
+    engineering knowledge, innovation, and problem-solving, into every aspect 
+    of life with a tangible touch of aesthetics. This philosophy shapes my mindset, 
+    drives my every step, and is embodied in my motto: </span>
+    <span>“LET’S MAKE IT POSSIBLE!”</span>
   </div>
 </div>
 
@@ -99,28 +111,28 @@ aesthetics. This philosophy shapes my mindset, drives my every step, and is embo
 
   <div class="section engineering">
     <h2>Engineering Orientation</h2>
-    <div class="section-hover-text">Working towards becoming a Mecahtronic engineer of quality, I dedicate my time to embody the engineering mindset and thinking process</div>
+    <div class="section-hover-text">Technical Skills, Proper Understanding, and Curiosity are my ladder</div>
     <div class="grid">
 
       <!-- REPLACE IMAGES BELOW -->
-      <a href="solidworks.html" class="card"><img src="solidworks.jpg"><div class="progress-container"><div class="progress-bar" data-width="90%"></div></div></a>
-      <a href="projects.html" class="card"><img src="projects.jpg"><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></a>
-      <a href="python.html" class="card"><img src="python.jpg"><div class="progress-container"><div class="progress-bar" data-width="80%"></div></div></a>
-      <a href="arduino.html" class="card"><img src="arduino.jpg"><div class="progress-container"><div class="progress-bar" data-width="75%"></div></div></a>
+      <a href="solidworks.html" class="card"><img src="solidworks.png"><div class="progress-container"><div class="progress-bar" data-width="90%"></div></div></a>
+      <a href="projects.html" class="card"><img src="projects.png"><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></a>
+      <a href="python.html" class="card"><img src="python.png"><div class="progress-container"><div class="progress-bar" data-width="80%"></div></div></a>
+      <a href="arduino.html" class="card"><img src="arduino.png"><div class="progress-container"><div class="progress-bar" data-width="75%"></div></div></a>
 
     </div>
   </div>
 
   <div class="section design">
     <h2>Graphic Design Orientation</h2>
-    <div class="section-hover-text">As functionality apperently means nothing without aesthetics in today's age, I am keeping my creativity up to give my work more relevence</div>
+    <div class="section-hover-text">Functionality without any sense of aesthetic is unattractive</div>
     <div class="grid">
 
       <!-- REPLACE IMAGES BELOW -->
-      <a href="figma.html" class="card"><img src="figma.jpg"><div class="progress-container"><div class="progress-bar" data-width="82%"></div></div></a>
-      <a href="ppt.html" class="card"><img src="ppt.jpg"><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></a>
-      <a href="illustration.html" class="card"><img src="illustration.jpg"><div class="progress-container"><div class="progress-bar" data-width="70%"></div></div></a>
-      <a href="flyer.html" class="card"><img src="flyer.jpg"><div class="progress-container"><div class="progress-bar" data-width="78%"></div></div></a>
+      <a href="figma.html" class="card"><img src="figma.png"><div class="progress-container"><div class="progress-bar" data-width="82%"></div></div></a>
+      <a href="ppt.html" class="card"><img src="ppt.png"><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></a>
+      <a href="illustration.html" class="card"><img src="illustration.png"><div class="progress-container"><div class="progress-bar" data-width="70%"></div></div></a>
+      <a href="flyer.html" class="card"><img src="flyer.png"><div class="progress-container"><div class="progress-bar" data-width="78%"></div></div></a>
 
     </div>
   </div>
@@ -129,11 +141,20 @@ aesthetics. This philosophy shapes my mindset, drives my every step, and is embo
 <script>
 window.addEventListener('scroll',()=>{
   const intro=document.getElementById('intro');
-  if(window.scrollY>100){intro.classList.add('hidden');}
+
+  // Hide intro when scrolling down
+  if(window.scrollY>100){
+    intro.classList.add('hidden');
+  } else {
+    // Show intro again when back at the top
+    intro.classList.remove('hidden');
+  }
 
   document.querySelectorAll('.progress-bar').forEach(bar=>{
     const rect=bar.getBoundingClientRect();
-    if(rect.top<window.innerHeight){bar.style.width=bar.getAttribute('data-width');}
+    if(rect.top<window.innerHeight){
+      bar.style.width=bar.getAttribute('data-width');
+    }
   });
 });
 </script>
