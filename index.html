@@ -58,12 +58,17 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
 .design{background:#1a0f1f;}
 
 .section-hover-text{
-  opacity:1;
-  border:none;
-  margin-top:5px;
-  margin-bottom:15px;
+  opacity:0;
+  overflow:hidden;
+  border-right:2px solid #00ff88;
+  display:block;
+  pointer-events:none; /* prevent hover flicker */
+  transition:opacity 0.3s ease;
 }
-
+.section:hover .section-hover-text{
+  opacity:1;
+  animation:type 1.5s steps(25,end) forwards;
+}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
 .card{display:block;background:#111;border-radius:15px;overflow:hidden;cursor:pointer;text-decoration:none;color:white;}
@@ -84,7 +89,7 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
     an exceptional mechatronics engineer. My purpose is to seamlessly integrate 
     engineering knowledge, innovation, and problem-solving, into every aspect 
     of life with a tangible touch of aesthetics. This philosophy shapes my mindset, 
-    drives my every step, and is embodied in my motto:</span>
+    drives my every step, and is embodied in my motto: </span>
     <span>“LET’S MAKE IT POSSIBLE!”</span>
   </div>
 </div>
@@ -101,12 +106,12 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
   <div class="profile">
     <!-- REPLACE PROFILE IMAGE BELOW -->
     <img src="profile.png">
-    <div class="name">Junio Cesar Kore</div>
+    <div class="name">Junior Cesar Kore</div>
   </div>
 
   <div class="section engineering">
     <h2>Engineering Orientation</h2>
-    <div class="section-hover-text">Technical Skills, Proper Understanding, and Curiosity are the pillar of KJC</div>
+    <div class="section-hover-text">Technical Skills, Proper Understanding, Imagination, and Curiosity are the pillars of my person </div>
     <div class="grid">
 
       <!-- REPLACE IMAGES BELOW -->
