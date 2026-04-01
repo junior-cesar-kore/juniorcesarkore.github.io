@@ -14,7 +14,7 @@
 body{background:#0a0a0a;color:white;overflow-x:hidden;}
 
 /* INTRO */
-.intro{position:fixed;top:0;left:0;width:100%;height:100vh;background:#000;display:flex;justify-content:center;align-items:center;flex-direction:column;z-index:1000;transition:transform 1s ease;}
+.intro{position:fixed;top:0;left:0;width:100%;height:100vh;background:linear-gradient(270deg,#0f2027,#203a43,#2c5364,#00ff88);background-size:800% 800%;animation:gradientMove 10s ease infinite;display:flex;justify-content:center;align-items:center;flex-direction:column;z-index:1000;transition:transform 1s ease;}
 .intro.hidden{transform:translateY(-100%);} 
 
 .intro-text{width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;}
@@ -42,6 +42,12 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
 @keyframes type{0%{width:0;opacity:0;}100%{width:100%;opacity:1;}}
 @keyframes slideType{0%{width:0;opacity:0;transform:translateX(-50%);}100%{width:100%;opacity:1;transform:translateX(0);}}
 
+@keyframes gradientMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}100%{width:100%;opacity:1;transform:translateX(0);}}
+
 /* BUTTONS */
 .contact-bar{position:fixed;bottom:20px;left:20px;display:flex;flex-wrap:wrap;gap:10px;}
 .contact-btn{padding:10px 15px;border:none;border-radius:25px;background:linear-gradient(90deg,#00f5ff,#00ff88);cursor:pointer;font-weight:bold;}
@@ -59,16 +65,16 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
 
 .section-hover-text{
   opacity:0;
+  white-space:nowrap;
   overflow:hidden;
   border-right:2px solid #00ff88;
-  display:block;
-  pointer-events:none; /* prevent hover flicker */
-  transition:opacity 0.3s ease;
+  width:0;
 }
+
 .section:hover .section-hover-text{
-  opacity:1;
   animation:type 1.5s steps(25,end) forwards;
 }
+
 
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
 .card{display:block;background:#111;border-radius:15px;overflow:hidden;cursor:pointer;text-decoration:none;color:white;}
@@ -76,12 +82,31 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
 
 .progress-container{width:80%;height:8px;background:#333;margin:10px auto;}
 .progress-bar{height:100%;width:0;background:#00ff88;transition:2s;}
+/* BUBBLE ANIMATION */
+.bubbles{position:absolute;width:100%;height:100%;overflow:hidden;top:0;left:0;z-index:0;}
+.bubbles span{position:absolute;bottom:-50px;background:rgba(0,255,136,0.2);border-radius:50%;animation:rise 10s infinite ease-in;}
+
+.bubbles span:nth-child(1){left:10%;width:20px;height:20px;animation-duration:8s;}
+.bubbles span:nth-child(2){left:25%;width:15px;height:15px;animation-duration:12s;}
+.bubbles span:nth-child(3){left:40%;width:25px;height:25px;animation-duration:10s;}
+.bubbles span:nth-child(4){left:60%;width:10px;height:10px;animation-duration:14s;}
+.bubbles span:nth-child(5){left:75%;width:18px;height:18px;animation-duration:9s;}
+.bubbles span:nth-child(6){left:90%;width:22px;height:22px;animation-duration:11s;}
+
+@keyframes rise{
+  0%{transform:translateY(0) scale(1);opacity:0.3;}
+  50%{opacity:0.6;}
+  100%{transform:translateY(-110vh) scale(1.5);opacity:0;}
+}
 </style>
 </head>
 
 <body>
 
 <div class="intro" id="intro">
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
   <div class="intro-text">
     <span>Junior Cesar KORE</span>
     <span>Driven by a deep passion for technology, I am fully immersed in 
@@ -106,12 +131,12 @@ body{background:#0a0a0a;color:white;overflow-x:hidden;}
   <div class="profile">
     <!-- REPLACE PROFILE IMAGE BELOW -->
     <img src="profile.png">
-    <div class="name">Junior Cesar Kore</div>
+    <div class="name">Junior Cesar KORE</div>
   </div>
 
   <div class="section engineering">
     <h2>Engineering Orientation</h2>
-    <div class="section-hover-text">Technical Skills, Proper Understanding, Imagination, and Curiosity are the pillars of my person </div>
+    <div class="section-hover-text">Technical Skills, Proper Understanding, Imagination, and Curiosity are the pillars of my person</div>
     <div class="grid">
 
       <!-- REPLACE IMAGES BELOW -->
