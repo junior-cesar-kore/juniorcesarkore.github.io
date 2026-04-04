@@ -2,15 +2,23 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- =========================================================
+    BASIC PAGE SETUP
+    - Single-file portfolio (HTML + CSS + JS)
+    - CV is a second "page" inside this same file using #cv routing
+  ========================================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Junior Cesar Kore | Premium Portfolio</title>
   <meta name="description" content="Modern premium portfolio, dark futuristic UI, cursor glow sections, smooth animations, slideshows, and interactive cards." />
 
   <style>
+    /* =========================================================
+      THEME VARIABLES (easy to change colors and sizes)
+    ========================================================== */
     :root{
       --bg: #0b0b0f;
-      --panel: #1a1a1a;                 /* REQUIRED */
+      --panel: #1a1a1a;                 /* REQUIRED: dark ash background for sections */
       --panelBorder: rgba(255,255,255,.08);
 
       --text: rgba(255,255,255,.92);
@@ -23,15 +31,21 @@
       --cyan: #42f5ff;
       --purple: #b55cff;
       --accent: linear-gradient(135deg, rgba(66,245,255,.95), rgba(181,92,255,.95));
+
+      /* Smooth animation curve used everywhere */
       --ease: cubic-bezier(.2,.8,.2,1);
 
       --radius: 22px;
       --max: 1200px;
       --gridGap: 14px;
 
+      /* Used for switching Home <-> CV page */
       --pageFadeMs: 260ms;
     }
 
+    /* =========================================================
+      GLOBAL RESET + BASE
+    ========================================================== */
     *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
     body{
@@ -44,16 +58,16 @@
       color: var(--text);
       overflow-x:hidden;
     }
-
     a{ color:inherit; text-decoration:none; }
     button{ font: inherit; color: inherit; }
+
+    /* Main content wrapper width */
     .container{ width:min(var(--max), calc(100% - 40px)); margin:0 auto; }
 
-    /* -------------------------------------------
-       INTRO / LANDING (UPDATED GRADIENT STYLE)
-       - Animated multi-layer linear gradients
-       - Smooth shifting, premium "aurora" feel
-    ------------------------------------------- */
+    /* =========================================================
+      INTRO / LANDING (UPDATED GRADIENT STYLE)
+      - Uses 2 animated linear gradients + a vignette overlay
+    ========================================================== */
     .intro{
       position: relative;
       height: 100vh;
@@ -66,7 +80,7 @@
       background: #06060a;
     }
 
-    /* Layer 1: big shifting gradient */
+    /* Layer 1: large gradient sheet (blurred) */
     .intro::before{
       content:"";
       position:absolute;
@@ -88,7 +102,7 @@
       z-index:-3;
     }
 
-    /* Layer 2: secondary gradient for depth */
+    /* Layer 2: second gradient for extra depth */
     .intro::after{
       content:"";
       position:absolute;
@@ -108,7 +122,7 @@
       mix-blend-mode: screen;
     }
 
-    /* Layer 3: dark vignette for premium contrast */
+    /* Layer 3: dark vignette to keep text readable (adds premium contrast) */
     .introVignette{
       position:absolute;
       inset:0;
@@ -119,6 +133,7 @@
       pointer-events:none;
     }
 
+    /* Gradient animations */
     @keyframes introGradientShift{
       0%   { background-position: 0% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.03); }
       25%  { background-position: 50% 0%; transform: translate3d(1.5%, -1%, 0) rotate(2deg) scale(1.04); }
@@ -126,7 +141,6 @@
       75%  { background-position: 50% 100%; transform: translate3d(-1.2%, 0, 0) rotate(-2deg) scale(1.04); }
       100% { background-position: 0% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.03); }
     }
-
     @keyframes introGradientShift2{
       0%   { background-position: 50% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.02); }
       35%  { background-position: 0% 60%; transform: translate3d(-1%, -1.2%, 0) rotate(-2deg) scale(1.03); }
@@ -134,13 +148,14 @@
       100% { background-position: 50% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.02); }
     }
 
-    /* Floating bubbles overlay */
+    /* Floating bubbles container */
     .bubbles{
       position:absolute; inset:0;
       pointer-events:none;
       z-index:0;
       opacity:.65;
     }
+    /* One bubble */
     .bubble{
       position:absolute;
       width: clamp(10px, 2.4vw, 26px);
@@ -158,6 +173,7 @@
       to{ transform: translate3d(0, -160%, 0) scale(1.15); opacity: 0; }
     }
 
+    /* Intro texts wrapper */
     .introContent{
       position:relative;
       z-index:1;
@@ -166,6 +182,7 @@
       padding: 40px 0;
     }
 
+    /* Text 1: main headline */
     .headline{
       font-size: clamp(2.2rem, 5.2vw, 4rem);
       line-height: 1.05;
@@ -175,6 +192,7 @@
       text-shadow: 0 10px 40px rgba(0,0,0,.55);
     }
 
+    /* Text 3: tagline (slightly larger than paragraph) */
     .tagline{
       font-size: clamp(1.05rem, 2.2vw, 1.35rem);
       font-weight: 680;
@@ -183,6 +201,7 @@
       text-shadow: 0 10px 40px rgba(0,0,0,.6);
     }
 
+    /* Text 2: two-line paragraph */
     .subcopy{
       font-size: clamp(.95rem, 1.7vw, 1.08rem);
       line-height: 1.55;
@@ -192,6 +211,7 @@
       text-shadow: 0 10px 40px rgba(0,0,0,.65);
     }
 
+    /* Small scroll hint at bottom */
     .scrollHint{
       position:absolute;
       left:50%;
@@ -220,15 +240,17 @@
       50%{ transform: scale(1.18); opacity:1; }
     }
 
-    /* Intro fade out on scroll */
+    /* This class is faded on scroll by JS */
     .introFade{
       will-change: opacity, transform;
       transition: opacity 380ms var(--ease), transform 380ms var(--ease);
     }
 
-    /* -------------------------------------------
-       PAGES (single file, "another page" via hash routing)
-    ------------------------------------------- */
+    /* =========================================================
+      "PAGES" INSIDE THIS SINGLE FILE
+      - Home page: #home (default)
+      - CV page:   #cv
+    ========================================================== */
     .page{
       opacity: 1;
       transform: translateY(0);
@@ -244,11 +266,12 @@
       overflow:hidden;
     }
 
+    /* Main spacing */
     main{ padding: 44px 0 120px; }
 
-    /* -------------------------------------------
-       PROFILE
-    ------------------------------------------- */
+    /* =========================================================
+      PROFILE SECTION (image + name)
+    ========================================================== */
     .profile{
       margin-top: 10px;
       display:flex;
@@ -259,6 +282,7 @@
       padding: 16px 0 10px;
     }
 
+    /* Circular photo container */
     .avatar{
       width: 112px;
       height: 112px;
@@ -297,9 +321,9 @@
       max-width: 78ch;
     }
 
-    /* -------------------------------------------
-       SECTIONS
-    ------------------------------------------- */
+    /* =========================================================
+      MAIN TWO SECTIONS (Engineering, Graphic)
+    ========================================================== */
     .sections{
       margin-top: 28px;
       display:grid;
@@ -307,6 +331,7 @@
       gap: 16px;
     }
 
+    /* REQUIRED design: dark ash + rounded + border + shadow + hover lift */
     .panel{
       position:relative;
       background: var(--panel);
@@ -324,6 +349,7 @@
       border-color: rgba(255,255,255,.14);
     }
 
+    /* CRITICAL cursor-follow glow: controlled by CSS variables --mx and --my set in JS */
     .panel::before{
       content:"";
       position:absolute; inset:0;
@@ -339,6 +365,7 @@
     }
     .panel.is-hovered::before{ opacity: 1; }
 
+    /* Panel top row (title + chip) */
     .panelHeader{
       display:flex;
       align-items:flex-start;
@@ -364,6 +391,7 @@
       backdrop-filter: blur(10px);
     }
 
+    /* Description: hidden by default, expands on hover */
     .panelDescription{
       margin-top: 10px;
       color: var(--muted2);
@@ -384,9 +412,10 @@
       transform: translateY(0);
     }
 
-    /* -------------------------------------------
-       CARDS
-    ------------------------------------------- */
+    /* =========================================================
+      CARDS GRID + CARD STYLES
+      - Each card opens a different page (see data-link on each card)
+    ========================================================== */
     .cards{
       margin-top: 14px;
       display:grid;
@@ -394,6 +423,7 @@
       gap: var(--gridGap);
     }
 
+    /* One card tile */
     .card{
       grid-column: span 6;
       position:relative;
@@ -413,11 +443,13 @@
       box-shadow: 0 16px 38px rgba(0,0,0,.48);
     }
 
+    /* Slideshow container (images injected by JS) */
     .slide{
       position:absolute;
-      inset:0 0 64px 0;
-      background: #111;
+      inset:0 0 64px 0; /* leaves room for overlay at the bottom */
+      background: #111; /* fallback background if images not loaded */
     }
+    /* Each slideshow image */
     .slide img{
       width:100%;
       height:100%;
@@ -430,6 +462,7 @@
     }
     .slide img.active{ opacity: 1; }
 
+    /* Card bottom overlay (title + progress bar) */
     .cardOverlay{
       position:absolute;
       inset:auto 0 0 0;
@@ -462,6 +495,7 @@
       backdrop-filter: blur(10px);
     }
 
+    /* Progress bar track */
     .progressTrack{
       height: 8px;
       border-radius: 999px;
@@ -469,6 +503,7 @@
       overflow:hidden;
       border: 1px solid rgba(255,255,255,.10);
     }
+    /* Progress bar fill (animated) */
     .progressFill{
       height: 100%;
       width: 0%;
@@ -477,11 +512,12 @@
       box-shadow: 0 0 18px rgba(66,245,255,.14), 0 0 18px rgba(181,92,255,.12);
       transition: width 900ms var(--ease);
     }
+    /* Fill happens only when card is visible (in-view) AND hovered */
     .card.in-view.hovered .progressFill{ width: var(--target, 75%); }
 
-    /* -------------------------------------------
-       CV PAGE
-    ------------------------------------------- */
+    /* =========================================================
+      CV PAGE STYLES
+    ========================================================== */
     .cvWrap{
       margin-top: 18px;
       background: var(--panel);
@@ -513,6 +549,8 @@
       flex-wrap: wrap;
       justify-content:flex-end;
     }
+
+    /* This class is used for both <button> and <a> in CV actions */
     .miniBtn{
       appearance:none;
       border: 1px solid rgba(255,255,255,.10);
@@ -523,6 +561,9 @@
       cursor:pointer;
       transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
       backdrop-filter: blur(10px);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
     }
     .miniBtn:hover{
       transform: translateY(-2px);
@@ -530,6 +571,7 @@
       background: rgba(0,0,0,.52);
     }
 
+    /* Grid layout for CV blocks */
     .cvGrid{
       padding: 16px;
       display:grid;
@@ -537,6 +579,7 @@
       gap: 14px;
     }
 
+    /* One CV block */
     .cvCard{
       grid-column: span 6;
       border-radius: 18px;
@@ -545,6 +588,7 @@
       padding: 14px;
       box-shadow: 0 10px 26px rgba(0,0,0,.25);
     }
+    /* Full width CV block */
     .cvCard.full{ grid-column: span 12; }
 
     .cvCard h4{
@@ -565,14 +609,12 @@
       background: rgba(255,255,255,.05);
       white-space: nowrap;
     }
-
     .cvCard p, .cvCard li{
       margin:0;
       color: var(--muted);
       font-size: 14px;
       line-height: 1.55;
     }
-
     .cvList{
       margin: 0;
       padding-left: 18px;
@@ -580,6 +622,7 @@
       gap: 8px;
     }
 
+    /* Skill chips */
     .skillChips{
       display:flex;
       flex-wrap: wrap;
@@ -601,6 +644,7 @@
       background: rgba(0,0,0,.42);
     }
 
+    /* Timeline blocks (Experience + Education) */
     .timeline{
       display:grid;
       gap: 12px;
@@ -638,7 +682,7 @@
       line-height: 1.55;
     }
 
-    /* Certifications: images + label only */
+    /* Certifications grid (images + label only) */
     .certGrid{
       margin-top: 10px;
       display:grid;
@@ -681,6 +725,9 @@
       background: rgba(255,255,255,.02);
     }
 
+    /* =========================================================
+      RESPONSIVE LAYOUT
+    ========================================================== */
     @media (max-width: 980px){
       .card{ grid-column: span 12; min-height: 260px; }
       .intro{ min-height: 620px; }
@@ -697,9 +744,9 @@
       .cert{ grid-column: span 12; }
     }
 
-    /* -------------------------------------------
-       FIXED UI ELEMENTS
-    ------------------------------------------- */
+    /* =========================================================
+      FIXED UI BUTTONS (left: WhatsApp / Email / CV) (right: Top)
+    ========================================================== */
     .fixedLeft, .fixedRight{
       position: fixed;
       bottom: 18px;
@@ -711,6 +758,7 @@
     .fixedLeft{ left: 18px; }
     .fixedRight{ right: 18px; align-items:flex-end; }
 
+    /* Shared pill button style */
     .pillBtn{
       display:inline-flex;
       align-items:center;
@@ -730,6 +778,8 @@
       border-color: rgba(255,255,255,.16);
       background: rgba(0,0,0,.52);
     }
+
+    /* Small icon box */
     .icon{
       width: 30px;
       height: 30px;
@@ -746,6 +796,7 @@
     .labelTop{ font-size: 12px; color: rgba(255,255,255,.86); font-weight: 800; }
     .labelSub{ font-size: 12px; color: rgba(255,255,255,.62); }
 
+    /* Back-to-top button is hidden until you scroll */
     .toTop{
       opacity: 0;
       pointer-events:none;
@@ -758,7 +809,9 @@
       transform: translateY(0);
     }
 
-    /* reveal */
+    /* =========================================================
+      REVEAL ANIMATION (shown when element scrolls into view)
+    ========================================================== */
     .reveal{
       opacity:0;
       transform: translateY(10px);
@@ -769,7 +822,7 @@
       transform: translateY(0);
     }
 
-    /* accessibility */
+    /* Accessibility: reduce motion if user prefers it */
     @media (prefers-reduced-motion: reduce){
       *{ animation: none !important; transition: none !important; scroll-behavior:auto !important; }
     }
@@ -777,16 +830,23 @@
 </head>
 
 <body>
-  <!-- INTRO -->
+  <!-- =========================================================
+    INTRO SECTION (full-screen)
+  ========================================================== -->
   <header class="intro" id="top">
     <div class="bubbles" aria-hidden="true" id="bubbles"></div>
     <div class="introVignette" aria-hidden="true"></div>
 
     <div class="introContent introFade" id="introFade">
       <h1 class="headline">Junior Cesar Kore</h1>
-      <p class="tagline">Engineering Orientation + Graphic Design Orientation</p>
+      <p class="tagline">LET’S MAKE IT POSSIBLE!</p>
       <p class="subcopy">
-        Premium, dark themed, Apple/Tesla minimal UI, smooth interactions, and futuristic polish.
+        Driven by a deep passion for technology, I am fully immersed in 
+        the pursuit of never-ended-advanced knowledge with the goal of becoming 
+        an exceptional mechatronics engineer. My purpose is to seamlessly integrate 
+        engineering knowledge, innovation, and problem-solving, into every aspect 
+        of life with a tangible touch of aesthetics. This philosophy shapes my mindset, 
+        drives my every step, and is embodied in my motto
       </p>
     </div>
 
@@ -796,17 +856,21 @@
     </div>
   </header>
 
-  <!-- HOME PAGE -->
+  <!-- =========================================================
+    HOME PAGE (default)
+  ========================================================== -->
   <main class="page" id="pageHome">
     <div class="container">
       <section class="profile reveal" id="profile">
         <div class="avatar">
-          <!-- Put your profile image in the repo and update this path -->
           <img alt="Profile photo" src="profile.jpg">
         </div>
         <h2 class="name">Junior Cesar Kore</h2>
         <p class="role">
-          Portfolio showcasing engineering builds and premium graphic design work. Hover sections for cursor-follow neon glow and expanding descriptions.
+          Fast-Learning is my greatest skill 
+          Cuirosity and Imagination are my means
+          Challenges are my magnets and excitments
+          Pleasure to meet you! Enjoy the visit!
         </p>
       </section>
 
@@ -820,10 +884,11 @@
 
           <div class="panelDescription">
             A focused hub for engineering work: projects, 3D mechanical design, electronics design, and coding.
-            Move your mouse inside this section to see the fluid cyan and purple glow follow your cursor.
+            Technical Skills, Proper Understanding are the pillars of my person.
           </div>
 
           <div class="cards">
+            <!-- projects-hub.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open Projects Hub" data-link="projects-hub.html" data-progress="85">
               <div class="slide" data-slideshow='["eng_projects_1.jpg","eng_projects_2.jpg","eng_projects_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -832,6 +897,7 @@
               </div>
             </article>
 
+            <!-- solidworks.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open SolidWorks Design" data-link="solidworks.html" data-progress="72">
               <div class="slide" data-slideshow='["solidworks_1.jpg","solidworks_2.jpg","solidworks_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -840,6 +906,7 @@
               </div>
             </article>
 
+            <!-- kicad.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open KiCad Design" data-link="kicad.html" data-progress="78">
               <div class="slide" data-slideshow='["kicad_1.jpg","kicad_2.jpg","kicad_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -848,6 +915,7 @@
               </div>
             </article>
 
+            <!-- python.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open Python Codes" data-link="python.html" data-progress="88">
               <div class="slide" data-slideshow='["python_1.jpg","python_2.jpg","python_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -856,6 +924,7 @@
               </div>
             </article>
 
+            <!-- arduino.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open Arduino Codes" data-link="arduino.html" data-progress="70">
               <div class="slide" data-slideshow='["arduino_1.jpg","arduino_2.jpg","arduino_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -875,10 +944,11 @@
 
           <div class="panelDescription">
             UI/UX prototypes, premium PowerPoint decks, illustration, and flyer design.
-            Cards auto-cycle images, then the progress bar fills only when a card is visible and hovered.
+            Functionality without any sense of aesthetic is unattractive
           </div>
 
           <div class="cards">
+            <!-- figma.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open Figma Design" data-link="figma.html" data-progress="82">
               <div class="slide" data-slideshow='["figma_1.jpg","figma_2.jpg","figma_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -887,6 +957,7 @@
               </div>
             </article>
 
+            <!-- powerpoint.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open PowerPoint Design" data-link="powerpoint.html" data-progress="76">
               <div class="slide" data-slideshow='["ppt_1.jpg","ppt_2.jpg","ppt_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -895,6 +966,7 @@
               </div>
             </article>
 
+            <!-- illustrations.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open My Illustrations" data-link="illustrations.html" data-progress="68">
               <div class="slide" data-slideshow='["illustrations_1.jpg","illustrations_2.jpg","illustrations_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -903,6 +975,7 @@
               </div>
             </article>
 
+            <!-- flyers.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open Flyers" data-link="flyers.html" data-progress="74">
               <div class="slide" data-slideshow='["flyers_1.jpg","flyers_2.jpg","flyers_3.jpg"]'></div>
               <div class="cardOverlay">
@@ -916,7 +989,9 @@
     </div>
   </main>
 
-  <!-- CV PAGE (another page in the same file, opened via #cv hash) -->
+  <!-- =========================================================
+    CV PAGE (opened via #cv, still inside this single file)
+  ========================================================== -->
   <main class="page hidden" id="pageCV" aria-hidden="true">
     <div class="container">
       <section class="profile reveal">
@@ -925,16 +1000,23 @@
         </div>
         <h2 class="name">Junior Cesar Kore</h2>
         <p class="role">
-          CV page (single-file routing). Update the text content and replace certificate images with your files in the same repo folder.
+          CV page (single-file routing). Update your skills, education, experience, and replace certificate images.
         </p>
       </section>
 
       <section class="cvWrap reveal">
         <div class="cvTop">
           <h3 class="cvTitle">Curriculum Vitae</h3>
+
           <div class="cvActions">
+            <!-- Back button: goes to home page inside this file -->
             <button class="miniBtn" type="button" id="cvBackBtn">Back to Portfolio</button>
-            <button class="miniBtn" type="button" id="cvPrintBtn">Print / Save PDF</button>
+
+            <!-- DOWNLOAD button: downloads your PDF from GitHub Pages -->
+            <!-- IMPORTANT: Put JuniorCesarKore_cv.pdf in the same folder as index.html -->
+            <a class="miniBtn" href="JuniorCesarKore_cv.pdf" download="JuniorCesarKore_cv.pdf" aria-label="Download CV PDF">
+              Download CV
+            </a>
           </div>
         </div>
 
@@ -978,10 +1060,7 @@
                   </div>
                   <div class="itemMeta">Côte d’Ivoire</div>
                 </div>
-                <p>
-                  Built and documented prototypes, developed Python and Arduino code, produced design assets and presentations.
-                  Focused on premium visuals, clean documentation, and functional engineering outputs.
-                </p>
+                <p>Replace this with your real experience details and achievements.</p>
               </div>
 
               <div class="item">
@@ -992,10 +1071,7 @@
                   </div>
                   <div class="itemMeta">Remote</div>
                 </div>
-                <p>
-                  Designed modern UI concepts, premium slide decks, flyers, and illustrations.
-                  Prioritized minimal layouts, strong typography, and consistent visual systems.
-                </p>
+                <p>Replace this with your real design experience, clients, and results.</p>
               </div>
             </div>
           </div>
@@ -1011,7 +1087,7 @@
                   </div>
                   <div class="itemMeta">Year - Year</div>
                 </div>
-                <p>Key coursework: electronics, mechanics, programming, design (edit this text).</p>
+                <p>Replace with your real education details.</p>
               </div>
             </div>
           </div>
@@ -1061,11 +1137,13 @@
     </div>
   </main>
 
-  <!-- FIXED BUTTONS (Left bottom) -->
+  <!-- =========================================================
+    FIXED BUTTONS (BOTTOM LEFT)
+  ========================================================== -->
   <div class="fixedLeft" aria-label="Quick actions">
     <a class="pillBtn"
-       href="https://wa.me/2250170624647?text=Hello%20Junior%2C%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20connect."
-       target="_blank" rel="noreferrer">
+      href="https://wa.me/2250170624647?text=Hello%20Junior%2C%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20connect."
+      target="_blank" rel="noreferrer">
       <span class="icon">WA</span>
       <span class="labelGroup">
         <span class="labelTop">WhatsApp</span>
@@ -1090,7 +1168,9 @@
     </a>
   </div>
 
-  <!-- FIXED BUTTON (Right bottom) -->
+  <!-- =========================================================
+    FIXED BUTTON (BOTTOM RIGHT)
+  ========================================================== -->
   <div class="fixedRight">
     <button class="pillBtn toTop" id="toTopBtn" type="button" aria-label="Back to top">
       <span class="icon">↑</span>
@@ -1102,7 +1182,9 @@
   </div>
 
   <script>
-    /* Floating bubbles */
+    /* =========================================================
+      1) CREATE FLOATING BUBBLES IN THE INTRO
+    ========================================================== */
     (function createBubbles(){
       const wrap = document.getElementById('bubbles');
       const count = 26;
@@ -1128,7 +1210,9 @@
       }
     })();
 
-    /* Intro fades out on scroll */
+    /* =========================================================
+      2) INTRO FADE OUT ON SCROLL
+    ========================================================== */
     (function introFadeOnScroll(){
       const intro = document.querySelector('.intro');
       const introFade = document.getElementById('introFade');
@@ -1154,7 +1238,9 @@
       onScroll();
     })();
 
-    /* Section cursor glow */
+    /* =========================================================
+      3) CURSOR-FOLLOW GLOW IN EACH MAIN SECTION (CRITICAL)
+    ========================================================== */
     (function cursorGlowPanels(){
       const panels = document.querySelectorAll('[data-panel]');
       panels.forEach(panel => {
@@ -1174,6 +1260,7 @@
 
         panel.addEventListener('mouseenter', () => panel.classList.add('is-hovered'));
         panel.addEventListener('mousemove', updateVars);
+
         panel.addEventListener('mouseleave', () => {
           panel.classList.remove('is-hovered');
           panel.style.removeProperty('--mx');
@@ -1182,9 +1269,12 @@
       });
     })();
 
-    /* Slideshows (auto cycles local images) */
+    /* =========================================================
+      4) SLIDESHOWS (AUTO-CYCLE IMAGES)
+    ========================================================== */
     (function initSlideshows(){
       const slides = document.querySelectorAll('.slide[data-slideshow]');
+
       slides.forEach(slide => {
         let urls = [];
         try { urls = JSON.parse(slide.getAttribute('data-slideshow')); }
@@ -1211,7 +1301,11 @@
       });
     })();
 
-    /* IntersectionObserver: reveal + in-view gating */
+    /* =========================================================
+      5) INTERSECTION OBSERVER
+      A) Reveal animations
+      B) Card in-view gating for progress bars
+    ========================================================== */
     (function observers(){
       const revealEls = document.querySelectorAll('.reveal');
       const cards = document.querySelectorAll('.card');
@@ -1242,7 +1336,9 @@
       });
     })();
 
-    /* Progress fills when hovering */
+    /* =========================================================
+      6) PROGRESS BAR ON HOVER
+    ========================================================== */
     (function hoverProgress(){
       document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('mouseenter', () => card.classList.add('hovered'));
@@ -1250,7 +1346,9 @@
       });
     })();
 
-    /* Card click navigation */
+    /* =========================================================
+      7) CARD NAVIGATION (opens each card's data-link page)
+    ========================================================== */
     (function cardNav(){
       const cards = document.querySelectorAll('.card');
 
@@ -1271,13 +1369,17 @@
       });
     })();
 
-    /* Back to top */
+    /* =========================================================
+      8) BACK TO TOP BUTTON
+    ========================================================== */
     (function backToTop(){
       const btn = document.getElementById('toTopBtn');
       btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     })();
 
-    /* Single-file page routing */
+    /* =========================================================
+      9) SINGLE-FILE PAGE ROUTING (#home / #cv)
+    ========================================================== */
     (function singleFileRouting(){
       const pageHome = document.getElementById('pageHome');
       const pageCV = document.getElementById('pageCV');
@@ -1303,12 +1405,14 @@
       onHash();
 
       document.getElementById('cvBackBtn').addEventListener('click', () => { location.hash = '#home'; });
-      document.getElementById('cvPrintBtn').addEventListener('click', () => { window.print(); });
     })();
   </script>
 
-  <!--
-    IMAGE PLACEHOLDERS (same folder as index.html)
+  <!-- =========================================================
+    FILES YOU MUST PUT IN THE SAME FOLDER AS index.html (GitHub)
+    - JuniorCesarKore_cv.pdf  (THIS IS FOR THE DOWNLOAD BUTTON)
+
+  IMAGE PLACEHOLDERS (same folder as index.html)
     - Profile image: profile.jpg
     - Engineering slideshows:
       eng_projects_1.jpg, eng_projects_2.jpg, eng_projects_3.jpg
@@ -1323,7 +1427,18 @@
       flyers_1.jpg, flyers_2.jpg, flyers_3.jpg
     - Certifications:
       cert_1.jpg ... cert_6.jpg
-  -->
+
+    PAGES YOU SHOULD CREATE (for card clicks):
+      - projects-hub.html
+      - solidworks.html
+      - kicad.html
+      - python.html
+      - arduino.html
+      - figma.html
+      - powerpoint.html
+      - illustrations.html
+      - flyers.html
+  ========================================================== -->
 </body>
 </html>
 ```
