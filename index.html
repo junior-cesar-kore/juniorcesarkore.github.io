@@ -1,418 +1,1408 @@
-<!DOCTYPE html>
+```html
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Junior Cesar Kore | Premium Portfolio</title>
+  <meta name="description" content="Modern premium portfolio, dark futuristic UI, cursor glow sections, smooth animations, slideshows, and interactive cards." />
 
-<title>Portfolio - Junior Cesar Kore</title>
-<meta name="description" content="Portfolio of Junior Cesar Kore">
-<meta name="keywords" content="Junior Cesar Kore, portfolio, engineering, design">
+  <style>
+    :root{
+      --bg: #0b0b0f;
+      --panel: #1a1a1a;                 /* REQUIRED */
+      --panelBorder: rgba(255,255,255,.08);
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",sans-serif;}
-html{scroll-behavior:smooth;}
-body{background:#0b0b0b;color:#fff;overflow-x:hidden;}
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.55);
 
-/* PAGE TRANSITION */
-body.fade-out{opacity:0;transition:0.5s;}
+      --shadow: 0 18px 50px rgba(0,0,0,.55);
+      --shadowSoft: 0 12px 30px rgba(0,0,0,.35);
 
-/* ================= INTRO ================= */
-#intro{
-    position:fixed;
-    width:100%;
-    height:100vh;
-    overflow:hidden;
-    z-index:999;
-}
+      --cyan: #42f5ff;
+      --purple: #b55cff;
+      --accent: linear-gradient(135deg, rgba(66,245,255,.95), rgba(181,92,255,.95));
+      --ease: cubic-bezier(.2,.8,.2,1);
 
-/* GRADIENT */
-#intro::before{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:linear-gradient(270deg,#ff4d5a,#5f9cff,#00d4ff,#9b59b6);
-    background-size:800% 800%;
-    animation:gradient 12s ease infinite;
-}
+      --radius: 22px;
+      --max: 1200px;
+      --gridGap: 14px;
 
-@keyframes gradient{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
+      --pageFadeMs: 260ms;
+    }
 
-/* GLASS BUBBLES */
-.bubble{
-    position:absolute;
-    border-radius:50%;
-    backdrop-filter:blur(6px);
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.2);
-    animation:rise linear infinite;
-}
-@keyframes rise{
-    to{transform:translateY(-120vh);}
-}
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 70% -10%, rgba(181,92,255,.18), transparent 60%),
+        radial-gradient(1200px 800px at 30% -10%, rgba(66,245,255,.14), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      overflow-x:hidden;
+    }
 
-/* INTRO TEXT */
-.intro-content{
-    position:relative;
-    z-index:2;
-    height:100%;
-}
+    a{ color:inherit; text-decoration:none; }
+    button{ font: inherit; color: inherit; }
+    .container{ width:min(var(--max), calc(100% - 40px)); margin:0 auto; }
 
-/* FIRST TEXT */
-.first-text{
-    position:absolute;
-    top:40%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    font-size:3rem;
-    font-weight:bold;
-    text-align:center;
-}
+    /* -------------------------------------------
+       INTRO / LANDING
+    ------------------------------------------- */
+    .intro{
+      position: relative;
+      height: 100vh;
+      min-height: 680px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      isolation:isolate;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
 
-/* SECOND TEXT */
-.second-text{
-    position:absolute;
-    left:8%;
-    top:55%;
-    width:300px;
-    font-size:1rem;
-    font-weight:300;
-    line-height:1.5;
-}
+    .intro::before{
+      content:"";
+      position:absolute; inset:-30%;
+      background: conic-gradient(from 180deg,
+        rgba(66,245,255,.95),
+        rgba(255,82,163,.85),
+        rgba(181,92,255,.95),
+        rgba(63,255,160,.85),
+        rgba(255,218,90,.82),
+        rgba(66,245,255,.95)
+      );
+      filter: blur(42px) saturate(1.22);
+      opacity: .92;
+      animation: spinHue 12s linear infinite;
+      z-index:-2;
+      transform: translateZ(0);
+    }
 
-/* THIRD TEXT */
-.third-text{
-    position:absolute;
-    left:12%;
-    top:72%;
-    font-size:1.4rem;
-    font-weight:bold;
-}
+    .intro::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(900px 600px at 30% 30%, rgba(0,0,0,.12), rgba(0,0,0,.68) 70%, rgba(0,0,0,.92));
+      z-index:-1;
+    }
 
-/* ================= MAIN ================= */
-main{padding-top:100vh;}
+    @keyframes spinHue{
+      0%{
+        transform: rotate(0deg) scale(1.05);
+        filter: blur(42px) saturate(1.25) hue-rotate(0deg);
+      }
+      100%{
+        transform: rotate(360deg) scale(1.05);
+        filter: blur(42px) saturate(1.25) hue-rotate(360deg);
+      }
+    }
 
-.profile{
-    text-align:center;
-    padding:60px 20px;
-}
+    .bubbles{
+      position:absolute; inset:0;
+      pointer-events:none;
+      z-index:0;
+      opacity:.65;
+    }
+    .bubble{
+      position:absolute;
+      width: clamp(10px, 2.4vw, 26px);
+      aspect-ratio: 1 / 1;
+      border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.92), rgba(255,255,255,.10) 60%, rgba(255,255,255,0) 76%);
+      mix-blend-mode: overlay;
+      filter: blur(.2px);
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp{
+      from{ transform: translate3d(0, 140%, 0) scale(.86); opacity: 0; }
+      10%{ opacity: .55; }
+      60%{ opacity: .55; }
+      to{ transform: translate3d(0, -160%, 0) scale(1.15); opacity: 0; }
+    }
 
-.profile img{
-    width:160px;
-    height:160px;
-    border-radius:50%;
-    object-fit:cover;
-    border:3px solid #00d4ff;
-}
+    .introContent{
+      position:relative;
+      z-index:1;
+      width:min(980px, calc(100% - 56px));
+      text-align:center;
+      padding: 40px 0;
+    }
 
-.profile h1{margin-top:15px;}
+    /* 1) largest headline */
+    .headline{
+      font-size: clamp(2.2rem, 5.2vw, 4rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 850;
+      margin: 0 0 14px;
+      text-shadow: 0 10px 40px rgba(0,0,0,.55);
+    }
 
-/* ================= SECTIONS ================= */
-.section{
-    margin:30px;
-    padding:30px;
-    border-radius:20px;
-}
+    /* 3) tagline (slightly larger than 2) */
+    .tagline{
+      font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+      font-weight: 680;
+      margin: 0 0 14px;
+      color: rgba(255,255,255,.88);
+      text-shadow: 0 10px 40px rgba(0,0,0,.6);
+    }
 
-.engineering{background:#121212;}
-.design{background:#1b1b1b;}
+    /* 2) two-line paragraph */
+    .subcopy{
+      font-size: clamp(.95rem, 1.7vw, 1.08rem);
+      line-height: 1.55;
+      margin: 0 auto;
+      max-width: 56ch;
+      color: rgba(255,255,255,.72);
+      text-shadow: 0 10px 40px rgba(0,0,0,.65);
+    }
 
-.desc{
-    opacity:0;
-    margin-bottom:15px;
-    min-height:20px;
-}
+    .scrollHint{
+      position:absolute;
+      left:50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,.75);
+      font-size: 13px;
+      z-index:2;
+    }
+    .scrollDot{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: linear-gradient(135deg, rgba(66,245,255,1), rgba(181,92,255,1));
+      box-shadow: 0 0 20px rgba(66,245,255,.25), 0 0 25px rgba(181,92,255,.25);
+      animation: pulse 1.6s var(--ease) infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(.92); opacity:.8; }
+      50%{ transform: scale(1.18); opacity:1; }
+    }
 
-/* CARDS */
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:20px;
-}
+    /* Intro fade out on scroll */
+    .introFade{
+      will-change: opacity, transform;
+      transition: opacity 380ms var(--ease), transform 380ms var(--ease);
+    }
 
-.card{
-    background:#222;
-    border-radius:15px;
-    overflow:hidden;
-    cursor:pointer;
-    transition:0.3s;
-}
+    /* -------------------------------------------
+       PAGES (single file, but "another page" via hash routing)
+    ------------------------------------------- */
+    .page{
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity var(--pageFadeMs) var(--ease), transform var(--pageFadeMs) var(--ease);
+    }
+    .page.hidden{
+      opacity: 0;
+      transform: translateY(6px);
+      pointer-events:none;
+      position:absolute;
+      inset: 0;
+      height: 0;
+      overflow:hidden;
+    }
 
-.card:hover{
-    transform:scale(1.05);
-}
+    main{ padding: 44px 0 120px; }
 
-/* SLIDER */
-.slider{
-    position:relative;
-    width:100%;
-    height:150px;
-}
+    /* -------------------------------------------
+       PROFILE
+    ------------------------------------------- */
+    .profile{
+      margin-top: 10px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+      text-align:center;
+      padding: 16px 0 10px;
+    }
 
-.slide{
-    position:absolute;
-    width:100%;
-    height:100%;
-    opacity:0;
-    transition:opacity 1s;
-}
+    .avatar{
+      width: 112px;
+      height: 112px;
+      border-radius: 999px;
+      position:relative;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%),
+        linear-gradient(135deg, rgba(66,245,255,.75), rgba(181,92,255,.75));
+      box-shadow:
+        0 18px 60px rgba(0,0,0,.6),
+        0 0 30px rgba(66,245,255,.15),
+        0 0 30px rgba(181,92,255,.12);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.16);
+    }
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.02);
+      filter: contrast(1.05) saturate(1.05);
+    }
 
-.slide.active{opacity:1;}
+    .name{
+      font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+      font-weight: 820;
+      letter-spacing: -0.01em;
+      margin:0;
+    }
+    .role{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height:1.45;
+      max-width: 78ch;
+    }
 
-.slide img,.slide video{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
+    /* -------------------------------------------
+       SECTIONS
+    ------------------------------------------- */
+    .sections{
+      margin-top: 28px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
 
-/* LABEL */
-.label{padding:10px;}
+    /* REQUIRED section design */
+    .panel{
+      position:relative;
+      background: var(--panel);
+      border: 1px solid var(--panelBorder);
+      border-radius: var(--radius);
+      box-shadow: var(--shadowSoft);
+      overflow:hidden;
+      transform: translateZ(0);
+      transition: transform 240ms var(--ease), box-shadow 240ms var(--ease), border-color 240ms var(--ease);
+      padding: 18px;
+    }
+    .panel:hover{
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: rgba(255,255,255,.14);
+    }
 
-/* PROGRESS */
-.bar{height:6px;background:#333;}
+    /* CRITICAL hover glow that follows cursor */
+    .panel::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(520px 340px at var(--mx, 50%) var(--my, 35%),
+          rgba(66,245,255,.18),
+          rgba(181,92,255,.14) 45%,
+          rgba(0,0,0,0) 70%
+        );
+      opacity: 0;
+      transition: opacity 240ms var(--ease);
+      pointer-events:none;
+    }
+    .panel.is-hovered::before{ opacity: 1; }
 
-.fill{
-    height:100%;
-    width:0;
-    background:#00d4ff;
-    transition:2s;
-}
+    .panelHeader{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .panelTitle{
+      margin:0;
+      font-size: 16px;
+      font-weight: 850;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.88);
+    }
+    .panelChip{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      color: rgba(255,255,255,.75);
+      font-size: 12px;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
 
-/* FIXED BUTTONS */
-.fixed-left,.fixed-right{
-    position:fixed;
-    bottom:20px;
-    z-index:1000;
-}
+    /* DESCRIPTION expands on hover */
+    .panelDescription{
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 14px;
+      line-height: 1.55;
+      overflow:hidden;
+      max-height: 0px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition:
+        max-height 420ms var(--ease),
+        opacity 300ms var(--ease),
+        transform 420ms var(--ease);
+    }
+    .panel:hover .panelDescription{
+      max-height: 200px;
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-.fixed-left{left:20px;}
-.fixed-right{right:20px;}
+    /* -------------------------------------------
+       CARDS
+    ------------------------------------------- */
+    .cards{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gridGap);
+    }
 
-.fixed-left a,.fixed-right button{
-    display:block;
-    margin-top:10px;
-    padding:10px;
-    background:#111;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    text-decoration:none;
-    cursor:pointer;
-}
+    .card{
+      grid-column: span 6;
+      position:relative;
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+      min-height: 250px;
+      transition: transform 240ms var(--ease), border-color 240ms var(--ease), box-shadow 240ms var(--ease);
+      box-shadow: 0 10px 26px rgba(0,0,0,.35);
+      cursor: pointer;
+      outline: none;
+    }
+    .card:hover{
+      transform: translateY(-3px) scale(1.01);
+      border-color: rgba(255,255,255,.14);
+      box-shadow: 0 16px 38px rgba(0,0,0,.48);
+    }
 
-/* RESPONSIVE */
-@media(max-width:600px){
-    .first-text{font-size:2rem;}
-    .third-text{font-size:1.2rem;}
-    .second-text{width:220px;}
-}
-</style>
+    /* slideshow */
+    .slide{
+      position:absolute;
+      inset:0 0 64px 0;
+      background: #111;
+    }
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.04);
+      filter: contrast(1.05) saturate(1.04);
+      opacity: 0;
+      transition: opacity 650ms var(--ease);
+    }
+    .slide img.active{ opacity: 1; }
+
+    .cardOverlay{
+      position:absolute;
+      inset:auto 0 0 0;
+      height: 92px;
+      padding: 12px 12px 12px;
+      background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,.16));
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      gap: 10px;
+    }
+    .cardTitle{
+      margin:0;
+      font-weight: 780;
+      letter-spacing: -0.01em;
+      font-size: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .cardTitle span{ color: rgba(255,255,255,.92); }
+    .cardTitle .go{
+      font-size: 12px;
+      color: rgba(255,255,255,.72);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .progressTrack{
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .progressFill{
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(66,245,255,.14), 0 0 18px rgba(181,92,255,.12);
+      transition: width 900ms var(--ease);
+    }
+    /* IntersectionObserver + hover gating */
+    .card.in-view.hovered .progressFill{ width: var(--target, 75%); }
+
+    /* -------------------------------------------
+       CV PAGE (another "page" in same file)
+    ------------------------------------------- */
+    .cvWrap{
+      margin-top: 18px;
+      background: var(--panel);
+      border: 1px solid var(--panelBorder);
+      border-radius: var(--radius);
+      box-shadow: var(--shadowSoft);
+      overflow:hidden;
+    }
+    .cvTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 16px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.02);
+    }
+    .cvTitle{
+      margin:0;
+      font-size: 16px;
+      font-weight: 850;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.88);
+    }
+    .cvActions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .miniBtn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.35);
+      color: rgba(255,255,255,.86);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+      backdrop-filter: blur(10px);
+    }
+    .miniBtn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(0,0,0,.52);
+    }
+
+    .cvGrid{
+      padding: 16px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    .cvCard{
+      grid-column: span 6;
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 14px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+    }
+    .cvCard.full{ grid-column: span 12; }
+
+    .cvCard h4{
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: .01em;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .cvCard h4 .badge{
+      font-size: 12px;
+      color: rgba(255,255,255,.72);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      white-space: nowrap;
+    }
+
+    .cvCard p, .cvCard li{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .cvList{
+      margin: 0;
+      padding-left: 18px;
+      display:grid;
+      gap: 8px;
+    }
+
+    .skillChips{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip{
+      padding: 9px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.32);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height: 1;
+      transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+    }
+    .chip:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(0,0,0,.42);
+    }
+
+    .timeline{
+      display:grid;
+      gap: 12px;
+    }
+    .item{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      padding: 12px;
+    }
+    .itemTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .itemTitle{
+      margin:0;
+      font-weight: 820;
+      letter-spacing: -0.01em;
+      font-size: 14px;
+      color: rgba(255,255,255,.90);
+    }
+    .itemMeta{
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .item p{
+      margin:0;
+      color: rgba(255,255,255,.70);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    /* Certifications: images + label */
+    .certGrid{
+      margin-top: 10px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .cert{
+      grid-column: span 4;
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(0,0,0,.28);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+      transition: transform 240ms var(--ease), border-color 240ms var(--ease), box-shadow 240ms var(--ease);
+    }
+    .cert:hover{
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.16);
+      box-shadow: 0 16px 38px rgba(0,0,0,.35);
+    }
+    .certImg{
+      height: 140px;
+      background: #101016;
+      position:relative;
+    }
+    .certImg img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: contrast(1.05) saturate(1.02);
+    }
+    .certLabel{
+      padding: 10px 10px 12px;
+      font-size: 13px;
+      color: rgba(255,255,255,.84);
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+    }
+
+    @media (max-width: 980px){
+      .card{ grid-column: span 12; min-height: 260px; }
+      .intro{ min-height: 620px; }
+      .cvCard{ grid-column: span 12; }
+      .cert{ grid-column: span 6; }
+    }
+    @media (max-width: 520px){
+      .container{ width: calc(100% - 28px); }
+      .panel{ padding: 14px; border-radius: 18px; }
+      .avatar{ width: 100px; height: 100px; }
+      .cardOverlay{ height: 96px; }
+      .cvTop{ padding: 14px; }
+      .cvGrid{ padding: 14px; }
+      .cert{ grid-column: span 12; }
+    }
+
+    /* -------------------------------------------
+       FIXED UI ELEMENTS
+    ------------------------------------------- */
+    .fixedLeft, .fixedRight{
+      position: fixed;
+      bottom: 18px;
+      z-index: 50;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .fixedLeft{ left: 18px; }
+    .fixedRight{ right: 18px; align-items:flex-end; }
+
+    .pillBtn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 11px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.45);
+      transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+      user-select:none;
+    }
+    .pillBtn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(0,0,0,.52);
+    }
+    .icon{
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .02em;
+    }
+    .labelGroup{ display:flex; flex-direction:column; line-height:1.1; }
+    .labelTop{ font-size: 12px; color: rgba(255,255,255,.86); font-weight: 800; }
+    .labelSub{ font-size: 12px; color: rgba(255,255,255,.62); }
+
+    .toTop{
+      opacity: 0;
+      pointer-events:none;
+      transform: translateY(6px);
+      transition: opacity 240ms var(--ease), transform 240ms var(--ease);
+    }
+    .toTop.show{
+      opacity: 1;
+      pointer-events:auto;
+      transform: translateY(0);
+    }
+
+    /* reveal */
+    .reveal{
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+    }
+    .reveal.show{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    /* accessibility */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; scroll-behavior:auto !important; }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- INTRO -->
+  <header class="intro" id="top">
+    <div class="bubbles" aria-hidden="true" id="bubbles"></div>
 
-<!-- INTRO -->
-<section id="intro">
-
-<script>
-for(let i=0;i<40;i++){
- let b=document.createElement("div");
- b.className="bubble";
- let s=Math.random()*20+8;
- b.style.width=s+"px";
- b.style.height=s+"px";
- b.style.left=Math.random()*100+"%";
- b.style.bottom="-60px";
- b.style.animationDuration=(Math.random()*6+6)+"s";
- document.currentScript.parentElement.appendChild(b);
-}
-</script>
-
-<div class="intro-content">
-    <div class="first-text">Welcome to My Portfolio</div>
-
-    <div class="second-text">
-        Passionate engineer and creative designer.<br>
-        Building modern solutions with precision.
+    <div class="introContent introFade" id="introFade">
+      <h1 class="headline">Junior Cesar Kore</h1>
+      <p class="tagline">Engineering Orientation + Graphic Design Orientation</p>
+      <p class="subcopy">
+        Premium, dark themed, Apple/Tesla minimal UI, smooth interactions, and futuristic polish.
+      </p>
     </div>
 
-    <div class="third-text">I Create & Innovate</div>
-</div>
+    <div class="scrollHint" aria-hidden="true">
+      <span class="scrollDot"></span>
+      <span>Scroll to enter</span>
+    </div>
+  </header>
 
-</section>
+  <!-- HOME PAGE -->
+  <main class="page" id="pageHome">
+    <div class="container">
+      <section class="profile reveal" id="profile">
+        <div class="avatar">
+          <!-- Replace with your photo -->
+          <img alt="Profile photo" src="https://images.unsplash.com/photo-1520975661595-6453be3f7070?auto=format&fit=crop&w=600&q=80">
+        </div>
+        <h2 class="name">Junior Cesar Kore</h2>
+        <p class="role">
+          Portfolio showcasing engineering builds and premium graphic design work. Hover sections for cursor-follow neon glow and expanding descriptions.
+        </p>
+      </section>
 
-<!-- FIXED -->
-<div class="fixed-left">
-<a href="https://wa.me/2250170624647">WhatsApp</a>
-<a href="mailto:juniorcesarkore@gmail.com">Email</a>
-<a href="cv.html">CV</a>
-</div>
+      <section class="sections">
+        <!-- Engineering Orientation -->
+        <section class="panel reveal" data-panel id="engineering">
+          <div class="panelHeader">
+            <h3 class="panelTitle">Engineering Orientation</h3>
+            <div class="panelChip">Projects, CAD, PCB, Code</div>
+          </div>
 
-<div class="fixed-right">
-<button onclick="scrollToTop()">Back</button>
-</div>
+          <div class="panelDescription">
+            A focused hub for engineering work: projects, 3D mechanical design, electronics design, and coding.
+            Move your mouse inside this section to see the fluid cyan and purple glow follow your cursor.
+          </div>
 
-<!-- MAIN -->
-<main>
+          <div class="cards">
+            <article class="card" tabindex="0" role="link" aria-label="Open Projects Hub" data-link="projects-hub.html" data-progress="85">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>Projects Hub</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
 
-<div class="profile">
-<img src="profile.jpg">
-<h1>Junior Cesar Kore</h1>
-</div>
+            <article class="card" tabindex="0" role="link" aria-label="Open SolidWorks Design" data-link="solidworks.html" data-progress="72">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1581092919535-7146bb8d07f5?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1562813733-b31f71025d54?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1581092335397-9fa3411086d9?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>SolidWorks Design</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
 
-<!-- ENGINEERING -->
-<div class="section engineering" data-text="Technical Skills and Engineering Work">
-<h2>Engineering Orientation</h2>
-<div class="desc"></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open KiCad Design" data-link="kicad.html" data-progress="78">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>KiCad Design</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
 
-<div class="cards">
+            <article class="card" tabindex="0" role="link" aria-label="Open Python Codes" data-link="python.html" data-progress="88">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>Python Codes</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
 
-<div class="card" data-link="solidworks.html">
-<div class="slider">
-<div class="slide active"><img src="solidworks.jpg"></div>
-<div class="slide"><img src="solidworks2.jpg"></div>
-</div>
-<div class="label">Solidworks Designs</div>
-<div class="bar"><div class="fill" data-width="90%"></div></div>
-</div>
+            <article class="card" tabindex="0" role="link" aria-label="Open Arduino Codes" data-link="arduino.html" data-progress="70">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1581091870633-9d7f1fdbd5f6?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>Arduino Codes</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
+          </div>
+        </section>
 
-<div class="card" data-link="python.html">
-<div class="slider">
-<div class="slide active"><img src="python.jpg"></div>
-<div class="slide"><video src="python.mp4" muted></video></div>
-</div>
-<div class="label">Python Codes</div>
-<div class="bar"><div class="fill" data-width="85%"></div></div>
-</div>
+        <!-- Graphic Design Orientation -->
+        <section class="panel reveal" data-panel id="graphic">
+          <div class="panelHeader">
+            <h3 class="panelTitle">Graphic Design Orientation</h3>
+            <div class="panelChip">UI, Slides, Illustration</div>
+          </div>
 
-<div class="card" data-link="arduino.html">
-<div class="slider">
-<div class="slide active"><img src="arduino.jpg"></div>
-</div>
-<div class="label">Arduino Codes</div>
-<div class="bar"><div class="fill" data-width="80%"></div></div>
-</div>
+          <div class="panelDescription">
+            UI/UX prototypes, premium PowerPoint decks, illustration, and flyer design.
+            Cards auto-cycle images, then the progress bar fills only when a card is visible and hovered.
+          </div>
 
-<div class="card" data-link="projects.html">
-<div class="slider">
-<div class="slide active"><img src="projects.jpg"></div>
-</div>
-<div class="label">Projects Worked on</div>
-<div class="bar"><div class="fill" data-width="88%"></div></div>
-</div>
+          <div class="cards">
+            <article class="card" tabindex="0" role="link" aria-label="Open Figma Design" data-link="figma.html" data-progress="82">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>Figma Design</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
 
-</div>
-</div>
+            <article class="card" tabindex="0" role="link" aria-label="Open PowerPoint Design" data-link="powerpoint.html" data-progress="76">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>PowerPoint Design</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
 
-<!-- DESIGN -->
-<div class="section design" data-text="Creative Design and Visual Works">
-<h2>Graphic Design Orientation</h2>
-<div class="desc"></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open My Illustrations" data-link="illustrations.html" data-progress="68">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>My Illustrations</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
 
-<div class="cards">
+            <article class="card" tabindex="0" role="link" aria-label="Open Flyers" data-link="flyers.html" data-progress="74">
+              <div class="slide" data-slideshow='[
+                "https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=1400&q=80",
+                "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1400&q=80"
+              ]'></div>
+              <div class="cardOverlay">
+                <p class="cardTitle"><span>Flyers</span><span class="go">Open</span></p>
+                <div class="progressTrack"><div class="progressFill"></div></div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
 
-<div class="card" data-link="figma.html">
-<div class="slider">
-<div class="slide active"><img src="figma.jpg"></div>
-</div>
-<div class="label">Figma Design</div>
-<div class="bar"><div class="fill" data-width="92%"></div></div>
-</div>
+  <!-- CV PAGE (another page in the same file, opened via #cv hash) -->
+  <main class="page hidden" id="pageCV" aria-hidden="true">
+    <div class="container">
+      <section class="profile reveal">
+        <div class="avatar">
+          <img alt="Profile photo" src="https://images.unsplash.com/photo-1520975661595-6453be3f7070?auto=format&fit=crop&w=600&q=80">
+        </div>
+        <h2 class="name">Junior Cesar Kore</h2>
+        <p class="role">
+          CV page (single-file routing). Replace items with your real details. Certifications below are image + label only, as requested.
+        </p>
+      </section>
 
-<div class="card" data-link="ppt.html">
-<div class="slider">
-<div class="slide active"><img src="ppt.jpg"></div>
-</div>
-<div class="label">PowerPoint Conceived</div>
-<div class="bar"><div class="fill" data-width="85%"></div></div>
-</div>
+      <section class="cvWrap reveal">
+        <div class="cvTop">
+          <h3 class="cvTitle">Curriculum Vitae</h3>
+          <div class="cvActions">
+            <button class="miniBtn" type="button" id="cvBackBtn">Back to Portfolio</button>
+            <button class="miniBtn" type="button" id="cvPrintBtn">Print / Save PDF</button>
+          </div>
+        </div>
 
-<div class="card" data-link="illustration.html">
-<div class="slider">
-<div class="slide active"><img src="illustration.jpg"></div>
-</div>
-<div class="label">Illustrations</div>
-<div class="bar"><div class="fill" data-width="80%"></div></div>
-</div>
+        <div class="cvGrid">
+          <!-- TECHNICAL SKILLS -->
+          <div class="cvCard">
+            <h4>
+              Technical Skills
+              <span class="badge">Tools + Tech</span>
+            </h4>
+            <div class="skillChips">
+              <span class="chip">SolidWorks</span>
+              <span class="chip">KiCad</span>
+              <span class="chip">Python</span>
+              <span class="chip">Arduino</span>
+              <span class="chip">Embedded Systems</span>
+              <span class="chip">PCB Design</span>
+              <span class="chip">3D Modeling</span>
+              <span class="chip">Prototyping</span>
+            </div>
+          </div>
 
-<div class="card" data-link="flyer.html">
-<div class="slider">
-<div class="slide active"><img src="flyer.jpg"></div>
-</div>
-<div class="label">Flyer Created</div>
-<div class="bar"><div class="fill" data-width="78%"></div></div>
-</div>
+          <!-- SOFT SKILLS -->
+          <div class="cvCard">
+            <h4>
+              Soft Skills
+              <span class="badge">Collaboration</span>
+            </h4>
+            <div class="skillChips">
+              <span class="chip">Communication</span>
+              <span class="chip">Teamwork</span>
+              <span class="chip">Problem Solving</span>
+              <span class="chip">Creativity</span>
+              <span class="chip">Leadership</span>
+              <span class="chip">Time Management</span>
+              <span class="chip">Adaptability</span>
+              <span class="chip">Attention to Detail</span>
+            </div>
+          </div>
 
-</div>
-</div>
+          <!-- EXPERIENCE -->
+          <div class="cvCard full">
+            <h4>
+              Experience
+              <span class="badge">Timeline</span>
+            </h4>
 
-</main>
+            <div class="timeline">
+              <div class="item">
+                <div class="itemTop">
+                  <div>
+                    <p class="itemTitle">Engineering / Design Projects (Freelance / Personal)</p>
+                    <div class="itemMeta">2024 - Present</div>
+                  </div>
+                  <div class="itemMeta">Côte d’Ivoire</div>
+                </div>
+                <p>
+                  Built and documented prototypes, developed Python and Arduino code, produced design assets and presentations.
+                  Focused on premium visuals, clean documentation, and functional engineering outputs.
+                </p>
+              </div>
 
-<script>
-/* INTRO FADE */
-window.addEventListener("scroll",()=>{
-    const intro=document.getElementById("intro");
-    intro.style.opacity=1-(window.scrollY/300);
-});
+              <div class="item">
+                <div class="itemTop">
+                  <div>
+                    <p class="itemTitle">Graphic Design Projects (Figma + PowerPoint)</p>
+                    <div class="itemMeta">2023 - Present</div>
+                  </div>
+                  <div class="itemMeta">Remote</div>
+                </div>
+                <p>
+                  Designed modern UI concepts, premium slide decks, flyers, and illustrations.
+                  Prioritized minimal Apple/Tesla-style layouts, strong typography, and consistent visual systems.
+                </p>
+              </div>
+            </div>
+          </div>
 
-/* BACK BUTTON */
-function scrollToTop(){
-    window.scrollTo({top:0,behavior:"smooth"});
-}
+          <!-- EDUCATION -->
+          <div class="cvCard">
+            <h4>
+              Education
+              <span class="badge">Academic</span>
+            </h4>
+            <div class="timeline">
+              <div class="item">
+                <div class="itemTop">
+                  <div>
+                    <p class="itemTitle">Your Degree / Program Name</p>
+                    <div class="itemMeta">School / University Name</div>
+                  </div>
+                  <div class="itemMeta">Year - Year</div>
+                </div>
+                <p>
+                  Key coursework: electronics, mechanics, programming, design (edit this text to match your real education).
+                </p>
+              </div>
 
-/* PROGRESS */
-let obs=new IntersectionObserver(entries=>{
- entries.forEach(e=>{
-  if(e.isIntersecting){
-   e.target.style.width=e.target.dataset.width;
-  }
- });
-});
-document.querySelectorAll(".fill").forEach(el=>obs.observe(el));
+              <div class="item">
+                <div class="itemTop">
+                  <div>
+                    <p class="itemTitle">High School / Foundation</p>
+                    <div class="itemMeta">School Name</div>
+                  </div>
+                  <div class="itemMeta">Year</div>
+                </div>
+                <p>
+                  Focus: science, technology, mathematics (replace with your details).
+                </p>
+              </div>
+            </div>
+          </div>
 
-/* HOVER TEXT */
-document.querySelectorAll(".section").forEach(sec=>{
- let desc=sec.querySelector(".desc");
- let text=sec.dataset.text;
+          <!-- CONTACT -->
+          <div class="cvCard">
+            <h4>
+              Contact
+              <span class="badge">Reach me</span>
+            </h4>
+            <ul class="cvList">
+              <li>Email: juniorcesarkore@gmail.com</li>
+              <li>WhatsApp: +225 0170624647</li>
+              <li>Location: Côte d’Ivoire</li>
+              <li>Portfolio: (add your link)</li>
+            </ul>
+          </div>
 
- sec.addEventListener("mouseenter",()=>{
-  desc.textContent=text;
-  desc.style.opacity=1;
- });
+          <!-- CERTIFICATIONS (images + label only) -->
+          <div class="cvCard full">
+            <h4>
+              Certifications
+              <span class="badge">Images + Label</span>
+            </h4>
 
- sec.addEventListener("mouseleave",()=>{
-  desc.textContent="";
-  desc.style.opacity=0;
- });
-});
+            <div class="certGrid">
+              <!-- Replace images + labels with your real certificates -->
+              <div class="cert">
+                <div class="certImg">
+                  <img alt="Certification 1" src="https://images.unsplash.com/photo-1523287562758-66c7fc58967f?auto=format&fit=crop&w=1400&q=80">
+                </div>
+                <div class="certLabel">Certificate Title 1</div>
+              </div>
 
-/* SLIDESHOW */
-document.querySelectorAll(".slider").forEach(slider=>{
- let slides=slider.querySelectorAll(".slide");
- let i=0;
+              <div class="cert">
+                <div class="certImg">
+                  <img alt="Certification 2" src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1400&q=80">
+                </div>
+                <div class="certLabel">Certificate Title 2</div>
+              </div>
 
- setInterval(()=>{
-  slides[i].classList.remove("active");
-  i=(i+1)%slides.length;
-  slides[i].classList.add("active");
+              <div class="cert">
+                <div class="certImg">
+                  <img alt="Certification 3" src="https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1400&q=80">
+                </div>
+                <div class="certLabel">Certificate Title 3</div>
+              </div>
 
-  let v=slides[i].querySelector("video");
-  if(v){v.play();}
- },3000);
-});
+              <div class="cert">
+                <div class="certImg">
+                  <img alt="Certification 4" src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=80">
+                </div>
+                <div class="certLabel">Certificate Title 4</div>
+              </div>
 
-/* PAGE TRANSITION */
-document.querySelectorAll(".card").forEach(card=>{
- card.addEventListener("click",()=>{
-  document.body.classList.add("fade-out");
-  setTimeout(()=>window.location=card.dataset.link,400);
- });
-});
-</script>
+              <div class="cert">
+                <div class="certImg">
+                  <img alt="Certification 5" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80">
+                </div>
+                <div class="certLabel">Certificate Title 5</div>
+              </div>
 
+              <div class="cert">
+                <div class="certImg">
+                  <img alt="Certification 6" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80">
+                </div>
+                <div class="certLabel">Certificate Title 6</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FIXED BUTTONS (Left bottom) -->
+  <div class="fixedLeft" aria-label="Quick actions">
+    <!-- WhatsApp: send message to +225 0170624647 -->
+    <a class="pillBtn"
+       href="https://wa.me/2250170624647?text=Hello%20Junior%2C%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20connect."
+       target="_blank" rel="noreferrer">
+      <span class="icon">WA</span>
+      <span class="labelGroup">
+        <span class="labelTop">WhatsApp</span>
+        <span class="labelSub">Send message</span>
+      </span>
+    </a>
+
+    <!-- Email -->
+    <a class="pillBtn" href="mailto:juniorcesarkore@gmail.com?subject=Portfolio%20Contact&body=Hello%20Junior%2C%0A%0A">
+      <span class="icon">@</span>
+      <span class="labelGroup">
+        <span class="labelTop">Email</span>
+        <span class="labelSub">juniorcesarkore@gmail.com</span>
+      </span>
+    </a>
+
+    <!-- CV: takes to "another page" in this single file (hash route) -->
+    <a class="pillBtn" href="#cv" id="cvLinkBtn">
+      <span class="icon">CV</span>
+      <span class="labelGroup">
+        <span class="labelTop">View CV</span>
+        <span class="labelSub">Open page</span>
+      </span>
+    </a>
+  </div>
+
+  <!-- FIXED BUTTON (Right bottom) -->
+  <div class="fixedRight">
+    <button class="pillBtn toTop" id="toTopBtn" type="button" aria-label="Back to top">
+      <span class="icon">↑</span>
+      <span class="labelGroup">
+        <span class="labelTop">Top</span>
+        <span class="labelSub">Back</span>
+      </span>
+    </button>
+  </div>
+
+  <script>
+    /* ---------------------------
+       Floating bubbles
+    --------------------------- */
+    (function createBubbles(){
+      const wrap = document.getElementById('bubbles');
+      const count = 26;
+
+      for(let i=0;i<count;i++){
+        const b = document.createElement('div');
+        b.className = 'bubble';
+
+        const left = Math.random() * 100;
+        const delay = Math.random() * 6;
+        const dur = 7 + Math.random() * 10;
+        const size = 10 + Math.random() * 22;
+        const blur = Math.random() * 0.6;
+
+        b.style.left = left + '%';
+        b.style.animationDelay = delay + 's';
+        b.style.animationDuration = dur + 's';
+        b.style.width = size + 'px';
+        b.style.filter = 'blur(' + blur + 'px)';
+        b.style.top = (70 + Math.random() * 50) + '%';
+
+        wrap.appendChild(b);
+      }
+    })();
+
+    /* ---------------------------
+       Intro fades out on scroll
+    --------------------------- */
+    (function introFadeOnScroll(){
+      const intro = document.querySelector('.intro');
+      const introFade = document.getElementById('introFade');
+      const toTop = document.getElementById('toTopBtn');
+
+      function onScroll(){
+        const rect = intro.getBoundingClientRect();
+        const h = Math.max(1, rect.height);
+        const scrolled = Math.min(Math.max(-rect.top, 0), h);
+        const t = scrolled / h;
+
+        const opacity = 1 - Math.min(t * 1.15, 1);
+        const y = -t * 10;
+
+        introFade.style.opacity = opacity.toFixed(3);
+        introFade.style.transform = 'translate3d(0,' + y.toFixed(2) + 'px,0)';
+
+        if(scrolled > h * 0.55) toTop.classList.add('show');
+        else toTop.classList.remove('show');
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    /* ---------------------------
+       Section cursor glow (critical)
+    --------------------------- */
+    (function cursorGlowPanels(){
+      const panels = document.querySelectorAll('[data-panel]');
+      panels.forEach(panel => {
+        let raf = null;
+
+        function updateVars(e){
+          const r = panel.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width) * 100;
+          const y = ((e.clientY - r.top) / r.height) * 100;
+
+          if(raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            panel.style.setProperty('--mx', x.toFixed(2) + '%');
+            panel.style.setProperty('--my', y.toFixed(2) + '%');
+          });
+        }
+
+        panel.addEventListener('mouseenter', () => panel.classList.add('is-hovered'));
+        panel.addEventListener('mousemove', updateVars);
+        panel.addEventListener('mouseleave', () => {
+          panel.classList.remove('is-hovered');
+          panel.style.removeProperty('--mx');
+          panel.style.removeProperty('--my');
+        });
+      });
+    })();
+
+    /* ---------------------------
+       Slideshows
+    --------------------------- */
+    (function initSlideshows(){
+      const slides = document.querySelectorAll('.slide[data-slideshow]');
+      slides.forEach(slide => {
+        let urls = [];
+        try { urls = JSON.parse(slide.getAttribute('data-slideshow')); }
+        catch { urls = []; }
+
+        if(!Array.isArray(urls) || urls.length === 0) return;
+
+        const imgs = urls.map((u, idx) => {
+          const img = document.createElement('img');
+          img.src = u;
+          img.alt = "Preview " + (idx + 1);
+          if(idx === 0) img.classList.add('active');
+          slide.appendChild(img);
+          return img;
+        });
+
+        let i = 0;
+        const interval = 3200 + Math.random() * 900;
+        setInterval(() => {
+          imgs[i].classList.remove('active');
+          i = (i + 1) % imgs.length;
+          imgs[i].classList.add('active');
+        }, interval);
+      });
+    })();
+
+    /* ---------------------------
+       IntersectionObserver:
+       - reveal elements
+       - card in-view gating
+    --------------------------- */
+    (function observers(){
+      const revealEls = document.querySelectorAll('.reveal');
+      const cards = document.querySelectorAll('.card');
+
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if(en.isIntersecting){
+            en.target.classList.add('show');
+            revealObs.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.18 });
+
+      revealEls.forEach(el => revealObs.observe(el));
+
+      const cardObs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if(en.isIntersecting) en.target.classList.add('in-view');
+          else en.target.classList.remove('in-view');
+        });
+      }, { threshold: 0.22 });
+
+      cards.forEach(card => {
+        const p = Number(card.getAttribute('data-progress') || 75);
+        const clamped = Math.max(10, Math.min(p, 100));
+        card.style.setProperty('--target', clamped + '%');
+        cardObs.observe(card);
+      });
+    })();
+
+    /* ---------------------------
+       Progress fills when hovering
+    --------------------------- */
+    (function hoverProgress(){
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', () => card.classList.add('hovered'));
+        card.addEventListener('mouseleave', () => card.classList.remove('hovered'));
+      });
+    })();
+
+    /* ---------------------------
+       Card click navigation
+    --------------------------- */
+    (function cardNav(){
+      const cards = document.querySelectorAll('.card');
+
+      function openCard(card){
+        const link = card.getAttribute('data-link');
+        if(!link) return;
+        window.open(link, '_blank', 'noopener');
+      }
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => openCard(card));
+        card.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openCard(card);
+          }
+        });
+      });
+    })();
+
+    /* ---------------------------
+       Back to top
+    --------------------------- */
+    (function backToTop(){
+      const btn = document.getElementById('toTopBtn');
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+
+    /* ---------------------------
+       Single-file "page routing"
+       - #cv shows CV page
+       - anything else shows home
+    --------------------------- */
+    (function singleFileRouting(){
+      const pageHome = document.getElementById('pageHome');
+      const pageCV = document.getElementById('pageCV');
+
+      function setPage(name){
+        const showCV = name === 'cv';
+
+        pageHome.classList.toggle('hidden', showCV);
+        pageHome.setAttribute('aria-hidden', String(showCV));
+
+        pageCV.classList.toggle('hidden', !showCV);
+        pageCV.setAttribute('aria-hidden', String(!showCV));
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function onHash(){
+        const hash = (location.hash || '').replace('#','').trim().toLowerCase();
+        setPage(hash === 'cv' ? 'cv' : 'home');
+      }
+
+      window.addEventListener('hashchange', onHash);
+      onHash();
+
+      document.getElementById('cvBackBtn').addEventListener('click', () => { location.hash = '#home'; });
+      document.getElementById('cvPrintBtn').addEventListener('click', () => { window.print(); });
+    })();
+  </script>
+
+  <!--
+    CUSTOMIZE FAST (CV PAGE)
+    - Technical skills: edit the chips inside "Technical Skills"
+    - Soft skills: edit the chips inside "Soft Skills"
+    - Education: replace school/degree/year in the Education timeline
+    - Experience: replace the timeline items with your real roles/projects
+    - Certifications: replace each <img src="..."> and the label text
+  -->
 </body>
 </html>
+```
