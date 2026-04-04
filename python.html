@@ -9,17 +9,17 @@
     - Each card has media slideshow (images + videos)
     - Click to expand (only on click), hover glow like your index
     - Slideshow pauses on active card
-    - Fully responsive, no external frameworks
+    - Adds Prev/Next arrows ONLY when card is active
+    - Prev/Next manually changes slide, keeps slideshow paused until collapse
+    - Fixed WhatsApp / Email / CV buttons (same as index)
+      * CV here links to index page CV section: index.html#cv
   ========================================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Python Codes | Junior Cesar Kore</title>
+  <title>Projects Hub | Junior Cesar Kore</title>
   <meta name="description" content="Premium interactive widgets page with media slideshows, glass UI, and smooth expansions." />
 
   <style>
-    /* =========================================================
-      THEME VARIABLES
-    ========================================================== */
     :root{
       --bg0: #06060a;
       --bg1: #0b0b0f;
@@ -45,15 +45,15 @@
       --radius2: 18px;
 
       --ease: cubic-bezier(.2,.8,.2,1);
-      --t: 520ms; /* transition duration (0.4-0.6s target) */
+      --t: 520ms;
 
       --max: 1100px;
       --navH: 70px;
     }
 
-    /* =========================================================
-      GLOBAL BASE
-    ========================================================== */
+    /* =========================
+       GLOBAL BASE
+    ========================= */
     *{ box-sizing: border-box; }
     html{ scroll-behavior:smooth; }
     body{
@@ -68,13 +68,11 @@
       overflow-x:hidden;
     }
     a{ color:inherit; text-decoration:none; }
+    button{ font: inherit; color: inherit; }
 
-    /* =========================================================
-      TOP NAV (fixed, glassmorphism)
-      - Left: back arrow
-      - Center: title
-      - Right: profile image
-    ========================================================== */
+    /* =========================
+       TOP NAV (fixed, glass)
+    ========================= */
     .nav{
       position: fixed;
       inset: 14px 14px auto 14px;
@@ -101,7 +99,6 @@
     }
     .navRight{ justify-content:flex-end; }
 
-    /* Back button */
     .backBtn{
       display:inline-flex;
       align-items:center;
@@ -119,13 +116,8 @@
       border-color: rgba(255,255,255,.16);
       background: rgba(255,255,255,.09);
     }
-    .backBtn svg{
-      width: 18px;
-      height: 18px;
-      opacity: .92;
-    }
+    .backBtn svg{ width: 18px; height: 18px; opacity: .92; }
 
-    /* Title in the center */
     .navTitle{
       flex: 1;
       text-align:center;
@@ -137,7 +129,6 @@
       text-overflow: ellipsis;
     }
 
-    /* Profile image on the right */
     .navAvatar{
       width: 46px;
       height: 46px;
@@ -155,17 +146,16 @@
       display:block;
     }
 
-    /* =========================================================
-      MAIN LAYOUT WRAPPER
-    ========================================================== */
+    /* =========================
+       MAIN WRAPPER
+    ========================= */
     .wrap{
       width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
       padding-top: calc(var(--navH) + 42px);
-      padding-bottom: 90px;
+      padding-bottom: 120px; /* room for fixed left buttons */
     }
 
-    /* Intro label under nav (optional header) */
     .header{
       margin: 18px 0 16px;
       display:flex;
@@ -187,20 +177,15 @@
       max-width: 68ch;
     }
 
-    /* =========================================================
-      SCROLLABLE CARD LIST
-    ========================================================== */
     .list{
       display:flex;
       flex-direction:column;
       gap: 14px;
     }
 
-    /* =========================================================
-      CARD (widget)
-      - Hover glow like your index (radial glow following cursor)
-      - Expands ONLY on click (active class)
-    ========================================================== */
+    /* =========================
+       CARD
+    ========================= */
     .card{
       position: relative;
       border-radius: var(--radius);
@@ -214,11 +199,9 @@
         box-shadow var(--t) var(--ease),
         border-color var(--t) var(--ease);
 
-      /* Collapsed height */
       min-height: 220px;
     }
 
-    /* Hover lift (desktop only; on mobile we disable hover effects below) */
     @media (hover:hover){
       .card:hover{
         transform: translateY(-4px);
@@ -227,7 +210,7 @@
       }
     }
 
-    /* Cursor-follow glow overlay (same feel as index panels) */
+    /* Hover glow like index */
     .card::before{
       content:"";
       position:absolute; inset:0;
@@ -243,7 +226,6 @@
     }
     .card.is-hovered::before{ opacity: 1; }
 
-    /* Inner layout */
     .cardInner{
       position:relative;
       display:flex;
@@ -251,7 +233,6 @@
       min-height: 220px;
     }
 
-    /* Media section (left on desktop, top on mobile) */
     .media{
       position:relative;
       flex: 0 0 44%;
@@ -263,7 +244,7 @@
       background: rgba(0,0,0,.22);
     }
 
-    /* Dark gradient overlay on top of media for premium look */
+    /* Premium overlay */
     .media::after{
       content:"";
       position:absolute; inset:0;
@@ -275,7 +256,6 @@
       z-index: 2;
     }
 
-    /* Slideshow items */
     .slide{
       position:absolute;
       inset:0;
@@ -285,7 +265,6 @@
     }
     .slide.active{ opacity: 1; }
 
-    /* Media content: images/videos fit */
     .slide img,
     .slide video{
       width:100%;
@@ -296,7 +275,50 @@
       transition: transform var(--t) var(--ease);
     }
 
-    /* Text section */
+    /* Media arrows (appear only when card is active) */
+    .mediaArrows{
+      position:absolute;
+      inset: 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 0 10px;
+      z-index: 3; /* above overlay */
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity 240ms var(--ease);
+    }
+    .card.active .mediaArrows{
+      opacity: 1;
+      pointer-events:auto;
+    }
+
+    .arrowBtn{
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.42);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+      user-select:none;
+    }
+    .arrowBtn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(0,0,0,.52);
+    }
+    .arrowBtn svg{
+      width: 18px;
+      height: 18px;
+      opacity: .92;
+    }
+
     .text{
       flex: 1 1 auto;
       padding: 16px;
@@ -304,11 +326,9 @@
       flex-direction:column;
       gap: 10px;
       min-height: 220px;
-
       transition: padding var(--t) var(--ease);
     }
 
-    /* Title row */
     .textTop{
       display:flex;
       align-items:flex-start;
@@ -336,13 +356,12 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.55;
-      overflow: hidden; /* becomes scrollable only when active */
-      max-height: 120px; /* collapsed */
+      overflow: hidden;
+      max-height: 120px;
       transition: max-height var(--t) var(--ease);
       padding-right: 6px;
     }
 
-    /* Small hint */
     .hint{
       color: rgba(255,255,255,.58);
       font-size: 12px;
@@ -359,35 +378,22 @@
       flex: 0 0 auto;
     }
 
-    /* =========================================================
-      ACTIVE CARD STATE (expanded on click)
-      - Height increases
-      - Media grows wider
-      - Media zooms slightly
-      - Text becomes scrollable
-      - Slideshow pauses (JS)
-    ========================================================== */
+    /* ACTIVE STATE */
     .card.active{
       border-color: rgba(255,255,255,.18);
       box-shadow: var(--shadow);
       transform: translateY(-2px);
     }
-    .card.active .media{
-      flex: 0 0 58%;
-    }
+    .card.active .media{ flex: 0 0 58%; }
     .card.active .slide img,
-    .card.active .slide video{
-      transform: scale(1.08);
-    }
-    .card.active .text{
-      padding: 18px;
-    }
+    .card.active .slide video{ transform: scale(1.08); }
+    .card.active .text{ padding: 18px; }
     .card.active .textBody{
-      max-height: 260px;          /* expanded text area */
-      overflow-y: auto;           /* scrollable content */
+      max-height: 260px;
+      overflow-y: auto;
     }
 
-    /* Custom scrollbar (optional enhancement) */
+    /* Custom scrollbar */
     .textBody::-webkit-scrollbar{ width: 10px; }
     .textBody::-webkit-scrollbar-track{ background: rgba(255,255,255,.05); border-radius: 999px; }
     .textBody::-webkit-scrollbar-thumb{
@@ -396,16 +402,11 @@
       border: 2px solid rgba(0,0,0,.35);
     }
 
-    /* =========================================================
-      RESPONSIVENESS
-      - Mobile stacks: media on top, text below
-      - No hover interactions (glow only on click is still ok)
-    ========================================================== */
+    /* =========================
+       RESPONSIVE
+    ========================= */
     @media (max-width: 860px){
-      .nav{
-        inset: 10px 10px auto 10px;
-        height: 64px;
-      }
+      .nav{ inset: 10px 10px auto 10px; height: 64px; }
       .navLeft, .navRight{ min-width: 90px; }
       .backBtn, .navAvatar{ width: 42px; height: 42px; }
 
@@ -419,15 +420,72 @@
         border-bottom: 1px solid rgba(255,255,255,.07);
       }
 
-      .card.active .media{ flex: 0 0 auto; } /* keep media top, but it still visually enlarges by height */
+      .card.active .media{ flex: 0 0 auto; }
       .card.active{ transform:none; }
+
+      /* Make arrows slightly smaller on mobile */
+      .arrowBtn{ width: 40px; height: 40px; }
     }
 
-    /* Turn off hover-only visuals on touch devices */
     @media (hover:none){
       .card:hover{ transform:none; box-shadow: var(--shadowSoft); }
       .backBtn:hover{ transform:none; }
-      .card::before{ display:none; } /* glow would not be meaningful on touch */
+      .card::before{ display:none; }
+      .arrowBtn:hover{ transform:none; }
+    }
+
+    /* =========================
+       FIXED LEFT BUTTONS (same as index)
+    ========================= */
+    .fixedLeft{
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      z-index: 60;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .pillBtn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 11px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.45);
+      transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+      user-select:none;
+    }
+    .pillBtn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(0,0,0,.52);
+    }
+
+    .icon{
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .02em;
+    }
+    .labelGroup{ display:flex; flex-direction:column; line-height:1.1; }
+    .labelTop{ font-size: 12px; color: rgba(255,255,255,.86); font-weight: 800; }
+    .labelSub{ font-size: 12px; color: rgba(255,255,255,.62); }
+
+    @media (max-width: 520px){
+      .fixedLeft{ left: 10px; bottom: 10px; }
     }
   </style>
 </head>
@@ -435,14 +493,10 @@
 <body>
   <!-- =========================================================
     TOP NAV BAR
-    - Back arrow links to another page
-    - Center title
-    - Right profile image
   ========================================================== -->
   <nav class="nav" aria-label="Top navigation">
     <div class="navLeft">
-      <!-- BACK LINK: change href to your target page -->
-      <!-- Example: href="index.html" -->
+      <!-- BACK LINK: change if you want -->
       <a class="backBtn" href="index.html" aria-label="Go back">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -450,11 +504,9 @@
       </a>
     </div>
 
-    <!-- Center title -->
-    <div class="navTitle">Python Codes</div>
+    <div class="navTitle">Projects Hub</div>
 
     <div class="navRight">
-      <!-- PROFILE IMAGE: place profile.jpg in same folder -->
       <div class="navAvatar" aria-label="Profile image">
         <img src="profile.png" alt="Profile" />
       </div>
@@ -462,64 +514,52 @@
   </nav>
 
   <!-- =========================================================
-    PAGE CONTENT
+    MAIN CONTENT
   ========================================================== -->
   <main class="wrap">
     <header class="header">
       <div>
         <h1>Interactive Widgets</h1>
         <p>
-          Click a card to expand it. When expanded, the media area grows, media zooms in, text becomes scrollable, and the slideshow pauses.
+          Click a card to expand it. While expanded, slideshow pauses; use arrows to navigate media.
+          Collapse the card to resume autoplay.
         </p>
       </div>
     </header>
 
-    <!-- =======================================================
-      CARD LIST (scrolls vertically)
-      Each card:
-      - Images and videos slideshow (3 seconds)
-      - Active card pauses slideshow
-    ======================================================== -->
     <section class="list" id="widgetList" aria-label="Widget cards">
 
       <!-- =====================================================
         CARD 1
-        - Replace media files with your own (same folder on GitHub)
-        - Includes at least 2 videos + multiple images
+        NOTE: Replace these image/video files with yours (same folder).
+        Includes at least 2 videos + multiple images.
       ====================================================== -->
       <article class="card" data-card>
         <div class="cardInner">
 
-          <!-- MEDIA SECTION -->
           <div class="media" data-media>
-            <!-- Slide 1 (image) -->
-            <div class="slide active" data-slide>
-              <img src="eng_projects_1.jpg" alt="Project media 1">
+            <!-- Arrow overlay (appears only when card is active) -->
+            <div class="mediaArrows" aria-hidden="false">
+              <button class="arrowBtn" type="button" data-prev aria-label="Previous media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <button class="arrowBtn" type="button" data-next aria-label="Next media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
             </div>
 
-            <!-- Slide 2 (video) -->
-            <div class="slide" data-slide>
-              <!-- Videos must autoplay, muted, loop -->
-              <video src="video_1.mp4" autoplay muted loop playsinline></video>
-            </div>
-
-            <!-- Slide 3 (image) -->
-            <div class="slide" data-slide>
-              <img src="eng_projects_2.jpg" alt="Project media 2">
-            </div>
-
-            <!-- Slide 4 (video) -->
-            <div class="slide" data-slide>
-              <video src="video_2.mp4" autoplay muted loop playsinline></video>
-            </div>
-
-            <!-- Slide 5 (image) -->
-            <div class="slide" data-slide>
-              <img src="eng_projects_3.jpg" alt="Project media 3">
-            </div>
+            <div class="slide active" data-slide><img src="eng_projects_1.jpg" alt="Project media 1"></div>
+            <div class="slide" data-slide><video src="video_1.mp4" autoplay muted loop playsinline></video></div>
+            <div class="slide" data-slide><img src="eng_projects_2.jpg" alt="Project media 2"></div>
+            <div class="slide" data-slide><video src="video_2.mp4" autoplay muted loop playsinline></video></div>
+            <div class="slide" data-slide><img src="eng_projects_3.jpg" alt="Project media 3"></div>
           </div>
 
-          <!-- TEXT SECTION -->
           <div class="text">
             <div class="textTop">
               <h2 class="textTitle">Widget Card One</h2>
@@ -528,19 +568,16 @@
 
             <div class="textBody">
               <p>
-                This is a premium interactive widget. Add a detailed description here:
-                goals, tools used, outcomes, challenges, and what makes this project special.
+                Replace this with your real project details. When the card is active, this area becomes scrollable.
               </p>
               <p>
-                When you click the card, it expands. The media area becomes larger, and this text section becomes scrollable.
-                The slideshow also pauses while the card is active.
+                Arrows appear on the media area when expanded. Clicking arrows manually navigates slides.
               </p>
               <p>
-                Add more paragraphs to test scrolling. You can list features, results, and links:
-                GitHub repo, documentation, design files, etc.
+                Slideshow is paused while active and remains paused after using arrows, until the card collapses.
               </p>
               <p>
-                Tip: Use short sections and bullet points for readability. Keep it minimal and premium.
+                Add as much content as you want here to test internal scrolling.
               </p>
             </div>
 
@@ -549,7 +586,7 @@
                 <span class="dot"></span>
                 Click to expand
               </span>
-              <span>Auto slideshow: 3s</span>
+              <span>Autoplay: 3s (paused on expand)</span>
             </div>
           </div>
 
@@ -557,27 +594,30 @@
       </article>
 
       <!-- =====================================================
-        CARD 2 (another example)
+        CARD 2
       ====================================================== -->
       <article class="card" data-card>
         <div class="cardInner">
 
           <div class="media" data-media>
-            <div class="slide active" data-slide>
-              <img src="solidworks_1.jpg" alt="CAD media 1">
+            <div class="mediaArrows">
+              <button class="arrowBtn" type="button" data-prev aria-label="Previous media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="arrowBtn" type="button" data-next aria-label="Next media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
             </div>
-            <div class="slide" data-slide>
-              <video src="video_3.mp4" autoplay muted loop playsinline></video>
-            </div>
-            <div class="slide" data-slide>
-              <img src="solidworks_2.jpg" alt="CAD media 2">
-            </div>
-            <div class="slide" data-slide>
-              <video src="video_4.mp4" autoplay muted loop playsinline></video>
-            </div>
-            <div class="slide" data-slide>
-              <img src="solidworks_3.jpg" alt="CAD media 3">
-            </div>
+
+            <div class="slide active" data-slide><img src="solidworks_1.jpg" alt="CAD media 1"></div>
+            <div class="slide" data-slide><video src="video_3.mp4" autoplay muted loop playsinline></video></div>
+            <div class="slide" data-slide><img src="solidworks_2.jpg" alt="CAD media 2"></div>
+            <div class="slide" data-slide><video src="video_4.mp4" autoplay muted loop playsinline></video></div>
+            <div class="slide" data-slide><img src="solidworks_3.jpg" alt="CAD media 3"></div>
           </div>
 
           <div class="text">
@@ -588,22 +628,18 @@
 
             <div class="textBody">
               <p>
-                Replace this text with your real project information. Include timeline, role, tools, and impact.
+                Replace with your real CAD / SolidWorks details.
               </p>
               <p>
-                Add more content to make the scroll behavior obvious when expanded.
-              </p>
-              <p>
-                You can also include structured information like:
+                Add lists, roles, and results here. The active card pauses autoplay until collapse.
               </p>
               <ul style="margin:0; padding-left: 18px; color: rgba(255,255,255,.72); line-height:1.55;">
                 <li>Responsibilities</li>
                 <li>Deliverables</li>
                 <li>Results</li>
-                <li>Next steps</li>
               </ul>
               <p>
-                Keep the style minimal and premium.
+                Keep it minimal and premium.
               </p>
             </div>
 
@@ -612,7 +648,7 @@
                 <span class="dot"></span>
                 Click to expand
               </span>
-              <span>Auto slideshow: 3s</span>
+              <span>Autoplay: 3s</span>
             </div>
           </div>
 
@@ -621,27 +657,29 @@
 
       <!-- =====================================================
         CARD 3 (optional extra)
-        - Duplicate this card to create many widgets
       ====================================================== -->
       <article class="card" data-card>
         <div class="cardInner">
 
           <div class="media" data-media>
-            <div class="slide active" data-slide>
-              <img src="kicad_1.jpg" alt="PCB media 1">
+            <div class="mediaArrows">
+              <button class="arrowBtn" type="button" data-prev aria-label="Previous media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="arrowBtn" type="button" data-next aria-label="Next media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
             </div>
-            <div class="slide" data-slide>
-              <video src="video_5.mp4" autoplay muted loop playsinline></video>
-            </div>
-            <div class="slide" data-slide>
-              <img src="kicad_2.jpg" alt="PCB media 2">
-            </div>
-            <div class="slide" data-slide>
-              <video src="video_6.mp4" autoplay muted loop playsinline></video>
-            </div>
-            <div class="slide" data-slide>
-              <img src="kicad_3.jpg" alt="PCB media 3">
-            </div>
+
+            <div class="slide active" data-slide><img src="kicad_1.jpg" alt="PCB media 1"></div>
+            <div class="slide" data-slide><video src="video_5.mp4" autoplay muted loop playsinline></video></div>
+            <div class="slide" data-slide><img src="kicad_2.jpg" alt="PCB media 2"></div>
+            <div class="slide" data-slide><video src="video_6.mp4" autoplay muted loop playsinline></video></div>
+            <div class="slide" data-slide><img src="kicad_3.jpg" alt="PCB media 3"></div>
           </div>
 
           <div class="text">
@@ -652,16 +690,14 @@
 
             <div class="textBody">
               <p>
-                This card includes images and videos in one slideshow. Videos are muted, looped, and autoplay.
+                Replace this with your PCB/KiCad details.
               </p>
               <p>
-                The slideshow pauses when the card is active. Click again to collapse (or click another card).
+                On expand: arrows appear, slideshow pauses. Use arrows to navigate and keep it paused.
+                Collapse to resume autoplay.
               </p>
               <p>
-                Add more description here to test the internal scrolling.
-              </p>
-              <p>
-                Optional: Add links, feature lists, and notes on what you learned.
+                Add more content to test scrolling.
               </p>
             </div>
 
@@ -670,7 +706,7 @@
                 <span class="dot"></span>
                 Click to expand
               </span>
-              <span>Auto slideshow: 3s</span>
+              <span>Autoplay: 3s</span>
             </div>
           </div>
 
@@ -679,6 +715,42 @@
 
     </section>
   </main>
+
+  <!-- =========================================================
+    FIXED LEFT BUTTONS (WhatsApp / Email / CV)
+    - Same feel as index page
+    - CV here links to index CV page: index.html#cv
+  ========================================================== -->
+  <div class="fixedLeft" aria-label="Quick actions">
+    <!-- WhatsApp -->
+    <a class="pillBtn"
+       href="https://wa.me/2250170624647?text=Hello%20Junior%2C%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20connect."
+       target="_blank" rel="noreferrer">
+      <span class="icon">WA</span>
+      <span class="labelGroup">
+        <span class="labelTop">WhatsApp</span>
+        <span class="labelSub">Send message</span>
+      </span>
+    </a>
+
+    <!-- Email -->
+    <a class="pillBtn" href="mailto:juniorcesarkore@gmail.com?subject=Portfolio%20Contact&body=Hello%20Junior%2C%0A%0A">
+      <span class="icon">@</span>
+      <span class="labelGroup">
+        <span class="labelTop">Email</span>
+        <span class="labelSub">juniorcesarkore@gmail.com</span>
+      </span>
+    </a>
+
+    <!-- CV (go to index CV page) -->
+    <a class="pillBtn" href="index.html#cv">
+      <span class="icon">CV</span>
+      <span class="labelGroup">
+        <span class="labelTop">View CV</span>
+        <span class="labelSub">Index CV page</span>
+      </span>
+    </a>
+  </div>
 
   <script>
     /* =========================================================
@@ -690,26 +762,24 @@
       3) Slideshow:
          - Each card rotates slides every 3 seconds
          - Smooth fade transition between media
-         - Videos autoplay/muted/loop and restart when slide becomes active
+         - Videos autoplay/muted/loop
+      4) Arrows:
+         - Visible only when card is active
+         - Prev/Next changes slide manually
+         - Manual arrow press interrupts autoplay for that card
+         - Autoplay resumes when card collapses
     ========================================================== */
 
-    /* ---------------------------------------------------------
-      SETTINGS
-    --------------------------------------------------------- */
-    const SLIDE_INTERVAL_MS = 3000; // required: 3 seconds
+    /* Required: 3-second slideshow */
+    const SLIDE_INTERVAL_MS = 3000;
 
-    /* ---------------------------------------------------------
-      Helpers
-    --------------------------------------------------------- */
     function qsAll(sel, root = document){ return Array.from(root.querySelectorAll(sel)); }
 
-    /* ---------------------------------------------------------
-      1) Desktop hover glow (similar feel as index)
-      - Only meaningful on hover devices
-    --------------------------------------------------------- */
+    /* =========================================================
+      1) Hover glow (desktop only)
+    ========================================================== */
     (function cardHoverGlow(){
       const cards = qsAll('[data-card]');
-
       cards.forEach(card => {
         let raf = null;
 
@@ -735,40 +805,45 @@
       });
     })();
 
-    /* ---------------------------------------------------------
-      2) Slideshow engine per card
-      - Stores timers so we can pause/resume on active card
-    --------------------------------------------------------- */
-    const slideEngines = new WeakMap(); // card -> engine
+    /* =========================================================
+      2) Slideshow Engine PER CARD
+      - We store a controller for each card
+      - This controller can start/stop and go prev/next
+    ========================================================== */
+    const engines = new WeakMap(); // card -> engine
 
-    function createSlideEngine(card){
+    function createEngine(card){
       const slides = qsAll('[data-slide]', card);
       let index = 0;
       let timer = null;
 
       function show(i){
+        if(slides.length === 0) return;
+
+        // wrap index
+        index = (i + slides.length) % slides.length;
+
+        // deactivate all
         slides.forEach(s => s.classList.remove('active'));
-        const current = slides[i];
+
+        // activate current
+        const current = slides[index];
         current.classList.add('active');
 
-        // If it's a video slide, ensure playback looks correct
+        // If slide is a video, restart it for a clean effect
         const vid = current.querySelector('video');
         if(vid){
-          // Restart from start for a clean premium feel
           try { vid.currentTime = 0; } catch {}
-          // Attempt play (some browsers require user interaction, but muted+playsinline helps)
           vid.play().catch(() => {});
         }
       }
 
-      function next(){
-        index = (index + 1) % slides.length;
-        show(index);
-      }
+      function next(){ show(index + 1); }
+      function prev(){ show(index - 1); }
 
       function start(){
         if(slides.length <= 1) return;
-        stop(); // prevent multiple timers
+        stop();
         timer = setInterval(next, SLIDE_INTERVAL_MS);
       }
 
@@ -779,95 +854,117 @@
         }
       }
 
-      // init
-      show(index);
+      // Initialize
+      show(0);
       start();
 
-      return { start, stop, show, next };
+      return { start, stop, next, prev, show, getIndex: () => index };
     }
 
-    /* Initialize slideshows for every card */
-    (function initSlideshows(){
+    /* Create engines and wire arrow buttons */
+    (function initCards(){
       const cards = qsAll('[data-card]');
+
       cards.forEach(card => {
-        const engine = createSlideEngine(card);
-        slideEngines.set(card, engine);
+        const engine = createEngine(card);
+        engines.set(card, engine);
+
+        // Wire arrows inside this card
+        const prevBtn = card.querySelector('[data-prev]');
+        const nextBtn = card.querySelector('[data-next]');
+
+        if(prevBtn){
+          prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // prevents collapsing/expanding when clicking arrows
+            // Requirement: pressing arrows interrupts slideshow for that card
+            engine.stop();
+            engine.prev();
+          });
+        }
+
+        if(nextBtn){
+          nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            engine.stop();
+            engine.next();
+          });
+        }
       });
     })();
 
-    /* ---------------------------------------------------------
-      3) Card click expansion
-      - Only expands on click
-      - Clicking another card switches active
-      - Clicking the active card collapses it
-      - Active card pauses slideshow
-    --------------------------------------------------------- */
-    (function cardExpandOnClick(){
+    /* =========================================================
+      3) Click to Expand (ONLY on click)
+      - When active: slideshow pauses
+      - When collapsed: slideshow resumes
+    ========================================================== */
+    (function expandOnClick(){
       const cards = qsAll('[data-card]');
 
-      function setActiveCard(cardToActivate){
-        cards.forEach(card => {
-          const engine = slideEngines.get(card);
-          const isTarget = card === cardToActivate;
-
-          // Toggle active class
-          card.classList.toggle('active', isTarget);
-
-          // Pause slideshow if active, otherwise resume
-          if(engine){
-            if(isTarget) engine.stop();
-            else engine.start();
-          }
+      function collapseAll(){
+        cards.forEach(c => {
+          c.classList.remove('active');
+          const eng = engines.get(c);
+          // When card returns to initial size/layout, resume autoplay
+          if(eng) eng.start();
         });
       }
 
       cards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          // If user clicks inside the text scroll area, we still allow toggling.
-          // If you want to prevent toggling when scrolling text, you can stopPropagation there.
-
+        card.addEventListener('click', () => {
           const isActive = card.classList.contains('active');
+
           if(isActive){
-            // Collapse if already active
-            setActiveCard(null);
-          }else{
-            setActiveCard(card);
+            // Collapse and resume autoplay
+            card.classList.remove('active');
+            const eng = engines.get(card);
+            if(eng) eng.start();
+            return;
           }
+
+          // Activate this card, collapse others first
+          cards.forEach(c => {
+            if(c === card) return;
+            c.classList.remove('active');
+            const eng = engines.get(c);
+            if(eng) eng.start();
+          });
+
+          // Expand this card and pause its slideshow
+          card.classList.add('active');
+          const eng = engines.get(card);
+          if(eng) eng.stop();
         });
       });
 
-      // If cardToActivate is null, collapse all
-      function setActiveCard(cardToActivate){
-        cards.forEach(card => {
-          const engine = slideEngines.get(card);
-          const isTarget = cardToActivate && (card === cardToActivate);
-
-          card.classList.toggle('active', !!isTarget);
-
-          if(engine){
-            if(isTarget) engine.stop();
-            else engine.start();
-          }
-        });
-      }
+      // Optional: click outside cards to collapse all
+      // (uncomment if you want this behavior)
+      // document.addEventListener('click', (e) => {
+      //   const clickedCard = e.target.closest('[data-card]');
+      //   if(!clickedCard) collapseAll();
+      // });
     })();
   </script>
 
   <!-- =========================================================
-    FILES TO PUT IN THE SAME FOLDER AS THIS PAGE (GitHub)
-    - profile.jpg  (top right avatar)
-    - Images (examples used above):
-      eng_projects_1.jpg, eng_projects_2.jpg, eng_projects_3.jpg
-      solidworks_1.jpg, solidworks_2.jpg, solidworks_3.jpg
-      kicad_1.jpg, kicad_2.jpg, kicad_3.jpg
+    FILES YOU MUST PUT IN THE SAME FOLDER AS THIS PAGE (GitHub)
+    Profile:
+      - profile.jpg
 
-    - Videos (YOU MUST ADD THESE FILES):
-      video_1.mp4, video_2.mp4
-      video_3.mp4, video_4.mp4
-      video_5.mp4, video_6.mp4
+    Images (examples in cards):
+      - eng_projects_1.jpg, eng_projects_2.jpg, eng_projects_3.jpg
+      - solidworks_1.jpg, solidworks_2.jpg, solidworks_3.jpg
+      - kicad_1.jpg, kicad_2.jpg, kicad_3.jpg
+
+    Videos (YOU MUST ADD):
+      - video_1.mp4, video_2.mp4
+      - video_3.mp4, video_4.mp4
+      - video_5.mp4, video_6.mp4
 
     BACK ARROW DESTINATION:
-      - Change nav back link href="index.html" if needed
+      - nav back link href="index.html"
+
+    CV BUTTON DESTINATION:
+      - links to: index.html#cv
   ========================================================== -->
 </body>
 </html>
