@@ -1,264 +1,874 @@
-<!DOCTYPE html>
+```html
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Interactive Widgets</title>
+  <!-- =========================================================
+    PREMIUM WIDGET PAGE (single HTML file)
+    - Glass top nav with back arrow + title + profile image
+    - Scrollable interactive cards
+    - Each card has media slideshow (images + videos)
+    - Click to expand (only on click), hover glow like your index
+    - Slideshow pauses on active card
+    - Fully responsive, no external frameworks
+  ========================================================== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SolidWorks Designs | Junior Cesar Kore</title>
+  <meta name="description" content="Premium interactive widgets page with media slideshows, glass UI, and smooth expansions." />
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
-      color: #fff;
+    /* =========================================================
+      THEME VARIABLES
+    ========================================================== */
+    :root{
+      --bg0: #06060a;
+      --bg1: #0b0b0f;
+
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --muted2: rgba(255,255,255,.58);
+
+      --cyan: #42f5ff;
+      --purple: #b55cff;
+      --accent: linear-gradient(135deg, rgba(66,245,255,.95), rgba(181,92,255,.95));
+
+      --glass: rgba(20,20,26,.42);
+      --glassBorder: rgba(255,255,255,.10);
+
+      --card: rgba(255,255,255,.06);
+      --cardBorder: rgba(255,255,255,.10);
+
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+      --shadowSoft: 0 12px 30px rgba(0,0,0,.35);
+
+      --radius: 22px;
+      --radius2: 18px;
+
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --t: 520ms; /* transition duration (0.4-0.6s target) */
+
+      --max: 1100px;
+      --navH: 70px;
     }
 
-    /* Top Bar */
-    .top-bar {
+    /* =========================================================
+      GLOBAL BASE
+    ========================================================== */
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 760px at 75% -10%, rgba(181,92,255,.18), transparent 58%),
+        radial-gradient(1200px 760px at 25% -10%, rgba(66,245,255,.14), transparent 55%),
+        radial-gradient(900px 520px at 50% 120%, rgba(255,255,255,.06), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+
+    /* =========================================================
+      TOP NAV (fixed, glassmorphism)
+      - Left: back arrow
+      - Center: title
+      - Right: profile image
+    ========================================================== */
+    .nav{
       position: fixed;
-      top: 0;
-      width: 100%;
-      height: 60px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 15px;
-      z-index: 1000;
-    }
-
-    .arrow {
-      font-size: 22px;
-      color: white;
-      text-decoration: none;
-    }
-
-    .center-text {
-      flex: 1;
-      text-align: center;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .profile {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background: url('https://via.placeholder.com/100') center/cover;
-    }
-
-    .container {
-      margin-top: 70px;
-      padding: 20px;
-      max-width: 1100px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Cards */
-    .card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 18px;
-      overflow: hidden;
-      margin-bottom: 25px;
-      display: flex;
-      transition: all 0.5s ease;
-      height: 180px;
-      cursor: pointer;
+      inset: 14px 14px auto 14px;
+      height: var(--navH);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: var(--glass);
+      border: 1px solid var(--glassBorder);
       backdrop-filter: blur(14px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--shadowSoft);
+      z-index: 50;
     }
 
-    .card.active {
-      height: 420px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    .navLeft, .navRight{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 120px;
+    }
+    .navRight{ justify-content:flex-end; }
+
+    /* Back button */
+    .backBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+      user-select:none;
+    }
+    .backBtn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(255,255,255,.09);
+    }
+    .backBtn svg{
+      width: 18px;
+      height: 18px;
+      opacity: .92;
     }
 
-    .image-box {
-      width: 45%;
+    /* Title in the center */
+    .navTitle{
+      flex: 1;
+      text-align:center;
+      font-weight: 880;
+      letter-spacing: -0.01em;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Profile image on the right */
+    .navAvatar{
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      flex: 0 0 auto;
+    }
+    .navAvatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* =========================================================
+      MAIN LAYOUT WRAPPER
+    ========================================================== */
+    .wrap{
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding-top: calc(var(--navH) + 42px);
+      padding-bottom: 90px;
+    }
+
+    /* Intro label under nav (optional header) */
+    .header{
+      margin: 18px 0 16px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .header h1{
+      margin:0;
+      font-size: clamp(1.25rem, 2.6vw, 1.8rem);
+      font-weight: 920;
+      letter-spacing: -0.02em;
+    }
+    .header p{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 68ch;
+    }
+
+    /* =========================================================
+      SCROLLABLE CARD LIST
+    ========================================================== */
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    /* =========================================================
+      CARD (widget)
+      - Hover glow like your index (radial glow following cursor)
+      - Expands ONLY on click (active class)
+    ========================================================== */
+    .card{
       position: relative;
-      overflow: hidden;
-      transition: all 0.5s ease;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      box-shadow: var(--shadowSoft);
+      overflow:hidden;
+
+      transition:
+        transform var(--t) var(--ease),
+        box-shadow var(--t) var(--ease),
+        border-color var(--t) var(--ease);
+
+      /* Collapsed height */
+      min-height: 220px;
     }
 
-    .card.active .image-box {
-      width: 65%;
+    /* Hover lift (desktop only; on mobile we disable hover effects below) */
+    @media (hover:hover){
+      .card:hover{
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+        border-color: rgba(255,255,255,.16);
+      }
     }
 
-    .media-container {
-      width: 100%;
-      height: 100%;
-      position: relative;
+    /* Cursor-follow glow overlay (same feel as index panels) */
+    .card::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(520px 340px at var(--mx, 50%) var(--my, 35%),
+          rgba(66,245,255,.16),
+          rgba(181,92,255,.12) 45%,
+          rgba(0,0,0,0) 72%
+        );
+      opacity: 0;
+      transition: opacity 260ms var(--ease);
+      pointer-events:none;
+    }
+    .card.is-hovered::before{ opacity: 1; }
+
+    /* Inner layout */
+    .cardInner{
+      position:relative;
+      display:flex;
+      gap: 0;
+      min-height: 220px;
     }
 
-    .media-container img,
-    .media-container video {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    /* Media section (left on desktop, top on mobile) */
+    .media{
+      position:relative;
+      flex: 0 0 44%;
+      min-height: 220px;
+      overflow:hidden;
+      border-right: 1px solid rgba(255,255,255,.07);
+
+      transition: flex var(--t) var(--ease);
+      background: rgba(0,0,0,.22);
     }
 
-    .card.active .media-container img,
-    .card.active .media-container video {
+    /* Dark gradient overlay on top of media for premium look */
+    .media::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.55) 65%, rgba(0,0,0,.70)),
+        radial-gradient(700px 280px at 20% 20%, rgba(66,245,255,.10), transparent 60%),
+        radial-gradient(700px 280px at 80% 30%, rgba(181,92,255,.09), transparent 60%);
+      pointer-events:none;
+      z-index: 2;
+    }
+
+    /* Slideshow items */
+    .slide{
+      position:absolute;
+      inset:0;
+      opacity: 0;
+      transition: opacity 420ms var(--ease);
+      z-index: 1;
+    }
+    .slide.active{ opacity: 1; }
+
+    /* Media content: images/videos fit */
+    .slide img,
+    .slide video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform var(--t) var(--ease);
+    }
+
+    /* Text section */
+    .text{
+      flex: 1 1 auto;
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      min-height: 220px;
+
+      transition: padding var(--t) var(--ease);
+    }
+
+    /* Title row */
+    .textTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .textTitle{
+      margin:0;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.76);
+      font-size: 12px;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+
+    .textBody{
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      overflow: hidden; /* becomes scrollable only when active */
+      max-height: 120px; /* collapsed */
+      transition: max-height var(--t) var(--ease);
+      padding-right: 6px;
+    }
+
+    /* Small hint */
+    .hint{
+      color: rgba(255,255,255,.58);
+      font-size: 12px;
+      margin-top: auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .hint .dot{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(66,245,255,.18), 0 0 18px rgba(181,92,255,.14);
+      flex: 0 0 auto;
+    }
+
+    /* =========================================================
+      ACTIVE CARD STATE (expanded on click)
+      - Height increases
+      - Media grows wider
+      - Media zooms slightly
+      - Text becomes scrollable
+      - Slideshow pauses (JS)
+    ========================================================== */
+    .card.active{
+      border-color: rgba(255,255,255,.18);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+    .card.active .media{
+      flex: 0 0 58%;
+    }
+    .card.active .slide img,
+    .card.active .slide video{
       transform: scale(1.08);
     }
-
-    /* subtle gradient overlay */
-    .image-box::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
-    }
-
-    .text-box {
-      width: 55%;
+    .card.active .text{
       padding: 18px;
-      overflow: hidden;
-      transition: all 0.5s ease;
+    }
+    .card.active .textBody{
+      max-height: 260px;          /* expanded text area */
+      overflow-y: auto;           /* scrollable content */
     }
 
-    .card.active .text-box {
-      overflow-y: auto;
+    /* Custom scrollbar (optional enhancement) */
+    .textBody::-webkit-scrollbar{ width: 10px; }
+    .textBody::-webkit-scrollbar-track{ background: rgba(255,255,255,.05); border-radius: 999px; }
+    .textBody::-webkit-scrollbar-thumb{
+      background: linear-gradient(180deg, rgba(66,245,255,.45), rgba(181,92,255,.45));
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,.35);
     }
 
-    .text-box h3 {
-      margin-top: 0;
-      font-weight: 600;
-    }
+    /* =========================================================
+      RESPONSIVENESS
+      - Mobile stacks: media on top, text below
+      - No hover interactions (glow only on click is still ok)
+    ========================================================== */
+    @media (max-width: 860px){
+      .nav{
+        inset: 10px 10px auto 10px;
+        height: 64px;
+      }
+      .navLeft, .navRight{ min-width: 90px; }
+      .backBtn, .navAvatar{ width: 42px; height: 42px; }
 
-    .text-box p {
-      opacity: 0.85;
-      line-height: 1.6;
-    }
+      .wrap{ width: calc(100% - 24px); padding-top: 92px; }
+      .cardInner{ flex-direction:column; }
 
-    /* scrollbar */
-    .text-box::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    .text-box::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.3);
-      border-radius: 10px;
-    }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .card {
-        flex-direction: column;
-        height: auto;
+      .media{
+        flex: 0 0 auto;
+        min-height: 210px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,.07);
       }
 
-      .card.active {
-        height: auto;
-      }
+      .card.active .media{ flex: 0 0 auto; } /* keep media top, but it still visually enlarges by height */
+      .card.active{ transform:none; }
+    }
 
-      .image-box, .text-box {
-        width: 100%;
-      }
-
-      .card.active .image-box {
-        width: 100%;
-      }
+    /* Turn off hover-only visuals on touch devices */
+    @media (hover:none){
+      .card:hover{ transform:none; box-shadow: var(--shadowSoft); }
+      .backBtn:hover{ transform:none; }
+      .card::before{ display:none; } /* glow would not be meaningful on touch */
     }
   </style>
 </head>
+
 <body>
-
-  <div class="top-bar">
-    <a href="page2.html" class="arrow">⬅</a>
-    <div class="center-text">Premium UI</div>
-    <div class="profile"></div>
-  </div>
-
-  <div class="container">
-
-    <div class="card" onclick="toggleCard(this)">
-      <div class="image-box">
-        <div class="media-container"></div>
-      </div>
-      <div class="text-box">
-        <h3>Premium Card 1</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. More and more content here to demonstrate scrolling behavior when expanded.</p>
-      </div>
+  <!-- =========================================================
+    TOP NAV BAR
+    - Back arrow links to another page
+    - Center title
+    - Right profile image
+  ========================================================== -->
+  <nav class="nav" aria-label="Top navigation">
+    <div class="navLeft">
+      <!-- BACK LINK: change href to your target page -->
+      <!-- Example: href="index.html" -->
+      <a class="backBtn" href="index.html" aria-label="Go back">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
     </div>
 
-    <div class="card" onclick="toggleCard(this)">
-      <div class="image-box">
-        <div class="media-container"></div>
-      </div>
-      <div class="text-box">
-        <h3>Premium Card 2</h3>
-        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit. Extra content to ensure scrolling effect is visible and smooth.</p>
+    <!-- Center title -->
+    <div class="navTitle">SolidWorks Designs</div>
+
+    <div class="navRight">
+      <!-- PROFILE IMAGE: place profile.jpg in same folder -->
+      <div class="navAvatar" aria-label="Profile image">
+        <img src="profile.png" alt="Profile" />
       </div>
     </div>
+  </nav>
 
-  </div>
+  <!-- =========================================================
+    PAGE CONTENT
+  ========================================================== -->
+  <main class="wrap">
+    <header class="header">
+      <div>
+        <h1>Interactive Widgets</h1>
+        <p>
+          Click a card to expand it. When expanded, the media area grows, media zooms in, text becomes scrollable, and the slideshow pauses.
+        </p>
+      </div>
+    </header>
+
+    <!-- =======================================================
+      CARD LIST (scrolls vertically)
+      Each card:
+      - Images and videos slideshow (3 seconds)
+      - Active card pauses slideshow
+    ======================================================== -->
+    <section class="list" id="widgetList" aria-label="Widget cards">
+
+      <!-- =====================================================
+        CARD 1
+        - Replace media files with your own (same folder on GitHub)
+        - Includes at least 2 videos + multiple images
+      ====================================================== -->
+      <article class="card" data-card>
+        <div class="cardInner">
+
+          <!-- MEDIA SECTION -->
+          <div class="media" data-media>
+            <!-- Slide 1 (image) -->
+            <div class="slide active" data-slide>
+              <img src="eng_projects_1.jpg" alt="Project media 1">
+            </div>
+
+            <!-- Slide 2 (video) -->
+            <div class="slide" data-slide>
+              <!-- Videos must autoplay, muted, loop -->
+              <video src="video_1.mp4" autoplay muted loop playsinline></video>
+            </div>
+
+            <!-- Slide 3 (image) -->
+            <div class="slide" data-slide>
+              <img src="eng_projects_2.jpg" alt="Project media 2">
+            </div>
+
+            <!-- Slide 4 (video) -->
+            <div class="slide" data-slide>
+              <video src="video_2.mp4" autoplay muted loop playsinline></video>
+            </div>
+
+            <!-- Slide 5 (image) -->
+            <div class="slide" data-slide>
+              <img src="eng_projects_3.jpg" alt="Project media 3">
+            </div>
+          </div>
+
+          <!-- TEXT SECTION -->
+          <div class="text">
+            <div class="textTop">
+              <h2 class="textTitle">Widget Card One</h2>
+              <span class="pill">Engineering</span>
+            </div>
+
+            <div class="textBody">
+              <p>
+                This is a premium interactive widget. Add a detailed description here:
+                goals, tools used, outcomes, challenges, and what makes this project special.
+              </p>
+              <p>
+                When you click the card, it expands. The media area becomes larger, and this text section becomes scrollable.
+                The slideshow also pauses while the card is active.
+              </p>
+              <p>
+                Add more paragraphs to test scrolling. You can list features, results, and links:
+                GitHub repo, documentation, design files, etc.
+              </p>
+              <p>
+                Tip: Use short sections and bullet points for readability. Keep it minimal and premium.
+              </p>
+            </div>
+
+            <div class="hint">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span class="dot"></span>
+                Click to expand
+              </span>
+              <span>Auto slideshow: 3s</span>
+            </div>
+          </div>
+
+        </div>
+      </article>
+
+      <!-- =====================================================
+        CARD 2 (another example)
+      ====================================================== -->
+      <article class="card" data-card>
+        <div class="cardInner">
+
+          <div class="media" data-media>
+            <div class="slide active" data-slide>
+              <img src="solidworks_1.jpg" alt="CAD media 1">
+            </div>
+            <div class="slide" data-slide>
+              <video src="video_3.mp4" autoplay muted loop playsinline></video>
+            </div>
+            <div class="slide" data-slide>
+              <img src="solidworks_2.jpg" alt="CAD media 2">
+            </div>
+            <div class="slide" data-slide>
+              <video src="video_4.mp4" autoplay muted loop playsinline></video>
+            </div>
+            <div class="slide" data-slide>
+              <img src="solidworks_3.jpg" alt="CAD media 3">
+            </div>
+          </div>
+
+          <div class="text">
+            <div class="textTop">
+              <h2 class="textTitle">Widget Card Two</h2>
+              <span class="pill">Design</span>
+            </div>
+
+            <div class="textBody">
+              <p>
+                Replace this text with your real project information. Include timeline, role, tools, and impact.
+              </p>
+              <p>
+                Add more content to make the scroll behavior obvious when expanded.
+              </p>
+              <p>
+                You can also include structured information like:
+              </p>
+              <ul style="margin:0; padding-left: 18px; color: rgba(255,255,255,.72); line-height:1.55;">
+                <li>Responsibilities</li>
+                <li>Deliverables</li>
+                <li>Results</li>
+                <li>Next steps</li>
+              </ul>
+              <p>
+                Keep the style minimal and premium.
+              </p>
+            </div>
+
+            <div class="hint">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span class="dot"></span>
+                Click to expand
+              </span>
+              <span>Auto slideshow: 3s</span>
+            </div>
+          </div>
+
+        </div>
+      </article>
+
+      <!-- =====================================================
+        CARD 3 (optional extra)
+        - Duplicate this card to create many widgets
+      ====================================================== -->
+      <article class="card" data-card>
+        <div class="cardInner">
+
+          <div class="media" data-media>
+            <div class="slide active" data-slide>
+              <img src="kicad_1.jpg" alt="PCB media 1">
+            </div>
+            <div class="slide" data-slide>
+              <video src="video_5.mp4" autoplay muted loop playsinline></video>
+            </div>
+            <div class="slide" data-slide>
+              <img src="kicad_2.jpg" alt="PCB media 2">
+            </div>
+            <div class="slide" data-slide>
+              <video src="video_6.mp4" autoplay muted loop playsinline></video>
+            </div>
+            <div class="slide" data-slide>
+              <img src="kicad_3.jpg" alt="PCB media 3">
+            </div>
+          </div>
+
+          <div class="text">
+            <div class="textTop">
+              <h2 class="textTitle">Widget Card Three</h2>
+              <span class="pill">Electronics</span>
+            </div>
+
+            <div class="textBody">
+              <p>
+                This card includes images and videos in one slideshow. Videos are muted, looped, and autoplay.
+              </p>
+              <p>
+                The slideshow pauses when the card is active. Click again to collapse (or click another card).
+              </p>
+              <p>
+                Add more description here to test the internal scrolling.
+              </p>
+              <p>
+                Optional: Add links, feature lists, and notes on what you learned.
+              </p>
+            </div>
+
+            <div class="hint">
+              <span style="display:flex;align-items:center;gap:8px;">
+                <span class="dot"></span>
+                Click to expand
+              </span>
+              <span>Auto slideshow: 3s</span>
+            </div>
+          </div>
+
+        </div>
+      </article>
+
+    </section>
+  </main>
 
   <script>
-    const mediaSets = [
-      [
-        { type: 'image', src: 'https://picsum.photos/400/300?1' },
-        { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-        { type: 'image', src: 'https://picsum.photos/400/300?11' },
-        { type: 'video', src: 'https://www.w3schools.com/html/movie.mp4' }
-      ],
-      [
-        { type: 'image', src: 'https://picsum.photos/400/300?2' },
-        { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
-        { type: 'image', src: 'https://picsum.photos/400/300?22' },
-        { type: 'video', src: 'https://www.w3schools.com/html/movie.mp4' }
-      ]
-    ];
+    /* =========================================================
+      INTERACTIONS OVERVIEW
+      1) Card hover glow (desktop): cursor-follow effect
+      2) Card click expand:
+         - Only one card active at a time
+         - Active card pauses slideshow
+      3) Slideshow:
+         - Each card rotates slides every 3 seconds
+         - Smooth fade transition between media
+         - Videos autoplay/muted/loop and restart when slide becomes active
+    ========================================================== */
 
-    const indices = [0, 0];
-    let interval;
+    /* ---------------------------------------------------------
+      SETTINGS
+    --------------------------------------------------------- */
+    const SLIDE_INTERVAL_MS = 3000; // required: 3 seconds
 
-    function renderMedia(cardIndex) {
-      const card = document.querySelectorAll('.card')[cardIndex];
-      const container = card.querySelector('.media-container');
-      const media = mediaSets[cardIndex][indices[cardIndex]];
+    /* ---------------------------------------------------------
+      Helpers
+    --------------------------------------------------------- */
+    function qsAll(sel, root = document){ return Array.from(root.querySelectorAll(sel)); }
 
-      container.innerHTML = '';
+    /* ---------------------------------------------------------
+      1) Desktop hover glow (similar feel as index)
+      - Only meaningful on hover devices
+    --------------------------------------------------------- */
+    (function cardHoverGlow(){
+      const cards = qsAll('[data-card]');
 
-      if (media.type === 'image') {
-        const img = document.createElement('img');
-        img.src = media.src;
-        container.appendChild(img);
-      } else {
-        const video = document.createElement('video');
-        video.src = media.src;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-        container.appendChild(video);
+      cards.forEach(card => {
+        let raf = null;
+
+        function updateGlow(e){
+          const r = card.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width) * 100;
+          const y = ((e.clientY - r.top) / r.height) * 100;
+
+          if(raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            card.style.setProperty('--mx', x.toFixed(2) + '%');
+            card.style.setProperty('--my', y.toFixed(2) + '%');
+          });
+        }
+
+        card.addEventListener('mouseenter', () => card.classList.add('is-hovered'));
+        card.addEventListener('mousemove', updateGlow);
+        card.addEventListener('mouseleave', () => {
+          card.classList.remove('is-hovered');
+          card.style.removeProperty('--mx');
+          card.style.removeProperty('--my');
+        });
+      });
+    })();
+
+    /* ---------------------------------------------------------
+      2) Slideshow engine per card
+      - Stores timers so we can pause/resume on active card
+    --------------------------------------------------------- */
+    const slideEngines = new WeakMap(); // card -> engine
+
+    function createSlideEngine(card){
+      const slides = qsAll('[data-slide]', card);
+      let index = 0;
+      let timer = null;
+
+      function show(i){
+        slides.forEach(s => s.classList.remove('active'));
+        const current = slides[i];
+        current.classList.add('active');
+
+        // If it's a video slide, ensure playback looks correct
+        const vid = current.querySelector('video');
+        if(vid){
+          // Restart from start for a clean premium feel
+          try { vid.currentTime = 0; } catch {}
+          // Attempt play (some browsers require user interaction, but muted+playsinline helps)
+          vid.play().catch(() => {});
+        }
       }
+
+      function next(){
+        index = (index + 1) % slides.length;
+        show(index);
+      }
+
+      function start(){
+        if(slides.length <= 1) return;
+        stop(); // prevent multiple timers
+        timer = setInterval(next, SLIDE_INTERVAL_MS);
+      }
+
+      function stop(){
+        if(timer){
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      // init
+      show(index);
+      start();
+
+      return { start, stop, show, next };
     }
 
-    function startSlideshow() {
-      interval = setInterval(() => {
-        document.querySelectorAll('.card').forEach((card, index) => {
-          // pause slideshow for active card (premium feel)
-          if (!card.classList.contains('active')) {
-            indices[index] = (indices[index] + 1) % mediaSets[index].length;
-            renderMedia(index);
+    /* Initialize slideshows for every card */
+    (function initSlideshows(){
+      const cards = qsAll('[data-card]');
+      cards.forEach(card => {
+        const engine = createSlideEngine(card);
+        slideEngines.set(card, engine);
+      });
+    })();
+
+    /* ---------------------------------------------------------
+      3) Card click expansion
+      - Only expands on click
+      - Clicking another card switches active
+      - Clicking the active card collapses it
+      - Active card pauses slideshow
+    --------------------------------------------------------- */
+    (function cardExpandOnClick(){
+      const cards = qsAll('[data-card]');
+
+      function setActiveCard(cardToActivate){
+        cards.forEach(card => {
+          const engine = slideEngines.get(card);
+          const isTarget = card === cardToActivate;
+
+          // Toggle active class
+          card.classList.toggle('active', isTarget);
+
+          // Pause slideshow if active, otherwise resume
+          if(engine){
+            if(isTarget) engine.stop();
+            else engine.start();
           }
         });
-      }, 3000);
-    }
+      }
 
-    function toggleCard(card) {
-      card.classList.toggle('active');
-    }
+      cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          // If user clicks inside the text scroll area, we still allow toggling.
+          // If you want to prevent toggling when scrolling text, you can stopPropagation there.
 
-    document.querySelectorAll('.card').forEach((_, index) => {
-      renderMedia(index);
-    });
+          const isActive = card.classList.contains('active');
+          if(isActive){
+            // Collapse if already active
+            setActiveCard(null);
+          }else{
+            setActiveCard(card);
+          }
+        });
+      });
 
-    startSlideshow();
+      // If cardToActivate is null, collapse all
+      function setActiveCard(cardToActivate){
+        cards.forEach(card => {
+          const engine = slideEngines.get(card);
+          const isTarget = cardToActivate && (card === cardToActivate);
+
+          card.classList.toggle('active', !!isTarget);
+
+          if(engine){
+            if(isTarget) engine.stop();
+            else engine.start();
+          }
+        });
+      }
+    })();
   </script>
 
+  <!-- =========================================================
+    FILES TO PUT IN THE SAME FOLDER AS THIS PAGE (GitHub)
+    - profile.jpg  (top right avatar)
+    - Images (examples used above):
+      eng_projects_1.jpg, eng_projects_2.jpg, eng_projects_3.jpg
+      solidworks_1.jpg, solidworks_2.jpg, solidworks_3.jpg
+      kicad_1.jpg, kicad_2.jpg, kicad_3.jpg
+
+    - Videos (YOU MUST ADD THESE FILES):
+      video_1.mp4, video_2.mp4
+      video_3.mp4, video_4.mp4
+      video_5.mp4, video_6.mp4
+
+    BACK ARROW DESTINATION:
+      - Change nav back link href="index.html" if needed
+  ========================================================== -->
 </body>
 </html>
+```
