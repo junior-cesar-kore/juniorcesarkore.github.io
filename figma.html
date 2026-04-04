@@ -1,188 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio - Junior Cesar Kore</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Interactive Widgets</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+      color: #fff;
+    }
 
-<meta name="description" content="Portfolio of Junior Cesar Kore">
-<meta name="keywords" content="Junior Cesar Kore, portfolio">
-<meta name="author" content="Junior Cesar Kore">
+    /* Top Bar */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 60px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      z-index: 1000;
+    }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-body{background:#0a0a0a;color:white;overflow-x:hidden;}
+    .arrow {
+      font-size: 22px;
+      color: white;
+      text-decoration: none;
+    }
 
-/* INTRO */
-.intro{position:fixed;top:0;left:0;width:100%;height:100vh;background:linear-gradient(270deg,#0f2027,#203a43,#2c5364,#00ff88);background-size:800% 800%;animation:gradientMove 10s ease infinite;display:flex;justify-content:center;align-items:center;flex-direction:column;z-index:1000;transition:transform 1s ease;}
-.intro.hidden{transform:translateY(-100%);} 
+    .center-text {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
 
-.intro-text{width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-.intro-text span{white-space:nowrap;overflow:hidden;opacity:0;width:0;}
+    .profile {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: url('https://via.placeholder.com/100') center/cover;
+    }
 
-.intro-text span:nth-child(1){font-size:clamp(2rem,5vw,4rem);font-weight:bold;animation:slideType 2s steps(30,end) forwards;border-right:3px solid #00ff88;animation-fill-mode:forwards;}
-.intro-text span:nth-child(2){
-  font-size:clamp(1rem,2vw,1.5rem);
-  font-weight:300;
-  align-self:flex-start;
-  margin-left:20px;
-  max-width:70%;
-  white-space:normal;
-  line-height:1.5;
-  opacity:0;
-  width:auto;
-  animation:fadeIn 1.5s ease forwards;
-  animation-delay:2s;
-  animation-fill-mode:forwards;
-}
+    .container {
+      margin-top: 70px;
+      padding: 20px;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-.intro-text span:nth-child(3){font-size:clamp(2rem,4vw,3rem);font-weight:bold;align-self:flex-start;margin-left:60px;animation:type 2s steps(30,end) forwards;animation-delay:4s;border-right:3px solid #00ff88;animation-fill-mode:forwards;}
+    /* Cards */
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 25px;
+      display: flex;
+      transition: all 0.5s ease;
+      height: 180px;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
 
-@keyframes type{0%{width:0;opacity:0;}100%{width:100%;opacity:1;}}
-@keyframes slideType{0%{width:0;opacity:0;transform:translateX(-50%);}100%{width:100%;opacity:1;transform:translateX(0);}}
+    .card.active {
+      height: 420px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    }
 
-@keyframes gradientMove{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}100%{width:100%;opacity:1;transform:translateX(0);}}
+    .image-box {
+      width: 45%;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
 
-/* BUTTONS */
-.contact-bar{position:fixed;bottom:20px;left:20px;display:flex;flex-wrap:wrap;gap:10px;}
-.contact-btn{padding:10px 15px;border:none;border-radius:25px;background:linear-gradient(90deg,#00f5ff,#00ff88);cursor:pointer;font-weight:bold;}
+    .card.active .image-box {
+      width: 65%;
+    }
 
-.back-btn{position:fixed;bottom:20px;right:20px;padding:10px 15px;border:none;border-radius:25px;background:linear-gradient(90deg,#00f5ff,#00ff88);cursor:pointer;}
+    .media-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
 
-/* MAIN */
-.main{padding-top:120vh;text-align:center;}
-.profile img{width:clamp(100px,20vw,150px);height:clamp(100px,20vw,150px);border-radius:50%;}
-.name{font-size:2rem;margin-top:10px;}
+    .media-container img,
+    .media-container video {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
 
-.section{padding:40px;margin:20px;border-radius:20px;}
-.engineering{background:#0f172a;}
-.design{background:#1a0f1f;}
+    .card.active .media-container img,
+    .card.active .media-container video {
+      transform: scale(1.08);
+    }
 
-.section-hover-text{
-  opacity:0;
-  white-space:nowrap;
-  overflow:hidden;
-  border-right:2px solid #00ff88;
-  width:0;
-}
+    /* subtle gradient overlay */
+    .image-box::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    }
 
-.section:hover .section-hover-text{
-  animation:type 1.5s steps(25,end) forwards;
-}
+    .text-box {
+      width: 55%;
+      padding: 18px;
+      overflow: hidden;
+      transition: all 0.5s ease;
+    }
 
+    .card.active .text-box {
+      overflow-y: auto;
+    }
 
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
-.card{display:block;background:#111;border-radius:15px;overflow:hidden;cursor:pointer;text-decoration:none;color:white;}
-.card img{width:100%;height:150px;object-fit:cover;}
+    .text-box h3 {
+      margin-top: 0;
+      font-weight: 600;
+    }
 
-.progress-container{width:80%;height:8px;background:#333;margin:10px auto;}
-.progress-bar{height:100%;width:0;background:#00ff88;transition:2s;}
-/* BUBBLE ANIMATION */
-.bubbles{position:absolute;width:100%;height:100%;overflow:hidden;top:0;left:0;z-index:0;}
-.bubbles span{position:absolute;bottom:-50px;background:rgba(0,255,136,0.2);border-radius:50%;animation:rise 10s infinite ease-in;}
+    .text-box p {
+      opacity: 0.85;
+      line-height: 1.6;
+    }
 
-.bubbles span:nth-child(1){left:10%;width:20px;height:20px;animation-duration:8s;}
-.bubbles span:nth-child(2){left:25%;width:15px;height:15px;animation-duration:12s;}
-.bubbles span:nth-child(3){left:40%;width:25px;height:25px;animation-duration:10s;}
-.bubbles span:nth-child(4){left:60%;width:10px;height:10px;animation-duration:14s;}
-.bubbles span:nth-child(5){left:75%;width:18px;height:18px;animation-duration:9s;}
-.bubbles span:nth-child(6){left:90%;width:22px;height:22px;animation-duration:11s;}
+    /* scrollbar */
+    .text-box::-webkit-scrollbar {
+      width: 5px;
+    }
 
-@keyframes rise{
-  0%{transform:translateY(0) scale(1);opacity:0.3;}
-  50%{opacity:0.6;}
-  100%{transform:translateY(-110vh) scale(1.5);opacity:0;}
-}
-</style>
+    .text-box::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 10px;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .card {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .card.active {
+        height: auto;
+      }
+
+      .image-box, .text-box {
+        width: 100%;
+      }
+
+      .card.active .image-box {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="intro" id="intro">
-  <div class="bubbles">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <div class="intro-text">
-    <span>Junior Cesar KORE</span>
-    <span>Driven by a deep passion for technology, I am fully immersed in 
-    the pursuit of never-ended-advanced knowledge with the goal of becoming 
-    an exceptional mechatronics engineer. My purpose is to seamlessly integrate 
-    engineering knowledge, innovation, and problem-solving, into every aspect 
-    of life with a tangible touch of aesthetics. This philosophy shapes my mindset, 
-    drives my every step, and is embodied in my motto: </span>
-    <span>“LET’S MAKE IT POSSIBLE!”</span>
-  </div>
-</div>
-
-<div class="contact-bar">
-  <button class="contact-btn" onclick="window.open('https://wa.me/2250170624647')">WhatsApp</button>
-  <button class="contact-btn" onclick="window.location.href='mailto:juniorcesarkore@gmail.com'">Email</button>
-  <button class="contact-btn" onclick="window.location.href='cv.html'">CV</button>
-</div>
-
-<button class="back-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back</button>
-
-<div class="main">
-  <div class="profile">
-    <!-- REPLACE PROFILE IMAGE BELOW -->
-    <img src="profile.png">
-    <div class="name">Junior Cesar KORE</div>
+  <div class="top-bar">
+    <a href="page2.html" class="arrow">⬅</a>
+    <div class="center-text">Premium UI</div>
+    <div class="profile"></div>
   </div>
 
-  <div class="section engineering">
-    <h2>Engineering Orientation</h2>
-    <div class="section-hover-text">Technical Skills, Proper Understanding, Imagination, and Curiosity are the pillars of my person</div>
-    <div class="grid">
+  <div class="container">
 
-      <!-- REPLACE IMAGES BELOW -->
-      <a href="solidworks.html" class="card"><img src="solidworks.png"><div class="progress-container"><div class="progress-bar" data-width="90%"></div></div></a>
-      <a href="projects.html" class="card"><img src="projects.png"><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></a>
-      <a href="python.html" class="card"><img src="python.png"><div class="progress-container"><div class="progress-bar" data-width="80%"></div></div></a>
-      <a href="arduino.html" class="card"><img src="arduino.png"><div class="progress-container"><div class="progress-bar" data-width="75%"></div></div></a>
-
+    <div class="card" onclick="toggleCard(this)">
+      <div class="image-box">
+        <div class="media-container"></div>
+      </div>
+      <div class="text-box">
+        <h3>Premium Card 1</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. More and more content here to demonstrate scrolling behavior when expanded.</p>
+      </div>
     </div>
-  </div>
 
-  <div class="section design">
-    <h2>Graphic Design Orientation</h2>
-    <div class="section-hover-text">Functionality without any sense of aesthetic is unattractive</div>
-    <div class="grid">
-
-      <!-- REPLACE IMAGES BELOW -->
-      <a href="figma.html" class="card"><img src="figma.png"><div class="progress-container"><div class="progress-bar" data-width="82%"></div></div></a>
-      <a href="ppt.html" class="card"><img src="ppt.png"><div class="progress-container"><div class="progress-bar" data-width="85%"></div></div></a>
-      <a href="illustration.html" class="card"><img src="illustration.png"><div class="progress-container"><div class="progress-bar" data-width="70%"></div></div></a>
-      <a href="flyer.html" class="card"><img src="flyer.png"><div class="progress-container"><div class="progress-bar" data-width="78%"></div></div></a>
-
+    <div class="card" onclick="toggleCard(this)">
+      <div class="image-box">
+        <div class="media-container"></div>
+      </div>
+      <div class="text-box">
+        <h3>Premium Card 2</h3>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit. Extra content to ensure scrolling effect is visible and smooth.</p>
+      </div>
     </div>
+
   </div>
-</div>
 
-<script>
-window.addEventListener('scroll',()=>{
-  const intro=document.getElementById('intro');
+  <script>
+    const mediaSets = [
+      [
+        { type: 'image', src: 'https://picsum.photos/400/300?1' },
+        { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+        { type: 'image', src: 'https://picsum.photos/400/300?11' },
+        { type: 'video', src: 'https://www.w3schools.com/html/movie.mp4' }
+      ],
+      [
+        { type: 'image', src: 'https://picsum.photos/400/300?2' },
+        { type: 'video', src: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+        { type: 'image', src: 'https://picsum.photos/400/300?22' },
+        { type: 'video', src: 'https://www.w3schools.com/html/movie.mp4' }
+      ]
+    ];
 
-  // Hide intro when scrolling down
-  if(window.scrollY>100){
-    intro.classList.add('hidden');
-  } else {
-    // Show intro again when back at the top
-    intro.classList.remove('hidden');
-  }
+    const indices = [0, 0];
+    let interval;
 
-  document.querySelectorAll('.progress-bar').forEach(bar=>{
-    const rect=bar.getBoundingClientRect();
-    if(rect.top<window.innerHeight){
-      bar.style.width=bar.getAttribute('data-width');
+    function renderMedia(cardIndex) {
+      const card = document.querySelectorAll('.card')[cardIndex];
+      const container = card.querySelector('.media-container');
+      const media = mediaSets[cardIndex][indices[cardIndex]];
+
+      container.innerHTML = '';
+
+      if (media.type === 'image') {
+        const img = document.createElement('img');
+        img.src = media.src;
+        container.appendChild(img);
+      } else {
+        const video = document.createElement('video');
+        video.src = media.src;
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+        container.appendChild(video);
+      }
     }
-  });
-});
-</script>
+
+    function startSlideshow() {
+      interval = setInterval(() => {
+        document.querySelectorAll('.card').forEach((card, index) => {
+          // pause slideshow for active card (premium feel)
+          if (!card.classList.contains('active')) {
+            indices[index] = (indices[index] + 1) % mediaSets[index].length;
+            renderMedia(index);
+          }
+        });
+      }, 3000);
+    }
+
+    function toggleCard(card) {
+      card.classList.toggle('active');
+    }
+
+    document.querySelectorAll('.card').forEach((_, index) => {
+      renderMedia(index);
+    });
+
+    startSlideshow();
+  </script>
 
 </body>
 </html>
