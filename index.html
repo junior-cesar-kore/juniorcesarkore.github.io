@@ -50,7 +50,9 @@
     .container{ width:min(var(--max), calc(100% - 40px)); margin:0 auto; }
 
     /* -------------------------------------------
-       INTRO / LANDING
+       INTRO / LANDING (UPDATED GRADIENT STYLE)
+       - Animated multi-layer linear gradients
+       - Smooth shifting, premium "aurora" feel
     ------------------------------------------- */
     .intro{
       position: relative;
@@ -61,44 +63,78 @@
       overflow:hidden;
       isolation:isolate;
       border-bottom: 1px solid rgba(255,255,255,.06);
+      background: #06060a;
     }
 
+    /* Layer 1: big shifting gradient */
     .intro::before{
       content:"";
-      position:absolute; inset:-30%;
-      background: conic-gradient(from 180deg,
-        rgba(66,245,255,.95),
-        rgba(255,82,163,.85),
-        rgba(181,92,255,.95),
-        rgba(63,255,160,.85),
-        rgba(255,218,90,.82),
-        rgba(66,245,255,.95)
-      );
-      filter: blur(42px) saturate(1.22);
-      opacity: .92;
-      animation: spinHue 12s linear infinite;
-      z-index:-2;
+      position:absolute;
+      inset:-35%;
+      background:
+        linear-gradient(120deg,
+          rgba(66,245,255,.75),
+          rgba(181,92,255,.70),
+          rgba(255,82,163,.55),
+          rgba(63,255,160,.55),
+          rgba(255,218,90,.45),
+          rgba(66,245,255,.75)
+        );
+      background-size: 260% 260%;
+      animation: introGradientShift 14s var(--ease) infinite;
+      filter: blur(44px) saturate(1.25);
+      opacity: .95;
       transform: translateZ(0);
+      z-index:-3;
     }
 
+    /* Layer 2: secondary gradient for depth */
     .intro::after{
       content:"";
-      position:absolute; inset:0;
-      background: radial-gradient(900px 600px at 30% 30%, rgba(0,0,0,.12), rgba(0,0,0,.68) 70%, rgba(0,0,0,.92));
+      position:absolute;
+      inset:-35%;
+      background:
+        linear-gradient(60deg,
+          rgba(181,92,255,.65),
+          rgba(66,245,255,.55),
+          rgba(0,0,0,0) 60%
+        );
+      background-size: 240% 240%;
+      animation: introGradientShift2 18s var(--ease) infinite;
+      filter: blur(56px) saturate(1.18);
+      opacity: .55;
+      z-index:-2;
+      transform: translateZ(0);
+      mix-blend-mode: screen;
+    }
+
+    /* Layer 3: dark vignette for premium contrast */
+    .introVignette{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(900px 600px at 30% 28%, rgba(0,0,0,.08), rgba(0,0,0,.62) 70%, rgba(0,0,0,.92)),
+        linear-gradient(to bottom, rgba(0,0,0,.20), rgba(0,0,0,.65));
       z-index:-1;
+      pointer-events:none;
     }
 
-    @keyframes spinHue{
-      0%{
-        transform: rotate(0deg) scale(1.05);
-        filter: blur(42px) saturate(1.25) hue-rotate(0deg);
-      }
-      100%{
-        transform: rotate(360deg) scale(1.05);
-        filter: blur(42px) saturate(1.25) hue-rotate(360deg);
-      }
+    @keyframes introGradientShift{
+      0%   { background-position: 0% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.03); }
+      25%  { background-position: 50% 0%; transform: translate3d(1.5%, -1%, 0) rotate(2deg) scale(1.04); }
+      50%  { background-position: 100% 50%; transform: translate3d(0, -1.8%, 0) rotate(0deg) scale(1.05); }
+      75%  { background-position: 50% 100%; transform: translate3d(-1.2%, 0, 0) rotate(-2deg) scale(1.04); }
+      100% { background-position: 0% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.03); }
     }
 
+    @keyframes introGradientShift2{
+      0%   { background-position: 50% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.02); }
+      35%  { background-position: 0% 60%; transform: translate3d(-1%, -1.2%, 0) rotate(-2deg) scale(1.03); }
+      70%  { background-position: 100% 40%; transform: translate3d(1.3%, .8%, 0) rotate(2deg) scale(1.04); }
+      100% { background-position: 50% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.02); }
+    }
+
+    /* Floating bubbles overlay */
     .bubbles{
       position:absolute; inset:0;
       pointer-events:none;
@@ -184,6 +220,7 @@
       50%{ transform: scale(1.18); opacity:1; }
     }
 
+    /* Intro fade out on scroll */
     .introFade{
       will-change: opacity, transform;
       transition: opacity 380ms var(--ease), transform 380ms var(--ease);
@@ -392,24 +429,6 @@
       transition: opacity 650ms var(--ease);
     }
     .slide img.active{ opacity: 1; }
-
-    /* Placeholder style if an image is missing */
-    .imgPlaceholder{
-      width:100%;
-      height:100%;
-      display:grid;
-      place-items:center;
-      background:
-        radial-gradient(700px 260px at 20% 20%, rgba(66,245,255,.12), transparent 60%),
-        radial-gradient(700px 260px at 80% 30%, rgba(181,92,255,.10), transparent 60%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      color: rgba(255,255,255,.78);
-      font-weight: 850;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: 12px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
 
     .cardOverlay{
       position:absolute;
@@ -761,17 +780,13 @@
   <!-- INTRO -->
   <header class="intro" id="top">
     <div class="bubbles" aria-hidden="true" id="bubbles"></div>
+    <div class="introVignette" aria-hidden="true"></div>
 
     <div class="introContent introFade" id="introFade">
       <h1 class="headline">Junior Cesar Kore</h1>
-      <p class="tagline">LET’S MAKE IT POSSIBLE!</p>
+      <p class="tagline">Engineering Orientation + Graphic Design Orientation</p>
       <p class="subcopy">
-        Driven by a deep passion for technology, I am fully immersed in 
-        the pursuit of never-ended-advanced knowledge with the goal of becoming 
-        an exceptional mechatronics engineer. My purpose is to seamlessly integrate 
-        engineering knowledge, innovation, and problem-solving, into every aspect 
-        of life with a tangible touch of aesthetics. This philosophy shapes my mindset, 
-        drives my every step, and is embodied in my motto
+        Premium, dark themed, Apple/Tesla minimal UI, smooth interactions, and futuristic polish.
       </p>
     </div>
 
@@ -906,7 +921,6 @@
     <div class="container">
       <section class="profile reveal">
         <div class="avatar">
-          <!-- Optional: use the same profile image, or a second one -->
           <img alt="Profile photo" src="profile.jpg">
         </div>
         <h2 class="name">Junior Cesar Kore</h2>
@@ -925,12 +939,8 @@
         </div>
 
         <div class="cvGrid">
-          <!-- TECHNICAL SKILLS -->
           <div class="cvCard">
-            <h4>
-              Technical Skills
-              <span class="badge">Tools + Tech</span>
-            </h4>
+            <h4>Technical Skills <span class="badge">Tools + Tech</span></h4>
             <div class="skillChips">
               <span class="chip">SolidWorks</span>
               <span class="chip">KiCad</span>
@@ -943,12 +953,8 @@
             </div>
           </div>
 
-          <!-- SOFT SKILLS -->
           <div class="cvCard">
-            <h4>
-              Soft Skills
-              <span class="badge">Collaboration</span>
-            </h4>
+            <h4>Soft Skills <span class="badge">Collaboration</span></h4>
             <div class="skillChips">
               <span class="chip">Communication</span>
               <span class="chip">Teamwork</span>
@@ -961,13 +967,8 @@
             </div>
           </div>
 
-          <!-- EXPERIENCE -->
           <div class="cvCard full">
-            <h4>
-              Experience
-              <span class="badge">Timeline</span>
-            </h4>
-
+            <h4>Experience <span class="badge">Timeline</span></h4>
             <div class="timeline">
               <div class="item">
                 <div class="itemTop">
@@ -999,12 +1000,8 @@
             </div>
           </div>
 
-          <!-- EDUCATION -->
           <div class="cvCard">
-            <h4>
-              Education
-              <span class="badge">Academic</span>
-            </h4>
+            <h4>Education <span class="badge">Academic</span></h4>
             <div class="timeline">
               <div class="item">
                 <div class="itemTop">
@@ -1019,12 +1016,8 @@
             </div>
           </div>
 
-          <!-- CONTACT -->
           <div class="cvCard">
-            <h4>
-              Contact
-              <span class="badge">Reach me</span>
-            </h4>
+            <h4>Contact <span class="badge">Reach me</span></h4>
             <ul class="cvList">
               <li>Email: juniorcesarkore@gmail.com</li>
               <li>WhatsApp: +225 0170624647</li>
@@ -1033,58 +1026,36 @@
             </ul>
           </div>
 
-          <!-- CERTIFICATIONS (images + label only) -->
           <div class="cvCard full">
-            <h4>
-              Certifications
-              <span class="badge">Images + Label</span>
-            </h4>
-
+            <h4>Certifications <span class="badge">Images + Label</span></h4>
             <div class="certGrid">
-              <!-- Put these images in the same repo folder as index.html, then rename them -->
               <div class="cert">
-                <div class="certImg">
-                  <img alt="Certification 1" src="cert_1.jpg">
-                </div>
+                <div class="certImg"><img alt="Certification 1" src="cert_1.jpg"></div>
                 <div class="certLabel">Certification Title 1</div>
               </div>
-
               <div class="cert">
-                <div class="certImg">
-                  <img alt="Certification 2" src="cert_2.jpg">
-                </div>
+                <div class="certImg"><img alt="Certification 2" src="cert_2.jpg"></div>
                 <div class="certLabel">Certification Title 2</div>
               </div>
-
               <div class="cert">
-                <div class="certImg">
-                  <img alt="Certification 3" src="cert_3.jpg">
-                </div>
+                <div class="certImg"><img alt="Certification 3" src="cert_3.jpg"></div>
                 <div class="certLabel">Certification Title 3</div>
               </div>
-
               <div class="cert">
-                <div class="certImg">
-                  <img alt="Certification 4" src="cert_4.jpg">
-                </div>
+                <div class="certImg"><img alt="Certification 4" src="cert_4.jpg"></div>
                 <div class="certLabel">Certification Title 4</div>
               </div>
-
               <div class="cert">
-                <div class="certImg">
-                  <img alt="Certification 5" src="cert_5.jpg">
-                </div>
+                <div class="certImg"><img alt="Certification 5" src="cert_5.jpg"></div>
                 <div class="certLabel">Certification Title 5</div>
               </div>
-
               <div class="cert">
-                <div class="certImg">
-                  <img alt="Certification 6" src="cert_6.jpg">
-                </div>
+                <div class="certImg"><img alt="Certification 6" src="cert_6.jpg"></div>
                 <div class="certLabel">Certification Title 6</div>
               </div>
             </div>
           </div>
+
         </div>
       </section>
     </div>
@@ -1131,9 +1102,7 @@
   </div>
 
   <script>
-    /* ---------------------------
-       Floating bubbles
-    --------------------------- */
+    /* Floating bubbles */
     (function createBubbles(){
       const wrap = document.getElementById('bubbles');
       const count = 26;
@@ -1159,9 +1128,7 @@
       }
     })();
 
-    /* ---------------------------
-       Intro fades out on scroll
-    --------------------------- */
+    /* Intro fades out on scroll */
     (function introFadeOnScroll(){
       const intro = document.querySelector('.intro');
       const introFade = document.getElementById('introFade');
@@ -1187,9 +1154,7 @@
       onScroll();
     })();
 
-    /* ---------------------------
-       Section cursor glow (critical)
-    --------------------------- */
+    /* Section cursor glow */
     (function cursorGlowPanels(){
       const panels = document.querySelectorAll('[data-panel]');
       panels.forEach(panel => {
@@ -1217,10 +1182,7 @@
       });
     })();
 
-    /* ---------------------------
-       Slideshows (auto cycles images)
-       Uses local images in same folder as index.html
-    --------------------------- */
+    /* Slideshows (auto cycles local images) */
     (function initSlideshows(){
       const slides = document.querySelectorAll('.slide[data-slideshow]');
       slides.forEach(slide => {
@@ -1230,8 +1192,6 @@
 
         if(!Array.isArray(urls) || urls.length === 0) return;
 
-        // Create images; if an image file is missing, browser will show broken image icon,
-        // so we also keep a placeholder background behind them via .slide background.
         const imgs = urls.map((u, idx) => {
           const img = document.createElement('img');
           img.src = u;
@@ -1251,11 +1211,7 @@
       });
     })();
 
-    /* ---------------------------
-       IntersectionObserver:
-       - reveal elements
-       - card in-view gating
-    --------------------------- */
+    /* IntersectionObserver: reveal + in-view gating */
     (function observers(){
       const revealEls = document.querySelectorAll('.reveal');
       const cards = document.querySelectorAll('.card');
@@ -1286,9 +1242,7 @@
       });
     })();
 
-    /* ---------------------------
-       Progress fills when hovering
-    --------------------------- */
+    /* Progress fills when hovering */
     (function hoverProgress(){
       document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('mouseenter', () => card.classList.add('hovered'));
@@ -1296,9 +1250,7 @@
       });
     })();
 
-    /* ---------------------------
-       Card click navigation
-    --------------------------- */
+    /* Card click navigation */
     (function cardNav(){
       const cards = document.querySelectorAll('.card');
 
@@ -1319,19 +1271,13 @@
       });
     })();
 
-    /* ---------------------------
-       Back to top
-    --------------------------- */
+    /* Back to top */
     (function backToTop(){
       const btn = document.getElementById('toTopBtn');
       btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     })();
 
-    /* ---------------------------
-       Single-file "page routing"
-       - #cv shows CV page
-       - anything else shows home
-    --------------------------- */
+    /* Single-file page routing */
     (function singleFileRouting(){
       const pageHome = document.getElementById('pageHome');
       const pageCV = document.getElementById('pageCV');
