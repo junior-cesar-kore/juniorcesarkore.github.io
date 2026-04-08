@@ -3,9 +3,13 @@
 <html lang="en">
 <head>
   <!-- =========================================================
-    BASIC PAGE SETUP
-    - Single-file portfolio (HTML + CSS + JS)
-    - CV is a second "page" inside this same file using #cv routing
+    INDEX PAGE (single file)
+    - FIXED: slideshow is now continuous (no blank gaps)
+      * Images are absolutely stacked
+      * Next image is activated BEFORE previous is removed
+      * Preloads, skips broken images automatically
+    - Cards navigate in SAME TAB
+    - CV certificates open full-view lightbox when clicked
   ========================================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -13,12 +17,9 @@
   <meta name="description" content="Modern premium portfolio, dark futuristic UI, cursor glow sections, smooth animations, slideshows, and interactive cards." />
 
   <style>
-    /* =========================================================
-      THEME VARIABLES (easy to change colors and sizes)
-    ========================================================== */
     :root{
       --bg: #0b0b0f;
-      --panel: #1a1a1a;                 /* REQUIRED: dark ash background for sections */
+      --panel: #1a1a1a;
       --panelBorder: rgba(255,255,255,.08);
 
       --text: rgba(255,255,255,.92);
@@ -32,20 +33,15 @@
       --purple: #b55cff;
       --accent: linear-gradient(135deg, rgba(66,245,255,.95), rgba(181,92,255,.95));
 
-      /* Smooth animation curve used everywhere */
       --ease: cubic-bezier(.2,.8,.2,1);
 
       --radius: 22px;
       --max: 1200px;
       --gridGap: 14px;
 
-      /* Used for switching Home <-> CV page */
       --pageFadeMs: 260ms;
     }
 
-    /* =========================================================
-      GLOBAL RESET + BASE
-    ========================================================== */
     *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
     body{
@@ -60,13 +56,10 @@
     }
     a{ color:inherit; text-decoration:none; }
     button{ font: inherit; color: inherit; }
-
-    /* Main content wrapper width */
     .container{ width:min(var(--max), calc(100% - 40px)); margin:0 auto; }
 
     /* =========================================================
-      INTRO / LANDING (UPDATED GRADIENT STYLE)
-      - Uses 2 animated linear gradients + a vignette overlay
+      INTRO
     ========================================================== */
     .intro{
       position: relative;
@@ -79,8 +72,6 @@
       border-bottom: 1px solid rgba(255,255,255,.06);
       background: #06060a;
     }
-
-    /* Layer 1: large gradient sheet (blurred) */
     .intro::before{
       content:"";
       position:absolute;
@@ -101,8 +92,6 @@
       transform: translateZ(0);
       z-index:-3;
     }
-
-    /* Layer 2: second gradient for extra depth */
     .intro::after{
       content:"";
       position:absolute;
@@ -121,8 +110,6 @@
       transform: translateZ(0);
       mix-blend-mode: screen;
     }
-
-    /* Layer 3: dark vignette to keep text readable (adds premium contrast) */
     .introVignette{
       position:absolute;
       inset:0;
@@ -132,8 +119,6 @@
       z-index:-1;
       pointer-events:none;
     }
-
-    /* Gradient animations */
     @keyframes introGradientShift{
       0%   { background-position: 0% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.03); }
       25%  { background-position: 50% 0%; transform: translate3d(1.5%, -1%, 0) rotate(2deg) scale(1.04); }
@@ -148,14 +133,12 @@
       100% { background-position: 50% 50%; transform: translate3d(0,0,0) rotate(0deg) scale(1.02); }
     }
 
-    /* Floating bubbles container */
     .bubbles{
       position:absolute; inset:0;
       pointer-events:none;
       z-index:0;
       opacity:.65;
     }
-    /* One bubble */
     .bubble{
       position:absolute;
       width: clamp(10px, 2.4vw, 26px);
@@ -173,7 +156,6 @@
       to{ transform: translate3d(0, -160%, 0) scale(1.15); opacity: 0; }
     }
 
-    /* Intro texts wrapper */
     .introContent{
       position:relative;
       z-index:1;
@@ -181,8 +163,6 @@
       text-align:center;
       padding: 40px 0;
     }
-
-    /* Text 1: main headline */
     .headline{
       font-size: clamp(2.2rem, 5.2vw, 4rem);
       line-height: 1.05;
@@ -191,8 +171,6 @@
       margin: 0 0 14px;
       text-shadow: 0 10px 40px rgba(0,0,0,.55);
     }
-
-    /* Text 3: tagline (slightly larger than paragraph) */
     .tagline{
       font-size: clamp(1.05rem, 2.2vw, 1.35rem);
       font-weight: 680;
@@ -200,8 +178,6 @@
       color: rgba(255,255,255,.88);
       text-shadow: 0 10px 40px rgba(0,0,0,.6);
     }
-
-    /* Text 2: two-line paragraph */
     .subcopy{
       font-size: clamp(.95rem, 1.7vw, 1.08rem);
       line-height: 1.55;
@@ -211,7 +187,6 @@
       text-shadow: 0 10px 40px rgba(0,0,0,.65);
     }
 
-    /* Small scroll hint at bottom */
     .scrollHint{
       position:absolute;
       left:50%;
@@ -239,17 +214,13 @@
       0%,100%{ transform: scale(.92); opacity:.8; }
       50%{ transform: scale(1.18); opacity:1; }
     }
-
-    /* This class is faded on scroll by JS */
     .introFade{
       will-change: opacity, transform;
       transition: opacity 380ms var(--ease), transform 380ms var(--ease);
     }
 
     /* =========================================================
-      "PAGES" INSIDE THIS SINGLE FILE
-      - Home page: #home (default)
-      - CV page:   #cv
+      PAGES
     ========================================================== */
     .page{
       opacity: 1;
@@ -266,11 +237,10 @@
       overflow:hidden;
     }
 
-    /* Main spacing */
     main{ padding: 44px 0 120px; }
 
     /* =========================================================
-      PROFILE SECTION (image + name)
+      PROFILE
     ========================================================== */
     .profile{
       margin-top: 10px;
@@ -281,8 +251,6 @@
       text-align:center;
       padding: 16px 0 10px;
     }
-
-    /* Circular photo container */
     .avatar{
       width: 112px;
       height: 112px;
@@ -306,7 +274,6 @@
       transform: scale(1.02);
       filter: contrast(1.05) saturate(1.05);
     }
-
     .name{
       font-size: clamp(1.35rem, 2.6vw, 1.85rem);
       font-weight: 820;
@@ -322,7 +289,7 @@
     }
 
     /* =========================================================
-      MAIN TWO SECTIONS (Engineering, Graphic)
+      SECTIONS
     ========================================================== */
     .sections{
       margin-top: 28px;
@@ -331,7 +298,6 @@
       gap: 16px;
     }
 
-    /* REQUIRED design: dark ash + rounded + border + shadow + hover lift */
     .panel{
       position:relative;
       background: var(--panel);
@@ -348,8 +314,6 @@
       box-shadow: var(--shadow);
       border-color: rgba(255,255,255,.14);
     }
-
-    /* CRITICAL cursor-follow glow: controlled by CSS variables --mx and --my set in JS */
     .panel::before{
       content:"";
       position:absolute; inset:0;
@@ -365,7 +329,6 @@
     }
     .panel.is-hovered::before{ opacity: 1; }
 
-    /* Panel top row (title + chip) */
     .panelHeader{
       display:flex;
       align-items:flex-start;
@@ -391,7 +354,6 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Description: hidden by default, expands on hover */
     .panelDescription{
       margin-top: 10px;
       color: var(--muted2);
@@ -413,8 +375,7 @@
     }
 
     /* =========================================================
-      CARDS GRID + CARD STYLES
-      - Each card opens a different page (see data-link on each card)
+      CARDS
     ========================================================== */
     .cards{
       margin-top: 14px;
@@ -422,8 +383,6 @@
       grid-template-columns: repeat(12, 1fr);
       gap: var(--gridGap);
     }
-
-    /* One card tile */
     .card{
       grid-column: span 6;
       position:relative;
@@ -443,26 +402,30 @@
       box-shadow: 0 16px 38px rgba(0,0,0,.48);
     }
 
-    /* Slideshow container (images injected by JS) */
+    /* Slideshow container */
     .slide{
       position:absolute;
-      inset:0 0 64px 0; /* leaves room for overlay at the bottom */
-      background: #111; /* fallback background if images not loaded */
+      inset:0 0 64px 0;
+      background: #111; /* fallback, never "blank" */
+      overflow:hidden;
     }
-    /* Each slideshow image */
+
+    /* IMPORTANT: absolute stacking prevents layout gaps */
     .slide img{
+      position:absolute;
+      inset:0;
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
       transform: scale(1.04);
       filter: contrast(1.05) saturate(1.04);
+
       opacity: 0;
       transition: opacity 650ms var(--ease);
     }
     .slide img.active{ opacity: 1; }
 
-    /* Card bottom overlay (title + progress bar) */
     .cardOverlay{
       position:absolute;
       inset:auto 0 0 0;
@@ -495,7 +458,6 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Progress bar track */
     .progressTrack{
       height: 8px;
       border-radius: 999px;
@@ -503,7 +465,6 @@
       overflow:hidden;
       border: 1px solid rgba(255,255,255,.10);
     }
-    /* Progress bar fill (animated) */
     .progressFill{
       height: 100%;
       width: 0%;
@@ -512,11 +473,10 @@
       box-shadow: 0 0 18px rgba(66,245,255,.14), 0 0 18px rgba(181,92,255,.12);
       transition: width 900ms var(--ease);
     }
-    /* Fill happens only when card is visible (in-view) AND hovered */
     .card.in-view.hovered .progressFill{ width: var(--target, 75%); }
 
     /* =========================================================
-      CV PAGE STYLES
+      CV PAGE
     ========================================================== */
     .cvWrap{
       margin-top: 18px;
@@ -549,8 +509,6 @@
       flex-wrap: wrap;
       justify-content:flex-end;
     }
-
-    /* This class is used for both <button> and <a> in CV actions */
     .miniBtn{
       appearance:none;
       border: 1px solid rgba(255,255,255,.10);
@@ -571,15 +529,12 @@
       background: rgba(0,0,0,.52);
     }
 
-    /* Grid layout for CV blocks */
     .cvGrid{
       padding: 16px;
       display:grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 14px;
     }
-
-    /* One CV block */
     .cvCard{
       grid-column: span 6;
       border-radius: 18px;
@@ -588,7 +543,6 @@
       padding: 14px;
       box-shadow: 0 10px 26px rgba(0,0,0,.25);
     }
-    /* Full width CV block */
     .cvCard.full{ grid-column: span 12; }
 
     .cvCard h4{
@@ -621,8 +575,6 @@
       display:grid;
       gap: 8px;
     }
-
-    /* Skill chips */
     .skillChips{
       display:flex;
       flex-wrap: wrap;
@@ -644,11 +596,7 @@
       background: rgba(0,0,0,.42);
     }
 
-    /* Timeline blocks (Experience + Education) */
-    .timeline{
-      display:grid;
-      gap: 12px;
-    }
+    .timeline{ display:grid; gap: 12px; }
     .item{
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.08);
@@ -682,7 +630,6 @@
       line-height: 1.55;
     }
 
-    /* Certifications grid (images + label only) */
     .certGrid{
       margin-top: 10px;
       display:grid;
@@ -697,6 +644,7 @@
       border: 1px solid rgba(255,255,255,.10);
       box-shadow: 0 10px 26px rgba(0,0,0,.25);
       transition: transform 240ms var(--ease), border-color 240ms var(--ease), box-shadow 240ms var(--ease);
+      cursor: pointer;
     }
     .cert:hover{
       transform: translateY(-3px);
@@ -726,7 +674,84 @@
     }
 
     /* =========================================================
-      RESPONSIVE LAYOUT
+      LIGHTBOX
+    ========================================================== */
+    .lightbox{
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display:none;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 18px;
+    }
+    .lightbox.show{ display:grid; place-items:center; }
+
+    .lightboxDialog{
+      width: min(1100px, 100%);
+      max-height: min(86vh, 900px);
+      border-radius: 18px;
+      background: rgba(20,20,26,.55);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 24px 80px rgba(0,0,0,.65);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .lightboxTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .lightboxTitle{
+      margin:0;
+      font-size: 13px;
+      color: rgba(255,255,255,.80);
+      font-weight: 800;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .lightboxClose{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.35);
+      color: rgba(255,255,255,.88);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
+    }
+    .lightboxClose:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(0,0,0,.48);
+    }
+    .lightboxBody{
+      padding: 12px;
+      overflow:auto;
+      display:grid;
+      place-items:center;
+    }
+    .lightboxImg{
+      width: 100%;
+      height: auto;
+      max-height: 74vh;
+      object-fit: contain;
+      border-radius: 14px;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    /* =========================================================
+      RESPONSIVE
     ========================================================== */
     @media (max-width: 980px){
       .card{ grid-column: span 12; min-height: 260px; }
@@ -745,20 +770,17 @@
     }
 
     /* =========================================================
-      FIXED UI BUTTONS (left: WhatsApp / Email / CV) (right: Top)
+      FIXED LEFT BUTTONS
     ========================================================== */
-    .fixedLeft, .fixedRight{
+    .fixedLeft{
       position: fixed;
+      left: 18px;
       bottom: 18px;
-      z-index: 50;
+      z-index: 60;
       display:flex;
       flex-direction:column;
       gap: 10px;
     }
-    .fixedLeft{ left: 18px; }
-    .fixedRight{ right: 18px; align-items:flex-end; }
-
-    /* Shared pill button style */
     .pillBtn{
       display:inline-flex;
       align-items:center;
@@ -769,6 +791,7 @@
       border: 1px solid rgba(255,255,255,.10);
       color: rgba(255,255,255,.86);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 14px 40px rgba(0,0,0,.45);
       transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
       user-select:none;
@@ -778,8 +801,6 @@
       border-color: rgba(255,255,255,.16);
       background: rgba(0,0,0,.52);
     }
-
-    /* Small icon box */
     .icon{
       width: 30px;
       height: 30px;
@@ -796,21 +817,12 @@
     .labelTop{ font-size: 12px; color: rgba(255,255,255,.86); font-weight: 800; }
     .labelSub{ font-size: 12px; color: rgba(255,255,255,.62); }
 
-    /* Back-to-top button is hidden until you scroll */
-    .toTop{
-      opacity: 0;
-      pointer-events:none;
-      transform: translateY(6px);
-      transition: opacity 240ms var(--ease), transform 240ms var(--ease);
-    }
-    .toTop.show{
-      opacity: 1;
-      pointer-events:auto;
-      transform: translateY(0);
+    @media (max-width: 520px){
+      .fixedLeft{ left: 10px; bottom: 10px; }
     }
 
     /* =========================================================
-      REVEAL ANIMATION (shown when element scrolls into view)
+      REVEAL
     ========================================================== */
     .reveal{
       opacity:0;
@@ -822,7 +834,6 @@
       transform: translateY(0);
     }
 
-    /* Accessibility: reduce motion if user prefers it */
     @media (prefers-reduced-motion: reduce){
       *{ animation: none !important; transition: none !important; scroll-behavior:auto !important; }
     }
@@ -830,9 +841,6 @@
 </head>
 
 <body>
-  <!-- =========================================================
-    INTRO SECTION (full-screen)
-  ========================================================== -->
   <header class="intro" id="top">
     <div class="bubbles" aria-hidden="true" id="bubbles"></div>
     <div class="introVignette" aria-hidden="true"></div>
@@ -856,9 +864,7 @@
     </div>
   </header>
 
-  <!-- =========================================================
-    HOME PAGE (default)
-  ========================================================== -->
+  <!-- HOME -->
   <main class="page" id="pageHome">
     <div class="container">
       <section class="profile reveal" id="profile">
@@ -886,45 +892,40 @@
           </div>
 
           <div class="cards">
-            <!-- projects-hub.html -->
             <article class="card" tabindex="0" role="link" aria-label="Open Projects Hub" data-link="projects-hub.html" data-progress="85">
-              <div class="slide" data-slideshow='["eng_projects_1.jpg","eng_projects_2.jpg","eng_projects_3.jpg"]'></div>
+              <div class="slide" data-slideshow='["eng_projects_1.jpg","eng_projects_2.jpg","eng_projects_3.jpg","eng_projects_4.jpg","eng_projects_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>Projects Hub</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
               </div>
             </article>
 
-            <!-- solidworks.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open SolidWorks Design" data-link="solidworks.html" data-progress="72">
-              <div class="slide" data-slideshow='["solidworks_1.jpg","solidworks_2.jpg","solidworks_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open SolidWorks Design" data-link="solidworks.html" data-progress="80">
+              <div class="slide" data-slideshow='["solidworks_1.jpg","solidworks_2.jpg","solidworks_3.jpg","solidworks_4.jpg","solidworks_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>SolidWorks Design</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
               </div>
             </article>
 
-            <!-- kicad.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open KiCad Design" data-link="kicad.html" data-progress="78">
-              <div class="slide" data-slideshow='["kicad_1.jpg","kicad_2.jpg","kicad_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open KiCad Design" data-link="kicad.html" data-progress="65">
+              <div class="slide" data-slideshow='["kicad_1.jpg","kicad_2.jpg","kicad_3.jpg","kicad_4.jpg","kicad_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>KiCad Design</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
               </div>
             </article>
 
-            <!-- python.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open Python Codes" data-link="python.html" data-progress="88">
-              <div class="slide" data-slideshow='["python_1.jpg","python_2.jpg","python_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open Python Codes" data-link="python.html" data-progress="80">
+              <div class="slide" data-slideshow='["python_1.jpg","python_2.jpg","python_3.jpg","python_4.jpg","python_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>Python Codes</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
               </div>
             </article>
 
-            <!-- arduino.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open Arduino Codes" data-link="arduino.html" data-progress="70">
-              <div class="slide" data-slideshow='["arduino_1.jpg","arduino_2.jpg","arduino_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open Arduino Codes" data-link="arduino.html" data-progress="80">
+              <div class="slide" data-slideshow='["arduino_1.jpg","arduino_2.jpg","arduino_3.jpg","arduino_4.jpg","arduino_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>Arduino Codes</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
@@ -946,36 +947,32 @@
           </div>
 
           <div class="cards">
-            <!-- figma.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open Figma Design" data-link="figma.html" data-progress="82">
-              <div class="slide" data-slideshow='["figma_1.jpg","figma_2.jpg","figma_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open Figma Design" data-link="figma.html" data-progress="80">
+              <div class="slide" data-slideshow='["figma_1.jpg","figma_2.jpg","figma_3.jpg","figma_4.jpg","figma_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>Figma Design</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
               </div>
             </article>
 
-            <!-- powerpoint.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open PowerPoint Design" data-link="powerpoint.html" data-progress="76">
-              <div class="slide" data-slideshow='["ppt_1.jpg","ppt_2.jpg","ppt_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open PowerPoint Design" data-link="powerpoint.html" data-progress="85">
+              <div class="slide" data-slideshow='["ppt_1.jpg","ppt_2.jpg","ppt_3.jpg","ppt_4.jpg","ppt_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>PowerPoint Design</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
               </div>
             </article>
 
-            <!-- illustrations.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open My Illustrations" data-link="illustrations.html" data-progress="68">
-              <div class="slide" data-slideshow='["illustrations_1.jpg","illustrations_2.jpg","illustrations_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open My Illustrations" data-link="illustrations.html" data-progress="85">
+              <div class="slide" data-slideshow='["illustrations_1.jpg","illustrations_2.jpg","illustrations_3.jpg","illustrations_4.jpg","illustrations_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>My Illustrations</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
               </div>
             </article>
 
-            <!-- flyers.html -->
-            <article class="card" tabindex="0" role="link" aria-label="Open Flyers" data-link="flyers.html" data-progress="74">
-              <div class="slide" data-slideshow='["flyers_1.jpg","flyers_2.jpg","flyers_3.jpg"]'></div>
+            <article class="card" tabindex="0" role="link" aria-label="Open Flyers" data-link="flyers.html" data-progress="70">
+              <div class="slide" data-slideshow='["flyers_1.jpg","flyers_2.jpg","flyers_3.jpg","flyers_4.jpg","flyers_5.jpg"]'></div>
               <div class="cardOverlay">
                 <p class="cardTitle"><span>Flyers</span><span class="go">Open</span></p>
                 <div class="progressTrack"><div class="progressFill"></div></div>
@@ -987,19 +984,15 @@
     </div>
   </main>
 
-  <!-- =========================================================
-    CV PAGE (opened via #cv, still inside this single file)
-  ========================================================== -->
+  <!-- CV -->
   <main class="page hidden" id="pageCV" aria-hidden="true">
     <div class="container">
       <section class="profile reveal">
         <div class="avatar">
-          <img alt="Profile photo" src="profile.jpg">
+          <img alt="Profile photo" src="profile.png">
         </div>
         <h2 class="name">Junior Cesar Kore</h2>
-        <p class="role">
-          CV page (single-file routing). Update your skills, education, experience, and replace certificate images.
-        </p>
+        <p class="role">Welcome to my life depiction page! </p>
       </section>
 
       <section class="cvWrap reveal">
@@ -1007,12 +1000,8 @@
           <h3 class="cvTitle">Curriculum Vitae</h3>
 
           <div class="cvActions">
-            <!-- Back button: goes to home page inside this file -->
             <button class="miniBtn" type="button" id="cvBackBtn">Back to Portfolio</button>
-
-            <!-- DOWNLOAD button: downloads your PDF from GitHub Pages -->
-            <!-- IMPORTANT: Put JuniorCesarKore_cv.pdf in the same folder as index.html -->
-            <a class="miniBtn" href="Junior Cesar Kore _ cv.pdf" download="Junior Cesar Kore _ cv.pdf" aria-label="Download CV PDF">
+            <a class="miniBtn" href="Junior Cesar Kore_cv.pdf" download="JuniorCesarKore_cv.pdf" aria-label="Download CV PDF">
               Download CV
             </a>
           </div>
@@ -1053,23 +1042,12 @@
               <div class="item">
                 <div class="itemTop">
                   <div>
-                    <p class="itemTitle">Engineering / Design Projects (Freelance / Personal)</p>
+                    <p class="itemTitle">Engineering / Design Projects</p>
                     <div class="itemMeta">2024 - Present</div>
                   </div>
                   <div class="itemMeta">Côte d’Ivoire</div>
                 </div>
                 <p>Replace this with your real experience details and achievements.</p>
-              </div>
-
-              <div class="item">
-                <div class="itemTop">
-                  <div>
-                    <p class="itemTitle">Graphic Design Projects (Figma + PowerPoint)</p>
-                    <div class="itemMeta">2023 - Present</div>
-                  </div>
-                  <div class="itemMeta">Remote</div>
-                </div>
-                <p>Replace this with your real design experience, clients, and results.</p>
               </div>
             </div>
           </div>
@@ -1095,53 +1073,44 @@
             <ul class="cvList">
               <li>Email: juniorcesarkore@gmail.com</li>
               <li>WhatsApp: +225 0170624647</li>
-              <li>Location: Côte d’Ivoire</li>
-              <li>GitHub Pages: (add your link)</li>
+              <li>Location: Ghana (currently)</li>
             </ul>
           </div>
 
           <div class="cvCard full">
-            <h4>Certifications <span class="badge">Images + Label</span></h4>
+            <h4>Certifications <span class="badge">Click to view full</span></h4>
             <div class="certGrid">
-              <div class="cert">
-                <div class="certImg"><img alt="Certification 1" src="cert_1.jpg"></div>
-                <div class="certLabel">Certification Title 1</div>
-              </div>
-              <div class="cert">
-                <div class="certImg"><img alt="Certification 2" src="cert_2.jpg"></div>
-                <div class="certLabel">Certification Title 2</div>
-              </div>
-              <div class="cert">
-                <div class="certImg"><img alt="Certification 3" src="cert_3.jpg"></div>
-                <div class="certLabel">Certification Title 3</div>
-              </div>
-              <div class="cert">
-                <div class="certImg"><img alt="Certification 4" src="cert_4.jpg"></div>
-                <div class="certLabel">Certification Title 4</div>
-              </div>
-              <div class="cert">
-                <div class="certImg"><img alt="Certification 5" src="cert_5.jpg"></div>
-                <div class="certLabel">Certification Title 5</div>
-              </div>
-              <div class="cert">
-                <div class="certImg"><img alt="Certification 6" src="cert_6.jpg"></div>
-                <div class="certLabel">Certification Title 6</div>
-              </div>
+              <div class="cert" data-cert><div class="certImg"><img alt="Certification 1" src="cert_1.jpg"></div><div class="certLabel">Certification Title 1</div></div>
+              <div class="cert" data-cert><div class="certImg"><img alt="Certification 2" src="cert_2.jpg"></div><div class="certLabel">Certification Title 2</div></div>
+              <div class="cert" data-cert><div class="certImg"><img alt="Certification 3" src="cert_3.jpg"></div><div class="certLabel">Certification Title 3</div></div>
+              <div class="cert" data-cert><div class="certImg"><img alt="Certification 4" src="cert_4.jpg"></div><div class="certLabel">Certification Title 4</div></div>
+              <div class="cert" data-cert><div class="certImg"><img alt="Certification 5" src="cert_5.jpg"></div><div class="certLabel">Certification Title 5</div></div>
+              <div class="cert" data-cert><div class="certImg"><img alt="Certification 6" src="cert_6.jpg"></div><div class="certLabel">Certification Title 6</div></div>
             </div>
           </div>
-
         </div>
       </section>
     </div>
   </main>
 
-  <!-- =========================================================
-    FIXED BUTTONS (BOTTOM LEFT)
-  ========================================================== -->
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightboxDialog" role="dialog" aria-modal="true" aria-label="Certificate preview">
+      <div class="lightboxTop">
+        <p class="lightboxTitle" id="lightboxTitle">Certificate</p>
+        <button class="lightboxClose" type="button" id="lightboxCloseBtn" aria-label="Close preview">Close</button>
+      </div>
+      <div class="lightboxBody">
+        <img class="lightboxImg" id="lightboxImg" alt="Certificate preview" src="">
+      </div>
+    </div>
+  </div>
+
+  <!-- FIXED BUTTONS -->
   <div class="fixedLeft" aria-label="Quick actions">
     <a class="pillBtn"
-      href="https://wa.me/2250170624647?text=Hello%20Junior%2C%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20connect."
-      target="_blank" rel="noreferrer">
+       href="https://wa.me/2250170624647?text=Hello%20Junior%2C%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20connect."
+       target="_blank" rel="noreferrer">
       <span class="icon">WA</span>
       <span class="labelGroup">
         <span class="labelTop">WhatsApp</span>
@@ -1166,22 +1135,9 @@
     </a>
   </div>
 
-  <!-- =========================================================
-    FIXED BUTTON (BOTTOM RIGHT)
-  ========================================================== -->
-  <div class="fixedRight">
-    <button class="pillBtn toTop" id="toTopBtn" type="button" aria-label="Back to top">
-      <span class="icon">↑</span>
-      <span class="labelGroup">
-        <span class="labelTop">Top</span>
-        <span class="labelSub">Back</span>
-      </span>
-    </button>
-  </div>
-
   <script>
     /* =========================================================
-      1) CREATE FLOATING BUBBLES IN THE INTRO
+      1) BUBBLES
     ========================================================== */
     (function createBubbles(){
       const wrap = document.getElementById('bubbles');
@@ -1209,12 +1165,11 @@
     })();
 
     /* =========================================================
-      2) INTRO FADE OUT ON SCROLL
+      2) INTRO FADE ON SCROLL
     ========================================================== */
     (function introFadeOnScroll(){
       const intro = document.querySelector('.intro');
       const introFade = document.getElementById('introFade');
-      const toTop = document.getElementById('toTopBtn');
 
       function onScroll(){
         const rect = intro.getBoundingClientRect();
@@ -1227,9 +1182,6 @@
 
         introFade.style.opacity = opacity.toFixed(3);
         introFade.style.transform = 'translate3d(0,' + y.toFixed(2) + 'px,0)';
-
-        if(scrolled > h * 0.55) toTop.classList.add('show');
-        else toTop.classList.remove('show');
       }
 
       window.addEventListener('scroll', onScroll, { passive: true });
@@ -1237,7 +1189,7 @@
     })();
 
     /* =========================================================
-      3) CURSOR-FOLLOW GLOW IN EACH MAIN SECTION (CRITICAL)
+      3) SECTION CURSOR GLOW
     ========================================================== */
     (function cursorGlowPanels(){
       const panels = document.querySelectorAll('[data-panel]');
@@ -1258,7 +1210,6 @@
 
         panel.addEventListener('mouseenter', () => panel.classList.add('is-hovered'));
         panel.addEventListener('mousemove', updateVars);
-
         panel.addEventListener('mouseleave', () => {
           panel.classList.remove('is-hovered');
           panel.style.removeProperty('--mx');
@@ -1268,41 +1219,114 @@
     })();
 
     /* =========================================================
-      4) SLIDESHOWS (AUTO-CYCLE IMAGES)
+      4) CONTINUOUS SLIDESHOWS (NO BLANK GAPS)
+      Fixes:
+      - Stack images absolutely (CSS)
+      - Activate next first, then remove previous (no "zero-active" frame)
+      - Preload; if an image fails, skip it
     ========================================================== */
-    (function initSlideshows(){
-      const slides = document.querySelectorAll('.slide[data-slideshow]');
+    (function initContinuousSlideshows(){
+      const slideRoots = document.querySelectorAll('.slide[data-slideshow]');
 
-      slides.forEach(slide => {
+      slideRoots.forEach(root => {
         let urls = [];
-        try { urls = JSON.parse(slide.getAttribute('data-slideshow')); }
-        catch { urls = []; }
-
+        try { urls = JSON.parse(root.getAttribute('data-slideshow')); } catch { urls = []; }
         if(!Array.isArray(urls) || urls.length === 0) return;
 
-        const imgs = urls.map((u, idx) => {
+        // Create images and track which are usable
+        const imgs = [];
+        let activeIndex = 0;
+
+        function makeImg(src){
           const img = document.createElement('img');
-          img.src = u;
-          img.alt = "Preview " + (idx + 1);
-          if(idx === 0) img.classList.add('active');
-          slide.appendChild(img);
+          img.src = src;
+          img.alt = "Preview";
+          img.decoding = "async";
+          img.loading = "eager"; // helps avoid first-time blank
           return img;
+        }
+
+        urls.forEach((u, idx) => {
+          const img = makeImg(u);
+
+          // If an image fails, mark it as unusable
+          img.addEventListener('error', () => {
+            img.dataset.bad = "1";
+            // If the currently active image fails, immediately jump to next available
+            if(img.classList.contains('active')){
+              img.classList.remove('active');
+              jumpToNextAvailable();
+            }
+          });
+
+          root.appendChild(img);
+          imgs.push(img);
         });
 
-        let i = 0;
+        // Ensure at least one active image
+        function firstAvailableIndex(){
+          const i = imgs.findIndex(im => im.dataset.bad !== "1");
+          return i === -1 ? 0 : i;
+        }
+
+        function jumpToNextAvailable(){
+          if(imgs.length === 0) return;
+          let tries = 0;
+          let next = activeIndex;
+
+          do{
+            next = (next + 1) % imgs.length;
+            tries++;
+          } while(tries <= imgs.length && imgs[next].dataset.bad === "1");
+
+          // If all are bad, do nothing (fallback background stays)
+          if(imgs[next].dataset.bad === "1") return;
+
+          swapTo(next);
+        }
+
+        function swapTo(nextIndex){
+          const current = imgs[activeIndex];
+          const next = imgs[nextIndex];
+
+          if(!next || next.dataset.bad === "1") return;
+
+          // IMPORTANT: add next first (so there is never a moment with 0 active)
+          next.classList.add('active');
+
+          // remove current on the next animation frame (smooth, gapless)
+          requestAnimationFrame(() => {
+            if(current && current !== next) current.classList.remove('active');
+            activeIndex = nextIndex;
+          });
+        }
+
+        // Start on first available
+        activeIndex = firstAvailableIndex();
+        imgs.forEach(im => im.classList.remove('active'));
+        if(imgs[activeIndex]) imgs[activeIndex].classList.add('active');
+
+        // Autoplay interval (only if more than 1 good image)
         const interval = 3200 + Math.random() * 900;
         setInterval(() => {
-          imgs[i].classList.remove('active');
-          i = (i + 1) % imgs.length;
-          imgs[i].classList.add('active');
+          // Find next available index
+          let tries = 0;
+          let next = activeIndex;
+
+          do{
+            next = (next + 1) % imgs.length;
+            tries++;
+          } while(tries <= imgs.length && imgs[next].dataset.bad === "1");
+
+          if(imgs[next] && imgs[next].dataset.bad !== "1" && next !== activeIndex){
+            swapTo(next);
+          }
         }, interval);
       });
     })();
 
     /* =========================================================
-      5) INTERSECTION OBSERVER
-      A) Reveal animations
-      B) Card in-view gating for progress bars
+      5) IntersectionObserver: reveal + in-view gating
     ========================================================== */
     (function observers(){
       const revealEls = document.querySelectorAll('.reveal');
@@ -1335,25 +1359,26 @@
     })();
 
     /* =========================================================
-      6) PROGRESS BAR ON HOVER
+      6) Progress on hover
     ========================================================== */
     (function hoverProgress(){
-      document.querySelectorAll('.card').forEach(card => {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
         card.addEventListener('mouseenter', () => card.classList.add('hovered'));
         card.addEventListener('mouseleave', () => card.classList.remove('hovered'));
       });
     })();
 
     /* =========================================================
-      7) CARD NAVIGATION (opens each card's data-link page)
+      7) Card navigation (SAME TAB)
     ========================================================== */
-    (function cardNav(){
+    (function cardNavSameTab(){
       const cards = document.querySelectorAll('.card');
 
       function openCard(card){
         const link = card.getAttribute('data-link');
         if(!link) return;
-        window.open(link, '_blank', 'noopener');
+        window.location.href = link;
       }
 
       cards.forEach(card => {
@@ -1368,15 +1393,7 @@
     })();
 
     /* =========================================================
-      8) BACK TO TOP BUTTON
-    ========================================================== */
-    (function backToTop(){
-      const btn = document.getElementById('toTopBtn');
-      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    })();
-
-    /* =========================================================
-      9) SINGLE-FILE PAGE ROUTING (#home / #cv)
+      8) Single-file routing (#home / #cv)
     ========================================================== */
     (function singleFileRouting(){
       const pageHome = document.getElementById('pageHome');
@@ -1402,16 +1419,70 @@
       window.addEventListener('hashchange', onHash);
       onHash();
 
-      document.getElementById('cvBackBtn').addEventListener('click', () => { location.hash = '#home'; });
+      const backBtn = document.getElementById('cvBackBtn');
+      if(backBtn){
+        backBtn.addEventListener('click', () => { location.hash = '#home'; });
+      }
+    })();
+
+    /* =========================================================
+      9) Certificates lightbox
+    ========================================================== */
+    (function certLightbox(){
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxTitle = document.getElementById('lightboxTitle');
+      const closeBtn = document.getElementById('lightboxCloseBtn');
+
+      function open(src, title){
+        lightboxImg.src = src;
+        lightboxTitle.textContent = title || 'Certificate';
+        lightbox.classList.add('show');
+        lightbox.setAttribute('aria-hidden', 'false');
+      }
+
+      function close(){
+        lightbox.classList.remove('show');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImg.src = '';
+      }
+
+      document.querySelectorAll('[data-cert]').forEach(cert => {
+        cert.addEventListener('click', () => {
+          const img = cert.querySelector('img');
+          const label = cert.querySelector('.certLabel');
+          if(!img) return;
+          open(img.getAttribute('src'), label ? label.textContent.trim() : 'Certificate');
+        });
+      });
+
+      closeBtn.addEventListener('click', close);
+
+      lightbox.addEventListener('click', (e) => {
+        const dialog = lightbox.querySelector('.lightboxDialog');
+        if(!dialog.contains(e.target)) close();
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && lightbox.classList.contains('show')) close();
+      });
     })();
   </script>
 
+  <!--
+    If you STILL see blanks:
+    1) Check filenames, they must match exactly (case-sensitive on GitHub).
+    2) Ensure images are in the same folder as index.html (or update paths).
+    3) Open DevTools Console, look for 404 errors for missing images.
+  -->
+
+  
   <!-- =========================================================
     FILES YOU MUST PUT IN THE SAME FOLDER AS index.html (GitHub)
     - JuniorCesarKore_cv.pdf  (THIS IS FOR THE DOWNLOAD BUTTON)
 
   IMAGE PLACEHOLDERS (same folder as index.html)
-    - Profile image: profile.jpg
+    - Profile image: profile.png
     - Engineering slideshows:
       eng_projects_1.jpg, eng_projects_2.jpg, eng_projects_3.jpg
       solidworks_1.jpg, solidworks_2.jpg, solidworks_3.jpg
@@ -1437,6 +1508,7 @@
       - illustrations.html
       - flyers.html
   ========================================================== -->
+
 </body>
 </html>
 ```
