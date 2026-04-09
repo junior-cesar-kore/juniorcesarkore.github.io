@@ -4,22 +4,18 @@
 <head>
   <!-- =========================================================
     PREMIUM WIDGET PAGE (single HTML file)
-    UPDATE REQUESTS:
-    1) Remove slideshow gaps (continuous)
-       - No "blank" frames between slides
-       - Preload and skip missing/broken media
-       - Next slide activates BEFORE previous is removed
-    2) When card is clicked:
-       - Images/videos are FULLY visible (object-fit: contain)
-       - Media becomes BIGGER while text section still remains visible
-       - On mobile, media height increases so contain mode is readable
-    3) Keep:
-       - Glass top nav
-       - Hover glow like index (desktop)
-       - Expand ONLY on click
-       - Arrows appear on active card
-       - Arrow press interrupts autoplay; autoplay resumes on collapse
-       - WhatsApp/Email/CV buttons (CV -> index.html#cv)
+
+    YOUR REQUEST (implemented):
+    - When you CLICK a widget (card becomes .active):
+      * Images/videos SHRINK TO FIT the media box (object-fit: contain)
+      * So you ALWAYS see the FULL image when using the arrows
+      * Zoom is removed in active mode to avoid cropping
+    - Arrows appear only in active mode
+    - Slideshow is continuous (no blank gaps) and pauses in active mode
+    - If you press arrows, slideshow stays interrupted until you collapse
+
+    Fixed buttons:
+    - WhatsApp / Email / CV (CV -> index.html#cv)
   ========================================================== -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -27,40 +23,35 @@
 
   <style>
     :root{
-      --bg0: #06060a;
-      --bg1: #0b0b0f;
+      --bg0:#06060a; --bg1:#0b0b0f;
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
 
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-
-      --cyan: #42f5ff;
-      --purple: #b55cff;
       --accent: linear-gradient(135deg, rgba(66,245,255,.95), rgba(181,92,255,.95));
 
-      --glass: rgba(20,20,26,.42);
-      --glassBorder: rgba(255,255,255,.10);
+      --glass:rgba(20,20,26,.42);
+      --glassBorder:rgba(255,255,255,.10);
 
-      --card: rgba(255,255,255,.06);
-      --cardBorder: rgba(255,255,255,.10);
+      --card:rgba(255,255,255,.06);
+      --cardBorder:rgba(255,255,255,.10);
 
-      --shadow: 0 20px 60px rgba(0,0,0,.55);
-      --shadowSoft: 0 12px 30px rgba(0,0,0,.35);
+      --shadow:0 20px 60px rgba(0,0,0,.55);
+      --shadowSoft:0 12px 30px rgba(0,0,0,.35);
 
-      --radius: 22px;
+      --radius:22px;
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --t:520ms;
 
-      --ease: cubic-bezier(.2,.8,.2,1);
-      --t: 520ms;
-
-      --max: 1100px;
-      --navH: 70px;
+      --max:1100px;
+      --navH:70px;
     }
 
-    *{ box-sizing: border-box; }
+    *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--text);
+      color:var(--text);
       background:
         radial-gradient(1200px 760px at 75% -10%, rgba(181,92,255,.18), transparent 58%),
         radial-gradient(1200px 760px at 25% -10%, rgba(66,245,255,.14), transparent 55%),
@@ -69,33 +60,33 @@
       overflow-x:hidden;
     }
     a{ color:inherit; text-decoration:none; }
-    button{ font: inherit; color: inherit; }
+    button{ font:inherit; color:inherit; }
 
-    /* =========================================================
-      TOP NAV
-    ========================================================== */
+    /* =========================
+       TOP NAV (glass)
+    ========================= */
     .nav{
-      position: fixed;
-      inset: 14px 14px auto 14px;
-      height: var(--navH);
+      position:fixed;
+      inset:14px 14px auto 14px;
+      height:var(--navH);
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: var(--glass);
-      border: 1px solid var(--glassBorder);
+      gap:12px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:var(--glass);
+      border:1px solid var(--glassBorder);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       box-shadow: var(--shadowSoft);
-      z-index: 50;
+      z-index:50;
     }
-    .navLeft, .navRight{
+    .navLeft,.navRight{
       display:flex;
       align-items:center;
-      gap: 10px;
-      min-width: 120px;
+      gap:10px;
+      min-width:120px;
     }
     .navRight{ justify-content:flex-end; }
 
@@ -103,11 +94,10 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      width:46px; height:46px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
       transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
       user-select:none;
     }
@@ -116,78 +106,60 @@
       border-color: rgba(255,255,255,.16);
       background: rgba(255,255,255,.09);
     }
-    .backBtn svg{ width: 18px; height: 18px; opacity: .92; }
+    .backBtn svg{ width:18px; height:18px; opacity:.92; }
 
     .navTitle{
-      flex: 1;
+      flex:1;
       text-align:center;
-      font-weight: 880;
-      letter-spacing: -0.01em;
-      font-size: 15px;
-      white-space: nowrap;
+      font-weight:880;
+      letter-spacing:-0.01em;
+      font-size:15px;
+      white-space:nowrap;
       overflow:hidden;
-      text-overflow: ellipsis;
+      text-overflow:ellipsis;
     }
 
     .navAvatar{
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
+      width:46px; height:46px;
+      border-radius:999px;
       overflow:hidden;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
       box-shadow: 0 14px 40px rgba(0,0,0,.35);
-      flex: 0 0 auto;
     }
-    .navAvatar img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
+    .navAvatar img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-    /* =========================================================
-      WRAPPER
-    ========================================================== */
+    /* =========================
+       WRAPPER
+    ========================= */
     .wrap{
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
       padding-top: calc(var(--navH) + 42px);
       padding-bottom: 120px;
     }
-    .header{
-      margin: 18px 0 16px;
-    }
+    .header{ margin:18px 0 16px; }
     .header h1{
       margin:0 0 6px;
       font-size: clamp(1.25rem, 2.6vw, 1.8rem);
       font-weight: 920;
-      letter-spacing: -0.02em;
+      letter-spacing:-0.02em;
     }
-    .header p{
-      margin:0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-      max-width: 70ch;
-    }
+    .header p{ margin:0; color:var(--muted); font-size:14px; line-height:1.45; max-width:72ch; }
 
-    .list{ display:flex; flex-direction:column; gap: 14px; }
+    .list{ display:flex; flex-direction:column; gap:14px; }
 
-    /* =========================================================
-      CARD
-    ========================================================== */
+    /* =========================
+       CARD
+    ========================= */
     .card{
-      position: relative;
+      position:relative;
       border-radius: var(--radius);
       background: var(--card);
-      border: 1px solid var(--cardBorder);
+      border:1px solid var(--cardBorder);
       box-shadow: var(--shadowSoft);
       overflow:hidden;
-      transition:
-        transform var(--t) var(--ease),
-        box-shadow var(--t) var(--ease),
-        border-color var(--t) var(--ease);
+      transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease), border-color var(--t) var(--ease);
       min-height: 240px;
     }
 
@@ -199,40 +171,37 @@
       }
     }
 
-    /* Cursor glow like index */
+    /* Cursor-follow glow (desktop) */
     .card::before{
       content:"";
       position:absolute; inset:0;
-      background:
-        radial-gradient(520px 340px at var(--mx, 50%) var(--my, 35%),
-          rgba(66,245,255,.16),
-          rgba(181,92,255,.12) 45%,
-          rgba(0,0,0,0) 72%
-        );
-      opacity: 0;
+      background: radial-gradient(520px 340px at var(--mx, 50%) var(--my, 35%),
+        rgba(66,245,255,.16),
+        rgba(181,92,255,.12) 45%,
+        rgba(0,0,0,0) 72%
+      );
+      opacity:0;
       transition: opacity 260ms var(--ease);
       pointer-events:none;
     }
-    .card.is-hovered::before{ opacity: 1; }
+    .card.is-hovered::before{ opacity:1; }
 
-    .cardInner{
-      position:relative;
-      display:flex;
-      min-height: 240px;
-    }
+    .cardInner{ display:flex; min-height:240px; position:relative; }
 
-    /* MEDIA */
+    /* =========================
+       MEDIA
+    ========================= */
     .media{
       position:relative;
       flex: 0 0 44%;
-      min-height: 240px;
+      min-height:240px;
       overflow:hidden;
-      border-right: 1px solid rgba(255,255,255,.07);
+      border-right:1px solid rgba(255,255,255,.07);
       transition: flex var(--t) var(--ease), min-height var(--t) var(--ease);
       background: rgba(0,0,0,.22);
     }
 
-    /* Premium overlay */
+    /* Premium dark overlay */
     .media::after{
       content:"";
       position:absolute; inset:0;
@@ -241,59 +210,74 @@
         radial-gradient(700px 280px at 20% 20%, rgba(66,245,255,.10), transparent 60%),
         radial-gradient(700px 280px at 80% 30%, rgba(181,92,255,.09), transparent 60%);
       pointer-events:none;
-      z-index: 3;
+      z-index: 4;
     }
 
     /* Slide wrapper */
     .slide{
       position:absolute;
       inset:0;
-      opacity: 0;
+      opacity:0;
       transition: opacity 420ms var(--ease);
-      z-index: 1;
+      z-index:1;
       display:grid;
       place-items:center;
       background: rgba(0,0,0,.30); /* never blank */
     }
     .slide.active{
-      opacity: 1;
-      z-index: 2;
+      opacity:1;
+      z-index:2;
     }
 
-    /* Media elements */
+    /* Default (collapsed) behavior: cinematic cover */
     .slide img,
     .slide video{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit: cover;
       display:block;
       transform: scale(1.02);
       transition: transform var(--t) var(--ease), object-fit var(--t) var(--ease);
       background: rgba(0,0,0,.30);
     }
 
-    /* Arrows (only active card) */
+    /* =========================================================
+       IMPORTANT: ACTIVE (clicked) = SHRINK TO FIT (FULL IMAGE)
+       - This is what you asked for.
+       - Now arrows will always show the full image/video.
+    ========================================================== */
+    .card.active .media{
+      flex: 0 0 66%;     /* bigger media while keeping text visible */
+      min-height: 420px; /* taller = contain looks bigger */
+    }
+    .card.active .slide img,
+    .card.active .slide video{
+      object-fit: contain;    /* FULLY VISIBLE */
+      transform: scale(1.00); /* remove zoom so it never crops */
+    }
+
+    /* Arrows shown only in active mode */
     .mediaArrows{
       position:absolute;
-      inset: 0;
+      inset:0;
       display:flex;
       align-items:center;
       justify-content:space-between;
       padding: 0 10px;
-      z-index: 4;
-      opacity: 0;
+      z-index: 5;
+      opacity:0;
       pointer-events:none;
       transition: opacity 240ms var(--ease);
     }
     .card.active .mediaArrows{
-      opacity: 1;
+      opacity:1;
       pointer-events:auto;
     }
+
     .arrowBtn{
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
+      width:44px; height:44px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.42);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -309,133 +293,114 @@
       border-color: rgba(255,255,255,.22);
       background: rgba(0,0,0,.52);
     }
-    .arrowBtn svg{ width: 18px; height: 18px; opacity: .92; }
+    .arrowBtn svg{ width:18px; height:18px; opacity:.92; }
 
-    /* TEXT */
+    /* =========================
+       TEXT
+    ========================= */
     .text{
       flex: 1 1 auto;
-      padding: 16px;
+      padding:16px;
       display:flex;
       flex-direction:column;
-      gap: 10px;
-      min-height: 240px;
+      gap:10px;
+      min-height:240px;
       transition: padding var(--t) var(--ease);
     }
-
     .textTop{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap: 10px;
+      gap:10px;
     }
     .textTitle{
       margin:0;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      font-size: 16px;
+      font-weight:900;
+      letter-spacing:-0.02em;
+      font-size:16px;
     }
     .pill{
-      padding: 8px 10px;
-      border-radius: 999px;
+      padding:8px 10px;
+      border-radius:999px;
       background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.10);
       color: rgba(255,255,255,.76);
-      font-size: 12px;
-      white-space: nowrap;
+      font-size:12px;
+      white-space:nowrap;
       backdrop-filter: blur(10px);
     }
-
     .textBody{
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
-      overflow: hidden;
-      max-height: 120px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+      overflow:hidden;
+      max-height:120px;
       transition: max-height var(--t) var(--ease);
-      padding-right: 6px;
+      padding-right:6px;
     }
-
     .hint{
       color: rgba(255,255,255,.58);
-      font-size: 12px;
-      margin-top: auto;
+      font-size:12px;
+      margin-top:auto;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 10px;
+      gap:10px;
     }
     .hint .dot{
-      width: 8px; height: 8px; border-radius: 999px;
+      width:8px; height:8px;
+      border-radius:999px;
       background: var(--accent);
       box-shadow: 0 0 18px rgba(66,245,255,.18), 0 0 18px rgba(181,92,255,.14);
-      flex: 0 0 auto;
+      flex:0 0 auto;
     }
 
-    /* =========================================================
-      ACTIVE CARD (BIGGER MEDIA + FULLY VISIBLE)
-      - Make media larger but keep text visible:
-        * media becomes 66% width, text remains 34%
-      - Switch to contain
-      - Increase media min-height for bigger visibility
-    ========================================================== */
+    /* Active card: text scrollable */
     .card.active{
       border-color: rgba(255,255,255,.18);
       box-shadow: var(--shadow);
       transform: translateY(-2px);
     }
-
-    .card.active .media{
-      flex: 0 0 66%;
-      min-height: 420px; /* makes contain mode visually bigger */
-    }
-
-    .card.active .slide img,
-    .card.active .slide video{
-      object-fit: contain;      /* fully visible */
-      transform: scale(1.00);   /* no zoom so no cropping */
-    }
-
-    .card.active .text{ padding: 18px; }
+    .card.active .text{ padding:18px; }
     .card.active .textBody{
       max-height: 280px;
-      overflow-y: auto;
+      overflow-y:auto;
     }
 
-    /* Custom scrollbar for text */
-    .textBody::-webkit-scrollbar{ width: 10px; }
-    .textBody::-webkit-scrollbar-track{ background: rgba(255,255,255,.05); border-radius: 999px; }
+    .textBody::-webkit-scrollbar{ width:10px; }
+    .textBody::-webkit-scrollbar-track{ background: rgba(255,255,255,.05); border-radius:999px; }
     .textBody::-webkit-scrollbar-thumb{
       background: linear-gradient(180deg, rgba(66,245,255,.45), rgba(181,92,255,.45));
-      border-radius: 999px;
-      border: 2px solid rgba(0,0,0,.35);
+      border-radius:999px;
+      border:2px solid rgba(0,0,0,.35);
     }
 
-    /* =========================================================
-      RESPONSIVE (mobile stacks)
-      - Active media gets taller
-    ========================================================== */
+    /* =========================
+       RESPONSIVE (mobile stacks)
+    ========================= */
     @media (max-width: 860px){
-      .nav{ inset: 10px 10px auto 10px; height: 64px; }
-      .navLeft, .navRight{ min-width: 90px; }
-      .backBtn, .navAvatar{ width: 42px; height: 42px; }
+      .nav{ inset:10px 10px auto 10px; height:64px; }
+      .navLeft,.navRight{ min-width:90px; }
+      .backBtn,.navAvatar{ width:42px; height:42px; }
 
-      .wrap{ width: calc(100% - 24px); padding-top: 92px; }
+      .wrap{ width: calc(100% - 24px); padding-top:92px; }
       .cardInner{ flex-direction:column; }
 
       .media{
-        flex: 0 0 auto;
-        min-height: 240px;
-        border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,.07);
+        flex:0 0 auto;
+        min-height:240px;
+        border-right:none;
+        border-bottom:1px solid rgba(255,255,255,.07);
       }
 
+      /* Active media gets tall so contain is BIG and fully visible */
       .card.active{ transform:none; }
       .card.active .media{
-        flex: 0 0 auto;
-        min-height: 420px; /* bigger for contain mode */
+        flex:0 0 auto;
+        min-height: 420px;
       }
 
-      .arrowBtn{ width: 40px; height: 40px; }
+      .arrowBtn{ width:40px; height:40px; }
     }
 
     @media (hover:none){
@@ -445,27 +410,26 @@
       .arrowBtn:hover{ transform:none; }
     }
 
-    /* =========================================================
-      FIXED LEFT BUTTONS
-    ========================================================== */
+    /* =========================
+       FIXED LEFT BUTTONS
+    ========================= */
     .fixedLeft{
-      position: fixed;
-      left: 18px;
-      bottom: 18px;
-      z-index: 60;
+      position:fixed;
+      left:18px;
+      bottom:18px;
+      z-index:60;
       display:flex;
       flex-direction:column;
-      gap: 10px;
+      gap:10px;
     }
-
-    .pillBtn{
+    .pillBtnFixed{
       display:inline-flex;
       align-items:center;
       gap:10px;
-      padding: 11px 14px;
-      border-radius: 999px;
+      padding:11px 14px;
+      border-radius:999px;
       background: rgba(0,0,0,.42);
-      border: 1px solid rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.10);
       color: rgba(255,255,255,.86);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -473,35 +437,33 @@
       transition: transform 220ms var(--ease), border-color 220ms var(--ease), background 220ms var(--ease);
       user-select:none;
     }
-    .pillBtn:hover{
+    .pillBtnFixed:hover{
       transform: translateY(-2px);
       border-color: rgba(255,255,255,.16);
       background: rgba(0,0,0,.52);
     }
     .icon{
-      width: 30px;
-      height: 30px;
-      border-radius: 10px;
+      width:30px; height:30px;
+      border-radius:10px;
       display:grid;
       place-items:center;
       background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      font-size: 12px;
-      font-weight: 850;
-      letter-spacing: .02em;
+      border:1px solid rgba(255,255,255,.10);
+      font-size:12px;
+      font-weight:850;
+      letter-spacing:.02em;
     }
     .labelGroup{ display:flex; flex-direction:column; line-height:1.1; }
-    .labelTop{ font-size: 12px; color: rgba(255,255,255,.86); font-weight: 800; }
-    .labelSub{ font-size: 12px; color: rgba(255,255,255,.62); }
+    .labelTop{ font-size:12px; color: rgba(255,255,255,.86); font-weight:800; }
+    .labelSub{ font-size:12px; color: rgba(255,255,255,.62); }
 
-    @media (max-width: 520px){
-      .fixedLeft{ left: 10px; bottom: 10px; }
+    @media (max-width:520px){
+      .fixedLeft{ left:10px; bottom:10px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- TOP NAV -->
   <nav class="nav" aria-label="Top navigation">
     <div class="navLeft">
       <a class="backBtn" href="index.html" aria-label="Go back">
@@ -520,18 +482,18 @@
     </div>
   </nav>
 
-  <!-- CONTENT -->
   <main class="wrap">
     <header class="header">
-      <h1>Interactive Widgets</h1>
+      <h1>Personal and Professional Projects</h1>
       <p>
-        Click a card to expand. Active card shows media fully (contain), media becomes larger, and text stays visible.
-        Autoplay has no gaps and will pause when expanded.
+        Here is a list of the project that I had the opportunity to Submerge myself into. 
+        Challenges and Failures teach more than just resilence, Success opens up improvement door
       </p>
     </header>
 
     <section class="list" aria-label="Widget cards">
-      <!-- CARD 1 -->
+
+      <!-- CARD 4 -->
       <article class="card" data-card>
         <div class="cardInner">
           <div class="media">
@@ -548,28 +510,27 @@
               </button>
             </div>
 
-            <div class="slide active" data-slide data-type="img" data-src="eng_projects_1.jpg"></div>
-            <div class="slide" data-slide data-type="video" data-src="video_1.mp4"></div>
-            <div class="slide" data-slide data-type="img" data-src="eng_projects_2.jpg"></div>
-            <div class="slide" data-slide data-type="video" data-src="video_2.mp4"></div>
-            <div class="slide" data-slide data-type="img" data-src="eng_projects_3.jpg"></div>
+            <!-- Slides defined with data-type + data-src (JS injects actual media) -->
+            <div class="slide active" data-slide data-type="img" data-src="engpro_image_A1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_A1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_A1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_A1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_A1.jpg"></div>
           </div>
 
           <div class="text">
             <div class="textTop">
-              <h2 class="textTitle">Widget Card One</h2>
-              <span class="pill">Engineering</span>
+              <h2 class="textTitle">KJC 3D Printer</h2>
+              <span class="pill">Personal [November 2025 - Ongoing]</span>
             </div>
 
             <div class="textBody">
               <p>
-                This widget has a continuous slideshow (no blank gaps). When expanded, media switches to contain so the whole image/video is visible.
+                Expand this card and use the arrows. You will always see the full image because active mode uses
+                <b>object-fit: contain</b>.
               </p>
               <p>
-                Arrows appear on expanded state. Pressing arrows interrupts autoplay for this card, autoplay resumes when you collapse.
-              </p>
-              <p>
-                Put your real project details here.
+                Autoplay is continuous (no gaps) and pauses when expanded. Arrow clicks keep it paused until collapse.
               </p>
             </div>
 
@@ -580,6 +541,128 @@
           </div>
         </div>
       </article>
+
+      <!-- CARD 4 -->
+      <article class="card" data-card>
+        <div class="cardInner">
+          <div class="media">
+            <div class="mediaArrows">
+              <button class="arrowBtn" type="button" data-prev aria-label="Previous media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="arrowBtn" type="button" data-next aria-label="Next media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Slides defined with data-type + data-src (JS injects actual media) -->
+            <div class="slide active" data-slide data-type="img" data-src="engpro_image_D1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_D1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_D1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_D1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_D1.jpg"></div>
+          </div>
+
+          <div class="text">
+            <div class="textTop">
+              <h2 class="textTitle">KJC Vehicle Concept</h2>
+              <span class="pill">Personal [Mars 2025 - Ongoing]</span>
+            </div>
+
+            <div class="textBody">
+              <p>
+                This vehicle concept has been residing rent-free in my mind since the 2018. The fact that I started 
+                working towards it in 2025 is due to my recent knowledge and understandingof SolidWorks. Indeed, 
+                before SolidWorks I learned Blender3D to be able to make a 3d of my idea. Although Blender3D 
+                offered a wide set of features, it felt overwhelming for the beginner. Whereas with the little 
+                knowledge of SolidWorks I acquired from my small time spent on it, I was able to make a first 
+                clumsy model of that car-like vehicle. Then from that point on, I was able to continuously 
+                improve and bring about significant to my model design and thinking approach. What started like 
+                unfinished chassis slowly and steadily started to ressemble real car models.
+              </p>
+              <p>
+                The model and designing growth is visible on the images yet I know how generuous in space the room 
+                for improvement is. My task is to fill the space up!
+              </p>
+            </div>
+
+            <div class="hint">
+              <span style="display:flex;align-items:center;gap:8px;"><span class="dot"></span>Click to expand</span>
+              <span>Autoplay 3s</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 3 -->
+      <article class="card" data-card>
+        <div class="cardInner">
+          <div class="media">
+            <div class="mediaArrows">
+              <button class="arrowBtn" type="button" data-prev aria-label="Previous media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="arrowBtn" type="button" data-next aria-label="Next media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Slides defined with data-type + data-src (JS injects actual media) -->
+            <div class="slide active" data-slide data-type="img" data-src="engpro_image_C1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_C1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_C1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_C1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_C1.jpg"></div>
+          </div>
+
+          <div class="text">
+            <div class="textTop">
+              <h2 class="textTitle">KJC Beach Cleaner Assist</h2>
+              <span class="pill">Personal [April 2024 - Postponed Jan 2025]</span>
+            </div>
+
+            <div class="textBody">
+              <p>
+                I initiated this project as a preparation for the car project just above. Let me put it into
+                perspective, as you already know the car project is one that I have been holding for a long time now.
+                Doing it without testing my abilities on something would had have been setting myself up for failure.
+              </p>
+              <p>
+                Concerning the beach cleaner project, it was supposed to be a chassis that would have a motor mounted 
+                on it - a motorized chassis-. I designed multiple chassis, made the calculations for the motor requirements
+                and a motor that was suitable for application. As you can see with the process documentation showing. Due to 
+                personal and superior reasons, I decided to postpon the projects for better times. 
+              </p>
+              <p>
+                True, I worked myself out making the design realistic with real parts values and through the research and
+                calculation, yet somehow I felt my design was missing something (simulation, routing, electronics,...). Whatever 
+                it was, it was not tangible. The design felt real and not at the same time. Hence I went on to built the 
+                chassis and that is when i finally approved of the chassis. They were some imperfection in the handwork as 
+                I worked on it myself; I was assisted of course. 
+              </p>
+              <p>
+                I will be resuming it when I can but for now I will just play with the idea in my mind so that everything goes
+                smoothly when i finally can resume it. 
+              </p>
+
+            </div>
+
+            <div class="hint">
+              <span style="display:flex;align-items:center;gap:8px;"><span class="dot"></span>Click to expand</span>
+              <span>Autoplay 3s</span>
+            </div>
+          </div>
+        </div>
+      </article>
+      
 
       <!-- CARD 2 -->
       <article class="card" data-card>
@@ -598,25 +681,126 @@
               </button>
             </div>
 
-            <div class="slide active" data-slide data-type="img" data-src="solidworks_1.jpg"></div>
-            <div class="slide" data-slide data-type="video" data-src="video_3.mp4"></div>
-            <div class="slide" data-slide data-type="img" data-src="solidworks_2.jpg"></div>
-            <div class="slide" data-slide data-type="video" data-src="video_4.mp4"></div>
-            <div class="slide" data-slide data-type="img" data-src="solidworks_3.jpg"></div>
+            <!-- Slides defined with data-type + data-src (JS injects actual media) -->
+            <div class="slide active" data-slide data-type="img" data-src="engpro_image_B1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_B1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_B1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_B1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_B1.jpg"></div>
           </div>
 
           <div class="text">
             <div class="textTop">
-              <h2 class="textTitle">Widget Card Two</h2>
-              <span class="pill">Design</span>
+              <h2 class="textTitle">WeUp UX/UI Internship</h2>
+              <span class="pill">Professional [2021-2023]</span>
             </div>
 
             <div class="textBody">
               <p>
-                Add your real CAD / SolidWorks details here.
+                Although this internship was Grphic Design related, it thought me immensely on how to visualize flow 
+                and plan multiple path mentally throught the Figma excecution flow demo. However before we even got
+                to the flow demo, the character and accessories vectorization added to the meetings painted and spotlighted
+                the significant influence of small steps.
               </p>
               <p>
-                Expanded mode: media becomes bigger and fully visible; text stays present and scrollable.
+                As I was saying, in begining, with WeUp we had several online meetings where we were getting acquainted with
+                the other members and the main features of the app, I understood that proper planning and accurate scope 
+                description are not steps to be taken lightly as they serve of foundation for the rest to come. I mean we took
+                our time and a considerable number of meeting to define and refine those aspect and I am only taking from when
+                i joined. Looking Back, I understand better why we were working everithing possible to get all of us on the
+                same foot.
+              </p>
+              <p>
+                When everything was set through the initial meetings, it was time to distribute the role, mine initially being
+                character and accessories vectorization. I was under the supervision on M. Zack. He was to draw the characters
+                and landscape component and I, of course, were to make them digitally usable, so we were to bring the app layout
+                from imagination to sketch, then from sketch to digital. We worked in a feedback manner in which when the work 
+                is submitted, we received constructive advices on what could be made better. From this single process I saw 
+                the huge impact minor changes and strive to consistantly put this lesson to use in my life.
+              </p>
+              <p>
+                Once the charaters and the accessories were done, we proceeded on the app layout and function. For the sake 
+                of the vision I got to know of figma and immediately applied this knewly acquired skill to use. Thus it was
+                the begining of my UX/UI journey. Create flow, test flow, debug flow, and improve flow was now my day to the 
+                point were I can still see the interaction arrows while I am writing this. This part of the intership taught
+                me that everything complex started simple (2 artboards conneted to +200 connections). Yet when it was time for
+                debugging the route was clear. Hence the final lesson: doing is important, but doing with knowing is clarity.
+              </p>
+              <p>
+                The whole WeUp experience put to light a fact that I was not aware of about myself. When it comes to me, I know
+                the number of straight days I can work with no sleep, which I would keep for now. Moreover I have a well defined 
+                environment where I do so, however for that internship I was practically working everywhere I had my laptop and 
+                identified something that was to be modified. 
+              </p>
+            </div>
+
+            <div class="hint">
+              <span style="display:flex;align-items:center;gap:8px;"><span class="dot"></span>Click to expand</span>
+              <span>Autoplay 3s</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 1 -->
+      <article class="card" data-card>
+        <div class="cardInner">
+          <div class="media">
+            <div class="mediaArrows">
+              <button class="arrowBtn" type="button" data-prev aria-label="Previous media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M15 18l-6-6 6-6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="arrowBtn" type="button" data-next aria-label="Next media">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 6l6 6-6 6" stroke="white" stroke-opacity=".92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="slide active" data-slide data-type="img" data-src="engpro_image_A1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_A1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_A1.jpg"></div>
+            <div class="slide" data-slide data-type="video" data-src="engpro_video_A1.mp4"></div>
+            <div class="slide" data-slide data-type="img" data-src="engpro_image_A1.jpg"></div>
+          </div>
+
+          <div class="text">
+            <div class="textTop">
+              <h2 class="textTitle">Robotics Club Projects - SoluIoTech at OpenLabs,Accra</h2>
+              <span class="pill">Professional [2021-2022]</span>
+            </div>
+
+            <div class="textBody">
+              <p>
+                SoluIoTech was a group of lively and passionate individuals looking for ways to apply their
+                knowledge beyong classroom. Led by a great man named Loveway, they aimed to find new and 
+                up-to-date solutions to problems using IoT. I joined the group while i was doing my certification
+                in Robotics and Cyber Security at OpenLabs. I found myself having the role of the programmer due
+                to my familiarity and understanding of C++, Python, Java, and Kotlin. Moreover I was a good fit for 
+                that rule thanks to my fast learning and adaptability, and puzzle-like knowledge (ability to combine 
+                knowledge from different backgrounds to built). Yet whenever things were difficult and Help was needed
+                I could always count on our Leader Loveway, Asante, as well as other members, to give me an hand with 
+                the coding aspect. The connections were made by Miss Flory and Sandra - very nice and engaged ladies. 
+                We were a group of +7 people.
+              </p>
+              <p>
+                We worked on several projects throughout my stay, notably: 
+                * A nose mask detector that was to scan the people entering the building using openCV and machine 
+                learning on python (the project was inspired by the covid era). 
+                * A smart door that opens up when only to the house owner using facial verification from a model
+                similar to the smart door.
+                * A smart home that was using the smart door system at the entrance, keeping track on the  temperature
+                and the number of person in every single room to switch the lights and fans on/off.
+                * A blind stick and glass assit which was a proposed project to help the neighbouring blind association.
+                * A smart farming system that was to monitor the pH,and humidity of the soil, and automatically resolve
+                the identified offence to the  plant. We also implemented random noise emission to scare the pests. 
+              </p>
+              <p>
+                Those are some of the projects we had the chance to work on and to which i could contribute. A lot of 
+                laughter, joy, and frustation were shared throughout those projects and at the Robotics Exposition in 2022.
+                I am genuinely glad to have worked with such people for I have learn a lot from them.
               </p>
             </div>
 
@@ -630,9 +814,9 @@
     </section>
   </main>
 
-  <!-- FIXED LEFT BUTTONS -->
+  <!-- Fixed buttons -->
   <div class="fixedLeft" aria-label="Quick actions">
-    <a class="pillBtn"
+    <a class="pillBtnFixed"
        href="https://wa.me/2250170624647?text=Hello%20Junior%2C%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20connect."
        target="_blank" rel="noreferrer">
       <span class="icon">WA</span>
@@ -642,7 +826,7 @@
       </span>
     </a>
 
-    <a class="pillBtn" href="mailto:juniorcesarkore@gmail.com?subject=Portfolio%20Contact&body=Hello%20Junior%2C%0A%0A">
+    <a class="pillBtnFixed" href="mailto:juniorcesarkore@gmail.com?subject=Portfolio%20Contact&body=Hello%20Junior%2C%0A%0A">
       <span class="icon">@</span>
       <span class="labelGroup">
         <span class="labelTop">Email</span>
@@ -650,7 +834,7 @@
       </span>
     </a>
 
-    <a class="pillBtn" href="index.html#cv">
+    <a class="pillBtnFixed" href="index.html#cv">
       <span class="icon">CV</span>
       <span class="labelGroup">
         <span class="labelTop">View CV</span>
@@ -660,22 +844,18 @@
   </div>
 
   <script>
-    /* =========================================================
-      SETTINGS
-    ========================================================== */
     const SLIDE_INTERVAL_MS = 3000;
+    const engines = new WeakMap();
 
-    function qsAll(sel, root = document){ return Array.from(root.querySelectorAll(sel)); }
+    const qsAll = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-    /* =========================================================
-      HOVER GLOW (desktop)
-    ========================================================== */
-    (function cardHoverGlow(){
+    /* Hover glow (desktop) */
+    (function hoverGlow(){
       const cards = qsAll('[data-card]');
       cards.forEach(card => {
         let raf = null;
 
-        function updateGlow(e){
+        function update(e){
           const r = card.getBoundingClientRect();
           const x = ((e.clientX - r.left) / r.width) * 100;
           const y = ((e.clientY - r.top) / r.height) * 100;
@@ -688,7 +868,7 @@
         }
 
         card.addEventListener('mouseenter', () => card.classList.add('is-hovered'));
-        card.addEventListener('mousemove', updateGlow);
+        card.addEventListener('mousemove', update);
         card.addEventListener('mouseleave', () => {
           card.classList.remove('is-hovered');
           card.style.removeProperty('--mx');
@@ -697,24 +877,12 @@
       });
     })();
 
-    /* =========================================================
-      CONTINUOUS SLIDESHOW ENGINE (NO GAPS)
-      - Slides are declared in HTML with data-type + data-src
-      - JS injects <img> or <video> into each slide (lazy)
-      - When moving:
-        1) Next slide is activated first
-        2) Previous slide is deactivated on next animation frame
-      - Broken media is skipped automatically
-    ========================================================== */
-    const engines = new WeakMap();
-
-    function ensureMediaEl(slide){
-      // If already built, nothing to do
+    /* Build slide media elements */
+    function ensureMedia(slide){
       if(slide.dataset.built === "1") return;
 
       const type = slide.getAttribute('data-type');
       const src = slide.getAttribute('data-src');
-
       if(!type || !src) return;
 
       if(type === 'img'){
@@ -723,43 +891,33 @@
         img.alt = "Media";
         img.loading = "eager";
         img.decoding = "async";
-
-        img.addEventListener('error', () => {
-          slide.dataset.bad = "1";
-        });
-
+        img.addEventListener('error', () => { slide.dataset.bad = "1"; });
         slide.appendChild(img);
-      }else if(type === 'video'){
-        const video = document.createElement('video');
-        video.src = src;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
-
-        video.addEventListener('error', () => {
-          slide.dataset.bad = "1";
-        });
-
-        slide.appendChild(video);
+      } else if(type === 'video'){
+        const v = document.createElement('video');
+        v.src = src;
+        v.autoplay = true;
+        v.muted = true;
+        v.loop = true;
+        v.playsInline = true;
+        v.addEventListener('error', () => { slide.dataset.bad = "1"; });
+        slide.appendChild(v);
       }
 
       slide.dataset.built = "1";
     }
 
+    /* Continuous slideshow engine (no gaps) */
     function createEngine(card){
       const slides = qsAll('[data-slide]', card);
-      let index = 0;
+      let idx = 0;
       let timer = null;
 
-      // Build all slides upfront (more reliable, fewer blanks)
-      slides.forEach(ensureMediaEl);
+      slides.forEach(ensureMedia);
 
-      function isBad(i){
-        return slides[i] && slides[i].dataset.bad === "1";
-      }
+      function isBad(i){ return slides[i] && slides[i].dataset.bad === "1"; }
 
-      function firstGoodIndex(){
+      function firstGood(){
         const i = slides.findIndex(s => s.dataset.bad !== "1");
         return i === -1 ? 0 : i;
       }
@@ -767,27 +925,26 @@
       function activate(i){
         if(slides.length === 0) return;
 
-        index = (i + slides.length) % slides.length;
+        idx = (i + slides.length) % slides.length;
 
-        // Skip bad media
-        if(isBad(index)){
+        // Skip bad slides
+        if(isBad(idx)){
           let tries = 0;
-          let next = index;
+          let j = idx;
           do{
-            next = (next + 1) % slides.length;
+            j = (j + 1) % slides.length;
             tries++;
-          }while(tries <= slides.length && isBad(next));
-          if(isBad(next)) return;
-          index = next;
+          }while(tries <= slides.length && isBad(j));
+          if(isBad(j)) return;
+          idx = j;
         }
 
-        const nextSlide = slides[index];
+        const nextSlide = slides[idx];
         const prevSlide = slides.find(s => s.classList.contains('active'));
 
-        // IMPORTANT: activate next first (no zero-active frame)
+        // IMPORTANT: add next first (never 0 active)
         nextSlide.classList.add('active');
 
-        // Start video cleanly if needed
         const vid = nextSlide.querySelector('video');
         if(vid){
           try { vid.currentTime = 0; } catch {}
@@ -800,15 +957,14 @@
         });
       }
 
-      function next(){ activate(index + 1); }
-      function prev(){ activate(index - 1); }
+      function next(){ activate(idx + 1); }
+      function prev(){ activate(idx - 1); }
 
       function start(){
         if(slides.length <= 1) return;
         stop();
         timer = setInterval(next, SLIDE_INTERVAL_MS);
       }
-
       function stop(){
         if(timer){
           clearInterval(timer);
@@ -816,22 +972,21 @@
         }
       }
 
-      // Init: ensure exactly one active slide
+      // Init
       slides.forEach(s => s.classList.remove('active'));
-      index = firstGoodIndex();
-      activate(index);
+      idx = firstGood();
+      activate(idx);
       start();
 
       return { start, stop, next, prev };
     }
 
-    /* Init engines and arrow controls */
-    (function initCards(){
+    /* Init engines and arrow buttons */
+    (function init(){
       const cards = qsAll('[data-card]');
-
       cards.forEach(card => {
-        const engine = createEngine(card);
-        engines.set(card, engine);
+        const eng = createEngine(card);
+        engines.set(card, eng);
 
         const prevBtn = card.querySelector('[data-prev]');
         const nextBtn = card.querySelector('[data-next]');
@@ -839,22 +994,22 @@
         if(prevBtn){
           prevBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            engine.stop();     // interrupt autoplay
-            engine.prev();
+            eng.stop(); // interrupt autoplay
+            eng.prev();
           });
         }
         if(nextBtn){
           nextBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            engine.stop();
-            engine.next();
+            eng.stop();
+            eng.next();
           });
         }
       });
     })();
 
-    /* Click to expand / collapse and control autoplay */
-    (function expandOnClick(){
+    /* Click to expand/collapse (pause/resume) */
+    (function expand(){
       const cards = qsAll('[data-card]');
 
       cards.forEach(card => {
@@ -864,19 +1019,19 @@
           if(isActive){
             card.classList.remove('active');
             const eng = engines.get(card);
-            if(eng) eng.start();  // resume on collapse
+            if(eng) eng.start(); // resume on collapse
             return;
           }
 
-          // Activate this one, collapse others
+          // Activate this card, collapse others
           cards.forEach(c => {
             const eng = engines.get(c);
             if(c === card){
               c.classList.add('active');
-              if(eng) eng.stop();   // pause on active
-            }else{
+              if(eng) eng.stop(); // pause while active
+            } else {
               c.classList.remove('active');
-              if(eng) eng.start();  // resume others
+              if(eng) eng.start();
             }
           });
         });
@@ -884,13 +1039,30 @@
     })();
   </script>
 
+  
+  
   <!-- =========================================================
-    REQUIRED FILES IN SAME FOLDER:
-    - profile.jpg
-    - eng_projects_1.jpg, eng_projects_2.jpg, eng_projects_3.jpg
-    - solidworks_1.jpg, solidworks_2.jpg, solidworks_3.jpg
-    - video_1.mp4, video_2.mp4, video_3.mp4, video_4.mp4
+    FILES YOU MUST PUT IN THE SAME FOLDER AS THIS PAGE (GitHub)
+    Profile:
+      - profile.png
+
+    Images (examples in cards):
+      - engpro_image_C1.jpg, engpro_image_C2.jpg, engpro_image_C3.jpg
+      - engpro_image_B1.jpg, engpro_image_B2.jpg, engpro_image_B3.jpg
+      - engpro_image_A1.jpg, engpro_image_A2.jpg, engpro_image_A3.jpg
+
+    Videos (YOU MUST ADD):
+      - engpro_video_C1.mp4, engpro_video_C2.mp4
+      - engpro_video_B1.mp4, engpro_video_B2.mp4
+      - engpro_video_A1.mp4, engpro_video_A2.mp4
+
+    BACK ARROW DESTINATION:
+      - nav back link href="index.html"
+
+    CV BUTTON DESTINATION:
+      - links to: index.html#cv
   ========================================================== -->
+  
 </body>
 </html>
 ```
