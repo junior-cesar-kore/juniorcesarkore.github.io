@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- skill:chrome -->
+<style>
+/* Credit line — bottom-right */
+.design-ui-credit {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  font: 11px/1 system-ui, sans-serif;
+  color: rgba(128,128,128,0.5);
+  pointer-events: none;
+  z-index: 2147483647;
+  transition: opacity 0.4s ease;
+  user-select: none;
+  letter-spacing: 0.02em;
+}
+
+/* Hide chrome on touch devices */
+@media (hover: none) {
+  .design-ui-credit { display: none; }
+}
+
+/* Print fixes */
+@media print {
+  * {
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+  }
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .design-ui-credit { display: none !important; }
+}
+
+</style>
+<script>
+(function () {
+    // Design-ui pages are single compositions, so the whole body is editable.
+    function markEditable() {
+        document.body.classList.add('artifact-editable');
+    }
+
+    // Credit badge with idle-fade. Hover devices only.
+    function initChromeUI() {
+        if (!matchMedia('(hover: hover)').matches) return;
+
+        var credit = document.createElement('div');
+        credit.className = 'design-ui-credit';
+        credit.setAttribute('aria-hidden', 'true');
+        credit.innerHTML = '\u{1F49C} by ClickUp Brain';
+        document.body.appendChild(credit);
+
+        var timer = null;
+        var fade = function (out) { credit.style.opacity = out ? '0' : ''; };
+        fade(true);
+        var show = function () {
+            fade(false);
+            clearTimeout(timer);
+            timer = setTimeout(function () { fade(true); }, 3000);
+        };
+        document.addEventListener('mousemove', show);
+        show();
+    }
+
+    function init() {
+        markEditable();
+        initChromeUI();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+
+</script>
+<!-- /skill:chrome -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Curriculum Vitae of Junior Cesar Kore, Robotics Engineering student and 3D Product Designer.">
+  <title>Junior Cesar Kore | Curriculum Vitae</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+    :root {
+      --ink: oklch(24% 0.025 60);
+      --ink-soft: oklch(43% 0.025 60);
+      --muted: oklch(58% 0.02 60);
+      --paper: oklch(97.5% 0.012 78);
+      --surface: oklch(95% 0.016 78);
+      --surface-strong: oklch(91% 0.028 76);
+      --line: oklch(84.5% 0.025 72);
+      --line-strong: oklch(70% 0.04 64);
+      --accent: oklch(67% 0.16 46);
+      --accent-deep: oklch(52% 0.14 42);
+      --accent-soft: oklch(91% 0.055 72);
+      --success: oklch(55% 0.12 150);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --max: 1160px;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      font-optical-sizing: auto;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    img { display: block; max-width: 100%; }
+    h1, h2, h3, h4, p { text-wrap: pretty; }
+    h1, h2, h3, h4 { text-wrap: balance; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+    .page { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: .94rem; font-weight: 700; letter-spacing: -.02em; }
+    .brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: .76rem; letter-spacing: .04em; }
+    .top-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+
+    .miniBtn {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 700;
+      transition: transform 180ms var(--ease-out), background 180ms var(--ease-out), border-color 180ms var(--ease-out), color 180ms var(--ease-out);
+    }
+    .miniBtn:hover { transform: translateY(-3px); background: var(--accent-deep); border-color: var(--accent-deep); }
+    .miniBtn.secondary { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+    .miniBtn.secondary:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-deep); }
+
+    .cvHero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .58fr);
+      gap: 64px;
+      align-items: end;
+      padding: 82px 0 68px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow, .sectionLabel { color: var(--accent-deep); font-size: .76rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow { margin: 0 0 18px; }
+    .eyebrow::before { display: inline-block; width: 34px; height: 2px; margin: 0 10px 3px 0; background: var(--accent); content: ''; }
+    .cvTitle { max-width: 11ch; margin: 0; font-size: clamp(3.8rem, 8vw, 7.2rem); font-weight: 600; letter-spacing: -.09em; line-height: .88; }
+    .cvTitle span { color: var(--accent-deep); }
+    .heroSummary { max-width: 42ch; margin: 0; color: var(--ink-soft); font-size: 1.06rem; line-height: 1.58; }
+    .availability { display: flex; align-items: center; gap: 10px; margin-top: 22px; color: var(--muted); font-size: .82rem; font-weight: 600; }
+    .statusDot { width: 9px; height: 9px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 6px oklch(55% .12 150 / .12); }
+
+    .cvGrid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+      padding: 60px 0 80px;
+    }
+    .cvCard {
+      grid-column: span 6;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      transition: transform 220ms var(--ease-out), border-color 220ms var(--ease-out), background 220ms var(--ease-out);
+    }
+    .cvCard:hover { transform: translateY(-4px); border-color: var(--line-strong); background: var(--accent-soft); }
+    .cvCard.full { grid-column: span 12; }
+    .cvCard h4 { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 20px; font-size: 1.08rem; font-weight: 600; letter-spacing: -.035em; }
+    .badge { flex: 0 0 auto; padding: 6px 9px; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--muted); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    .skillChips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink-soft); background: var(--paper); font-size: .8rem; line-height: 1.25; }
+    .chip:hover { border-color: var(--accent); color: var(--accent-deep); }
+
+    .timeline { display: grid; gap: 0; }
+    .item { padding: 22px 0; border-top: 1px solid var(--line); }
+    .item:first-child { padding-top: 0; border-top: 0; }
+    .itemTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 8px; }
+    .itemTitle { margin: 0; color: var(--ink); font-size: 1rem; font-weight: 600; letter-spacing: -.02em; }
+    .itemMeta { color: var(--muted); font-size: .78rem; line-height: 1.45; }
+    .itemTop > .itemMeta { flex: 0 0 auto; text-align: right; }
+    .item p { max-width: 78ch; margin: 0; color: var(--ink-soft); font-size: .9rem; line-height: 1.6; }
+    .item p + p { margin-top: 12px; }
+    .empty-copy { color: var(--muted) !important; font-style: italic; }
+
+    .cvList { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+    .cvList li { color: var(--ink-soft); font-size: .9rem; overflow-wrap: anywhere; }
+    .cvList a { color: var(--accent-deep); font-weight: 600; }
+    .phoneLine { display: block; margin-top: 3px; }
+
+    .certGrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+    .cert { overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); cursor: pointer; transition: transform 220ms var(--ease-out), border-color 220ms var(--ease-out); }
+    .cert:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .certImg { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--surface-strong); }
+    .certImg img { width: 100%; height: 100%; object-fit: cover; transition: transform 300ms var(--ease-out); }
+    .cert:hover .certImg img { transform: scale(1.04); }
+    .certImg.image-error::after { position: absolute; inset: 0; display: grid; place-items: center; padding: 18px; color: var(--muted); content: 'Certificate image'; font-size: .78rem; text-align: center; }
+    .certLabel { min-height: 58px; padding: 10px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .76rem; line-height: 1.35; }
+
+    .siteFooter { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 28px 0 36px; border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+    .siteFooter p { margin: 0; }
+    .footerAccent { color: var(--accent-deep); font-weight: 700; }
+
+    .lightbox { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; padding: 20px; background: oklch(24% .025 60 / .78); }
+    .lightbox.show { display: grid; }
+    .lightboxPanel { width: min(980px, 100%); max-height: 90vh; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 18px; background: var(--paper); }
+    .lightboxTop { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    .lightboxTop h2 { margin: 0; font-size: .9rem; font-weight: 700; }
+    .lightboxClose { min-width: 42px; min-height: 42px; border: 1px solid var(--line-strong); border-radius: 50%; background: transparent; cursor: pointer; font-size: 1.2rem; }
+    .lightboxBody { display: grid; max-height: calc(90vh - 72px); place-items: center; overflow: auto; padding: 16px; background: var(--surface); }
+    .lightboxBody img { width: 100%; height: auto; max-height: 76vh; object-fit: contain; border: 1px solid var(--line); background: var(--paper); }
+
+    @media (max-width: 900px) {
+      .cvHero { grid-template-columns: 1fr; gap: 30px; padding: 68px 0 54px; }
+      .certGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 620px) {
+      .page { width: min(100% - 32px, var(--max)); }
+      .topbar { align-items: flex-start; flex-direction: column; padding: 18px 0; }
+      .top-actions { justify-content: flex-start; }
+      .cvTitle { font-size: clamp(3.6rem, 18vw, 5.5rem); }
+      .cvGrid { padding: 48px 0 62px; }
+      .cvCard, .cvCard.full { grid-column: span 12; padding: 20px; }
+      .cvCard h4 { align-items: flex-start; flex-direction: column; gap: 10px; }
+      .itemTop { flex-direction: column; gap: 5px; }
+      .itemTop > .itemMeta { text-align: left; }
+      .certGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .siteFooter { align-items: flex-start; flex-direction: column; }
+    }
+    @media print {
+      @page { size: A4; margin: 13mm; }
+      body { background: var(--paper); }
+      .page { width: 100%; }
+      .topbar { padding: 0 0 14px; }
+      .top-actions { display: none; }
+      .cvHero { padding: 30px 0 24px; }
+      .cvGrid { gap: 12px; padding: 26px 0 36px; }
+      .cvCard { padding: 16px; }
+      .cvCard:hover { transform: none; background: var(--surface); }
+      .cvCard.full { grid-column: span 12; }
+      .certGrid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      .lightbox { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="https://junior-cesar-kore.github.io/juniorcesarkore.github.io/" target="_blank" rel="noopener" aria-label="Back to portfolio">
+        <span class="brand-mark">JK</span>
+        <span>Junior Cesar Kore</span>
+      </a>
+      <div class="top-actions">
+        <button class="miniBtn" type="button" id="cvBackBtn">Back to Portfolio</button>
+        <a class="miniBtn" href="Junior%20Cesar%20Kore%20_%20cv.pdf" download="JuniorCesarKore_cv.pdf" aria-label="Download CV PDF">Download CV</a>
+        <button class="miniBtn secondary" type="button" id="printBtn">Print / Save PDF</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="cvHero" aria-labelledby="cv-title">
+        <div>
+          <p class="eyebrow">Curriculum Vitae</p>
+          <h1 class="cvTitle" id="cv-title">Junior Cesar <span>Kore.</span></h1>
+        </div>
+        <div>
+          <p class="heroSummary">Robotics engineering student, 3D product designer, and multidisciplinary builder working across design, electronics, programming, and user experience.</p>
+          <div class="availability"><span class="statusDot" aria-hidden="true"></span> Open to meaningful engineering challenges</div>
+        </div>
+      </section>
+
+      <section class="cvGrid" aria-label="Curriculum vitae details">
+        <article class="cvCard">
+          <h4>Technical Skills <span class="badge">Tools + Tech</span></h4>
+          <div class="skillChips">
+            <span class="chip">SolidWorks</span>
+            <span class="chip">KiCad</span>
+            <span class="chip">Blender 3D</span>
+            <span class="chip">Tinkercad</span>
+            <span class="chip">Python</span>
+            <span class="chip">Arduino</span>
+            <span class="chip">C Programming</span>
+            <span class="chip">MATLAB</span>
+            <span class="chip">Prototyping</span>
+            <span class="chip">Adobe Illustrator</span>
+            <span class="chip">Adobe Photoshop</span>
+            <span class="chip">Adobe Premiere</span>
+            <span class="chip">Microsoft Word</span>
+            <span class="chip">Microsoft Excel</span>
+            <span class="chip">Microsoft PowerPoint</span>
+          </div>
+        </article>
+
+        <article class="cvCard">
+          <h4>Soft Skills <span class="badge">Collaboration</span></h4>
+          <div class="skillChips">
+            <span class="chip">Fast Learning</span>
+            <span class="chip">Integrity</span>
+            <span class="chip">Problem Solving</span>
+            <span class="chip">Creativity</span>
+            <span class="chip">Transparency</span>
+            <span class="chip">Patience</span>
+            <span class="chip">Persistence</span>
+            <span class="chip">Self-Control</span>
+            <span class="chip">Adaptability</span>
+            <span class="chip">Attention to Detail</span>
+            <span class="chip">Deduction and Prediction / Estimation Skill</span>
+            <span class="chip">Quick and Critical Thinking</span>
+            <span class="chip">Big Picture and Long-Term Goal Oriented</span>
+            <span class="chip">Proactive</span>
+            <span class="chip">Outside-the-Box Thinker / Open-Minded</span>
+          </div>
+        </article>
+
+        <article class="cvCard full">
+          <h4>Experience <span class="badge">Timeline</span></h4>
+          <div class="timeline">
+            <div class="item">
+              <div class="itemTop">
+                <div><p class="itemTitle">3D Product Designer, Independent Contractor</p><div class="itemMeta">2025 - Present</div></div>
+                <div class="itemMeta">Accra</div>
+              </div>
+              <p class="empty-copy">Independent contract work in 3D product design.</p>
+            </div>
+
+            <div class="item">
+              <div class="itemTop">
+                <div><p class="itemTitle">Robotics Engineer Intern, AAENICS Engineering Ltd</p><div class="itemMeta">June 2026 - October 2026</div></div>
+                <div class="itemMeta">Accra</div>
+              </div>
+              <p>This internship.</p>
+            </div>
+
+            <div class="item">
+              <div class="itemTop">
+                <div><p class="itemTitle">Engineering Student Intern, Academic City University</p><div class="itemMeta">June 2026 - August 2026</div></div>
+                <div class="itemMeta">Accra</div>
+              </div>
+              <p>This internship happened on campus.</p>
+            </div>
+
+            <div class="item">
+              <div class="itemTop">
+                <div><p class="itemTitle">Computer Maintenance Intern, <i>Afrikonex</i></p><div class="itemMeta">May 2022 - September 2022</div></div>
+                <div class="itemMeta">Abidjan</div>
+              </div>
+              <p>Troubleshooting OS and software failures was the daily routine.</p>
+            </div>
+
+            <div class="item">
+              <div class="itemTop">
+                <div><p class="itemTitle">Junior UX/UI Designer, <i>WeUp</i></p><div class="itemMeta">2021 - 2023</div></div>
+                <div class="itemMeta">Remote</div>
+              </div>
+              <p>Initially, my role was character and accessories vectorization under the supervision of M. Zack. He drew the characters and landscape components, while I made them digitally usable. Together, we brought the app layout from imagination to sketch, then from sketch to digital.</p>
+              <p>We worked through constructive feedback, improving the work after each submission. Once the characters and accessories were complete, we moved to the app layout and functions. I learned Figma and applied it to the product vision, beginning my UX/UI journey through creating flows, testing flows, debugging flows, and improving flows.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="cvCard">
+          <h4>Education <span class="badge">Academic</span></h4>
+          <div class="timeline">
+            <div class="item">
+              <div class="itemTop">
+                <div><p class="itemTitle">B.Sc Robotics Engineering</p><div class="itemMeta">Academic City, Accra</div></div>
+                <div class="itemMeta">January 2024 - Ongoing</div>
+              </div>
+              <p>Class of 2027.</p>
+            </div>
+            <div class="item">
+              <div class="itemTop">
+                <div><p class="itemTitle">BAC / SHS Diploma</p><div class="itemMeta">Institution Raggi Anne Marie, Grand-Bassam</div></div>
+                <div class="itemMeta">2018 - 2019</div>
+              </div>
+              <p>Class of 2019.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="cvCard">
+          <h4>Contact <span class="badge">Reach me</span></h4>
+          <ul class="cvList">
+            <li><span class="itemMeta">Email</span><br><a href="mailto:juniorcesarkore@gmail.com">juniorcesarkore@gmail.com</a></li>
+            <li><span class="itemMeta">WhatsApp</span><br><span class="phoneLine">+225 0170624647</span><span class="phoneLine">+233 537703620</span></li>
+            <li><span class="itemMeta">Location</span><br>Ghana (currently)</li>
+          </ul>
+        </article>
+
+        <article class="cvCard full">
+          <h4>Certifications <span class="badge">Click to view full</span></h4>
+          <div class="certGrid">
+            <div class="cert" data-cert data-title="Volunteering Certificate, Acity"><div class="certImg"><img alt="Volunteering Certificate, Acity" src="cert/image_5.jpg"></div><div class="certLabel">Volunteering Certificate, Acity</div></div>
+            <div class="cert" data-cert data-title="Robotics Expo 22 Certificate, OpenLabs"><div class="certImg"><img alt="Robotics Expo 22 Certificate, OpenLabs" src="cert/image_4.jpg"></div><div class="certLabel">Robotics Expo 22 Certificate, OpenLabs</div></div>
+            <div class="cert" data-cert data-title="Cybersecurity Certificate, OpenLabs"><div class="certImg"><img alt="Cybersecurity Certificate, OpenLabs" src="cert/image_3.jpg"></div><div class="certLabel">Cybersecurity Certificate, OpenLabs</div></div>
+            <div class="cert" data-cert data-title="Robotics Certificate, OpenLabs"><div class="certImg"><img alt="Robotics Certificate, OpenLabs" src="cert/image_2.jpg"></div><div class="certLabel">Robotics Certificate, OpenLabs</div></div>
+            <div class="cert" data-cert data-title="Python Certificate, HackerRank"><div class="certImg"><img alt="Python Certificate, HackerRank" src="cert/image_1.jpg"></div><div class="certLabel">Python Certificate, HackerRank</div></div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="siteFooter">
+      <p>© <span id="year"></span> Junior Cesar Kore</p>
+      <p class="footerAccent">Built with curiosity.</p>
+    </footer>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="lightboxPanel">
+      <div class="lightboxTop"><h2 id="lightboxTitle">Certificate</h2><button class="lightboxClose" type="button" id="lightboxClose" aria-label="Close certificate preview">×</button></div>
+      <div class="lightboxBody"><img id="lightboxImage" alt=""></div>
+    </div>
+  </div>
+
+  <script>
+    const portfolioUrl = 'https://junior-cesar-kore.github.io/juniorcesarkore.github.io/';
+    document.getElementById('cvBackBtn').addEventListener('click', () => {
+      if (document.referrer) window.history.back();
+      else window.location.href = portfolioUrl;
+    });
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const closeLightbox = () => {
+      lightbox.classList.remove('show');
+      lightboxImage.removeAttribute('src');
+      document.body.style.overflow = '';
+    };
+
+    document.querySelectorAll('[data-cert]').forEach((cert) => {
+      const image = cert.querySelector('img');
+      image.addEventListener('error', () => {
+        cert.querySelector('.certImg').classList.add('image-error');
+        image.style.display = 'none';
+      });
+      cert.addEventListener('click', () => {
+        if (!image.getAttribute('src') || image.style.display === 'none') return;
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightboxTitle.textContent = cert.dataset.title;
+        lightbox.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeLightbox(); });
+  </script>
+</body>
+</html>
