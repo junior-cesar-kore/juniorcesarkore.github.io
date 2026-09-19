@@ -160,6 +160,27 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 .project-code-info h3{margin:0 0 10px;font-size:1.25rem;font-weight:600;letter-spacing:-.04em}
 .project-code-info p{margin:0;color:var(--ink-soft);font-size:.86rem}
 @media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video{height:300px;min-height:300px}.calculation-image{min-height:280px}}
+
+/* Project media lightbox — added only for expandable project media */
+.project-lightbox{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:28px;background:oklch(10% .02 60 / .92)}
+.project-lightbox.is-open{display:flex}
+.project-lightbox-content{position:relative;width:min(1200px,94vw);height:min(88vh,900px);display:flex;align-items:center;justify-content:center}
+.project-lightbox-media{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.project-lightbox-media img,.project-lightbox-media video{display:block;max-width:calc(100% - 120px);max-height:calc(100% - 40px);width:auto;height:auto;object-fit:contain;border-radius:var(--radius-md);background:var(--ink)}
+.project-lightbox-button{position:absolute;z-index:2;width:48px;height:48px;border:1px solid oklch(84.5% .025 72 / .7);border-radius:50%;background:var(--paper);color:var(--ink);cursor:pointer;display:grid;place-items:center;font-size:1.5rem;line-height:1;transition:transform 180ms var(--ease-out),background 180ms var(--ease-out)}
+.project-lightbox-button:hover{transform:scale(1.06);background:var(--accent-soft)}
+.project-lightbox-prev{left:8px}
+.project-lightbox-next{right:8px}
+.project-lightbox-close{top:8px;right:8px;font-size:1.2rem}
+.project-lightbox-counter{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);padding:7px 11px;border:1px solid oklch(84.5% .025 72 / .7);border-radius:999px;background:var(--paper);color:var(--ink-soft);font-size:.72rem;font-weight:700}
+.project-media-card.is-lightbox-trigger{cursor:zoom-in}
+@media(max-width:620px){
+  .project-lightbox{padding:14px}
+  .project-lightbox-content{width:100%;height:88vh}
+  .project-lightbox-media img,.project-lightbox-media video{max-width:calc(100% - 82px);max-height:calc(100% - 30px)}
+  .project-lightbox-button{width:42px;height:42px}
+  .project-lightbox-prev{left:2px}.project-lightbox-next{right:2px}.project-lightbox-close{top:2px;right:2px}
+}
 </style></head>
 <body>
 <header class="shell topbar">
@@ -218,13 +239,13 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
         <div class="project-media">
           <div class="project-images" aria-label="Three Fonio machine design images">
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/fonio-design-01.jpg" alt="Fonio machine design view 1">
             </figure>
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/fonio-design-02.jpg" alt="Fonio machine design view 2">
             </figure>
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/fonio-design-03.jpg" alt="Fonio machine design view 3">
             </figure>
           </div>
@@ -259,13 +280,13 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
         <div class="project-media">
           <div class="project-images" aria-label="Three rover design images">
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/rover-design-01.jpg" alt="Rover design view 1">
             </figure>
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/rover-design-02.jpg" alt="Rover design view 2">
             </figure>
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/rover-design-03.jpg" alt="Rover design view 3">
             </figure>
           </div>
@@ -300,13 +321,13 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
         <div class="project-media">
           <div class="project-images" aria-label="Three Bio-Innovation Center design images">
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/bio-center-design-01.jpg" alt="Bio-Innovation Center design view 1">
             </figure>
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/bio-center-design-02.jpg" alt="Bio-Innovation Center design view 2">
             </figure>
-            <figure class="project-media-card">
+            <figure class="project-media-card is-lightbox-trigger">
               <img src="assets/bio-center-design-03.jpg" alt="Bio-Innovation Center design view 3">
             </figure>
           </div>
@@ -353,6 +374,17 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
   <p class="accent">LET’S MAKE IT POSSIBLE!</p>
 </footer>
 
+
+<div class="project-lightbox" aria-hidden="true">
+  <div class="project-lightbox-content" role="dialog" aria-modal="true" aria-label="Project media viewer">
+    <button class="project-lightbox-button project-lightbox-close" type="button" aria-label="Close">×</button>
+    <button class="project-lightbox-button project-lightbox-prev" type="button" aria-label="Previous media">‹</button>
+    <div class="project-lightbox-media"></div>
+    <button class="project-lightbox-button project-lightbox-next" type="button" aria-label="Next media">›</button>
+    <div class="project-lightbox-counter" aria-live="polite"></div>
+  </div>
+</div>
+
 <script>
 const navToggle=document.querySelector('.nav-toggle');
 const nav=document.querySelector('.nav');
@@ -377,6 +409,105 @@ document.querySelectorAll('.reveal').forEach((element,index)=>{
   revealObserver.observe(element);
 });
 document.getElementById('year').textContent=new Date().getFullYear();
+const projectLightbox=document.querySelector('.project-lightbox');
+const projectLightboxMedia=document.querySelector('.project-lightbox-media');
+const projectLightboxPrev=document.querySelector('.project-lightbox-prev');
+const projectLightboxNext=document.querySelector('.project-lightbox-next');
+const projectLightboxClose=document.querySelector('.project-lightbox-close');
+const projectLightboxCounter=document.querySelector('.project-lightbox-counter');
+let activeProjectMedia=[];
+let activeProjectIndex=0;
+
+function getProjectMedia(card){
+  return Array.from(card.querySelectorAll('.project-media-card.is-lightbox-trigger'));
+}
+
+function renderProjectLightboxMedia(){
+  projectLightboxMedia.innerHTML='';
+  const mediaCard=activeProjectMedia[activeProjectIndex];
+  if(!mediaCard)return;
+
+  const image=mediaCard.querySelector('img');
+  const video=mediaCard.querySelector('video');
+
+  if(image){
+    const enlarged=document.createElement('img');
+    enlarged.src=image.currentSrc||image.src;
+    enlarged.alt=image.alt||'Project image';
+    projectLightboxMedia.appendChild(enlarged);
+  }else if(video){
+    const enlarged=document.createElement('video');
+    enlarged.controls=true;
+    enlarged.autoplay=true;
+    enlarged.playsInline=true;
+    enlarged.preload='metadata';
+    if(video.poster)enlarged.poster=video.poster;
+    const source=video.querySelector('source');
+    if(source){
+      const enlargedSource=document.createElement('source');
+      enlargedSource.src=source.src;
+      enlargedSource.type=source.type||'video/mp4';
+      enlarged.appendChild(enlargedSource);
+    }else if(video.currentSrc){
+      enlarged.src=video.currentSrc;
+    }
+    projectLightboxMedia.appendChild(enlarged);
+    enlarged.play().catch(()=>{});
+  }
+
+  projectLightboxCounter.textContent=`${activeProjectIndex+1} / ${activeProjectMedia.length}`;
+  projectLightboxPrev.hidden=activeProjectMedia.length<2;
+  projectLightboxNext.hidden=activeProjectMedia.length<2;
+}
+
+function openProjectLightbox(card,index){
+  activeProjectMedia=getProjectMedia(card);
+  activeProjectIndex=index;
+  renderProjectLightboxMedia();
+  projectLightbox.classList.add('is-open');
+  projectLightbox.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+
+function closeProjectLightbox(){
+  projectLightbox.classList.remove('is-open');
+  projectLightbox.setAttribute('aria-hidden','true');
+  projectLightboxMedia.innerHTML='';
+  document.body.style.overflow='';
+  activeProjectMedia=[];
+  activeProjectIndex=0;
+}
+
+function moveProjectLightbox(step){
+  if(!activeProjectMedia.length)return;
+  activeProjectIndex=(activeProjectIndex+step+activeProjectMedia.length)%activeProjectMedia.length;
+  renderProjectLightboxMedia();
+}
+
+document.querySelectorAll('.project-card').forEach(card=>{
+  getProjectMedia(card).forEach((mediaCard,index)=>{
+    mediaCard.addEventListener('click',event=>{
+      if(event.target.closest('video'))return;
+      openProjectLightbox(card,index);
+    });
+  });
+});
+
+projectLightboxPrev.addEventListener('click',()=>moveProjectLightbox(-1));
+projectLightboxNext.addEventListener('click',()=>moveProjectLightbox(1));
+projectLightboxClose.addEventListener('click',closeProjectLightbox);
+
+projectLightbox.addEventListener('click',event=>{
+  if(event.target===projectLightbox)closeProjectLightbox();
+});
+
+document.addEventListener('keydown',event=>{
+  if(!projectLightbox.classList.contains('is-open'))return;
+  if(event.key==='Escape')closeProjectLightbox();
+  if(event.key==='ArrowLeft')moveProjectLightbox(-1);
+  if(event.key==='ArrowRight')moveProjectLightbox(1);
+});
+
 </script>
 </body>
 
