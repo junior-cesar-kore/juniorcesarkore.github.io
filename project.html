@@ -103,48 +103,466 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 @media (max-width:620px){.shell{width:min(100% - 32px,var(--max))}.topbar{padding:18px 0}.nav{display:none;position:absolute;top:72px;right:16px;left:16px;z-index:20;padding:14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--paper);box-shadow:0 18px 42px oklch(23% .025 60 / .14)}.nav.is-open{display:grid;gap:4px}.nav a{padding:10px}.nav-toggle{display:inline-flex;align-items:center;justify-content:center}.hero{padding:62px 0 70px}h1{font-size:clamp(3.4rem,18vw,5.6rem)}.section{padding:66px 0}.project-image,.project-image img{min-height:280px}.process-step{grid-template-columns:42px 1fr;gap:12px}.process-step p{grid-column:2}.video-frame video{min-height:220px}.video-note{min-height:260px}.gallery{grid-template-columns:1fr}.gallery-slot,.gallery-slot.tall{min-height:250px}.gallery-slot.tall .gallery-placeholder{min-height:160px}.discussion-form{padding:20px}footer{align-items:flex-start;flex-direction:column}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
 </style>
-</head>
+<style>
+/* Project media, calculations and code additions */
+.project-showcase{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.project-showcase-card{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
+.project-showcase-media{min-height:360px;background:var(--paper);border-bottom:1px solid var(--line);display:grid;place-items:center}
+.project-showcase-media img,.project-showcase-media video{display:block;width:100%;height:360px;object-fit:cover}
+.project-showcase-info{padding:20px 22px}
+.project-showcase-info h3{margin:0 0 8px;font-size:1.25rem;font-weight:600;letter-spacing:-.04em}
+.project-showcase-info p{margin:0;color:var(--ink-soft);font-size:.86rem}
+.interactive-model{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:16px;padding:20px 22px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
+.interactive-model .eyebrow{margin:0 0 7px}
+.interactive-model p{margin:0;color:var(--ink-soft);font-size:.86rem}
+.calculation-card{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
+.calculation-image{min-height:430px;padding:18px;background:var(--paper);display:grid;place-items:center}
+.calculation-image img{width:100%;max-height:650px;object-fit:contain;border-radius:var(--radius-sm)}
+.calculation-info{padding:20px 22px;border-top:1px solid var(--line)}
+.calculation-info h3{margin:0 0 8px;font-size:1.25rem;font-weight:600;letter-spacing:-.04em}
+.calculation-info p{margin:0;color:var(--ink-soft);font-size:.86rem}
+.code-layout-project{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.32fr);gap:16px;align-items:start}
+.project-code-card{overflow:hidden;border:1px solid oklch(60% .03 60);border-radius:var(--radius-md);background:var(--ink)}
+.project-code-top{display:flex;justify-content:space-between;gap:15px;padding:13px 17px;border-bottom:1px solid oklch(60% .03 60);color:var(--paper);font-size:.78rem}
+.project-code-top span{color:oklch(72% .02 78)}
+.project-code-window{margin:0;padding:22px;max-height:620px;overflow:auto;color:var(--paper);font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;white-space:pre}
+.project-code-info{padding:22px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
+.project-code-info h3{margin:0 0 10px;font-size:1.25rem;font-weight:600;letter-spacing:-.04em}
+.project-code-info p{margin:0;color:var(--ink-soft);font-size:.86rem}
+@media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video{height:300px;min-height:300px}.calculation-image{min-height:280px}}
+</style></head>
 <body>
 <header class="shell topbar">
   <a class="brand" href="https://junior-cesar-kore.github.io/juniorcesarkore.github.io/" target="_blank" rel="noopener" aria-label="Back to portfolio"><span class="brand-mark">JK</span><span>Junior Cesar Kore</span></a>
   <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-  <nav class="nav" aria-label="Project navigation"><a href="#overview">Overview</a><a href="#process">Process</a><a href="#video">Video</a><a href="#gallery">Gallery</a><a href="#discussion">Discuss</a></nav>
+  <nav class="nav" aria-label="Project navigation">
+    <a href="#overview">Overview</a>
+    <a href="#story">Story</a>
+    <a href="#process">Process</a>
+    <a href="#video">Video</a>
+    <a href="#gallery">Evidence</a>
+    <a href="#design">Design</a>
+    <a href="#calculations">Calculations</a>
+    <a href="#project-code">Code</a>
+    <a href="#discussion">Discuss</a></nav>
 </header>
 
 <main>
   <section class="shell hero" aria-labelledby="project-title">
-    <div class="hero-copy reveal"><p class="eyebrow">Project presentation</p><h1 id="project-title">A project worth <span>talking about.</span></h1><p class="hero-lede">Use this page to explain the problem, show the work, walk people through your decisions, and open a useful conversation around the result.</p><div class="hero-actions"><a class="button" href="#overview">Start the walkthrough <span class="arrow">↘</span></a><a class="button secondary" href="#discussion">Discuss the project</a></div></div>
-    <div class="hero-visual reveal"><figure class="project-image image-empty"><img src="assets/project-hero.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')"><figcaption class="image-caption">Project image</figcaption></figure><div class="hero-meta"><span class="meta-chip">Robotics engineering</span><span class="meta-chip">Design + build</span><span class="meta-chip">2026</span></div></div>
+    <div class="hero-copy reveal">
+      <p class="eyebrow">Project presentation</p>
+      <h1 id="project-title">A project worth 
+        <span>talking about.</span>
+      </h1>
+      <p class="hero-lede">Use this page to explain the problem, show the work, walk people through your decisions, and open a useful conversation around the result.</p>
+      <div class="hero-actions">
+        <a class="button" href="#overview">Start the walkthrough 
+          <span class="arrow">↘</span>
+        </a>
+        <a class="button secondary" href="#discussion">Discuss the project</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <figure class="project-image image-empty">
+        <img src="assets/project-hero.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
+        <figcaption class="image-caption">Project image</figcaption>
+      </figure>
+      <div class="hero-meta">
+        <span class="meta-chip">Robotics engineering</span>
+        <span class="meta-chip">Design + build</span>
+        <span class="meta-chip">2026</span>
+      </div>
+    </div>
   </section>
 
-  <section class="section" id="overview" aria-labelledby="overview-title"><div class="shell"><div class="section-heading reveal"><div><p class="section-label">01 / Overview</p><h2 id="overview-title">Give the audience the reason first.</h2></div><p class="section-intro">A strong project conversation does not begin with a list of tools. It begins with the need, the people affected, and the outcome you wanted to create.</p></div><div class="snapshot"><article class="statement reveal"><h3>The challenge is simple to state. The solution is not.</h3><p>Replace this paragraph with the real problem your project addresses. Explain what was difficult, why it mattered, and what would improve if the project succeeded.</p></article><div class="project-facts reveal" aria-label="Project facts"><div class="fact"><span>Role</span><strong>Designer and builder</strong></div><div class="fact"><span>Status</span><strong>In progress</strong></div><div class="fact"><span>Timeline</span><strong>2026</strong></div><div class="fact"><span>Tools</span><strong>CAD, PCB, code</strong></div><div class="fact"><span>Focus</span><strong>Practical impact</strong></div></div></div></div></section>
+  <section class="section" id="overview" aria-labelledby="overview-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-label">01 / Overview</p>
+          <h2 id="overview-title">Give the audience the reason first.</h2>
+        </div>
+        <p class="section-intro">A strong project conversation does not begin with a list of tools. It begins with the need, the people affected, and the outcome you wanted to create.</p>
+      </div>
+      <div class="snapshot">
+        <article class="statement reveal">
+          <h3>The challenge is simple to state. The solution is not.</h3>
+          <p>Replace this paragraph with the real problem your project addresses. Explain what was difficult, why it mattered, and what would improve if the project succeeded.</p>
+        </article>
+        <div class="project-facts reveal" aria-label="Project facts">
+          <div class="fact">
+            <span>Role</span>
+            <strong>Designer and builder</strong>
+          </div>
+          <div class="fact">
+            <span>Status</span>
+            <strong>In progress</strong>
+          </div>
+          <div class="fact">
+            <span>Timeline</span>
+            <strong>2026</strong>
+          </div>
+          <div class="fact">
+            <span>Tools</span>
+            <strong>CAD, PCB, code</strong>
+          </div>
+          <div class="fact">
+            <span>Focus</span>
+            <strong>Practical impact</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <section class="section" aria-labelledby="story-title"><div class="shell"><div class="section-heading reveal"><div><p class="section-label">02 / The story</p><h2 id="story-title">Make the thinking easy to follow.</h2></div><p class="section-intro">Use these three beats to keep the discussion focused: what happened, what you decided, and what changed because of the work.</p></div><div class="story"><article class="story-piece reveal"><span class="number">01 / Need</span><h3>What needed solving?</h3><p>Describe the context, the limitation, and the question that started the project.</p></article><article class="story-piece reveal"><span class="number">02 / Decision</span><h3>Why this approach?</h3><p>Explain the alternatives you considered, the constraints, and the trade-offs behind your design.</p></article><article class="story-piece reveal"><span class="number">03 / Result</span><h3>What works now?</h3><p>Show the result with evidence: a working prototype, a measured improvement, a test, or a lesson.</p></article></div></div></section>
+  <section class="section" id="story" aria-labelledby="story-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-label">02 / The story</p>
+          <h2 id="story-title">Make the thinking easy to follow.</h2>
+        </div>
+        <p class="section-intro">Use these three beats to keep the discussion focused: what happened, what you decided, and what changed because of the work.</p>
+      </div>
+      <div class="story">
+        <article class="story-piece reveal">
+          <span class="number">01 / Need</span>
+          <h3>What needed solving?</h3>
+          <p>Describe the context, the limitation, and the question that started the project.</p>
+        </article>
+        <article class="story-piece reveal">
+          <span class="number">02 / Decision</span>
+          <h3>Why this approach?</h3>
+          <p>Explain the alternatives you considered, the constraints, and the trade-offs behind your design.</p>
+        </article>
+        <article class="story-piece reveal">
+          <span class="number">03 / Result</span>
+          <h3>What works now?</h3>
+          <p>Show the result with evidence: a working prototype, a measured improvement, a test, or a lesson.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-  <section class="section" id="process" aria-labelledby="process-title"><div class="shell"><div class="section-heading reveal"><div><p class="section-label">03 / Process</p><h2 id="process-title">From problem to working system.</h2></div><p class="section-intro">Document the engineering process in the order it actually happened: define the problem, establish requirements, develop and analyse concepts, build prototypes, test against measurable criteria, iterate from evidence, and record the final outcome.</p></div><div class="process">
-<article class="process-step reveal"><span class="process-number">01</span><h3>Problem definition</h3><p>State the problem clearly and explain its context. Identify who or what is affected, the existing limitation, why the problem matters, and the specific engineering objective. For the fonio machine, this meant addressing the dehulling process and developing a machine that could perform the operation more effectively than the existing approach.</p></article>
-<article class="process-step reveal"><span class="process-number">02</span><h3>Requirements and constraints</h3><p>Translate the problem into engineering requirements. Record functional requirements, expected performance, dimensions, available power, materials, cost, safety considerations, environmental conditions, manufacturability, and project limitations. Separate what the system must do from constraints imposed by available components, tools, time, or manufacturing resources.</p></article>
-<article class="process-step reveal"><span class="process-number">03</span><h3>Research and investigation</h3><p>Document the information gathered before committing to a design. Include existing solutions, component datasheets, mechanisms, operating principles, previous attempts, measurements, references, and observations from practical work. The purpose is to establish why particular mechanisms, components, communication methods, or materials are being considered.</p></article>
-<article class="process-step reveal"><span class="process-number">04</span><h3>System architecture</h3><p>Break the project into subsystems and define how they interact. For a robotic system, this can include mechanical structure, actuation, power, sensing, control, communication, and software. Show the flow of commands and data, identify interfaces between subsystems, and establish what each subsystem is responsible for before detailed design begins.</p></article>
-<article class="process-step reveal"><span class="process-number">05</span><h3>Concept development</h3><p>Generate possible solutions and compare them against the requirements. Record sketches, mechanism choices, component selection, calculations, assumptions, and trade-offs. Explain why the selected concept was chosen rather than simply presenting the final design. This is where engineering decisions should be connected to performance, simplicity, cost, reliability, and manufacturability.</p></article>
-<article class="process-step reveal"><span class="process-number">06</span><h3>Detailed design and modelling</h3><p>Turn the selected concept into a buildable system. Include CAD models, dimensions, assemblies, drawings, circuit diagrams, wiring, PCB or breadboard layouts, control logic, software structure, and component specifications. Record important calculations such as loads, torque, speed, dimensions, power requirements, tolerances, or communication parameters used to justify the design.</p></article>
-<article class="process-step reveal"><span class="process-number">07</span><h3>Simulation and analysis</h3><p>Use engineering analysis to identify problems before or during fabrication. Record the model assumptions, boundary conditions, calculated or simulated results, and what those results mean for the design. In the fonio machine development, simulation was used to investigate the machine design and helped reveal that a straight shaft arrangement was not suitable for the chamber length, leading to a small shaft incline.</p></article>
-<article class="process-step reveal"><span class="process-number">08</span><h3>Prototype and fabrication</h3><p>Describe how the digital design became a physical system. Document manufacturing methods, 3D printing, machining, bending, welding, soldering, assembly, wiring, programming, and any changes required during fabrication. Record differences between the CAD design and the manufactured part rather than hiding them; these differences are valuable engineering evidence.</p></article>
-<article class="process-step reveal"><span class="process-number">09</span><h3>Subsystem testing</h3><p>Test individual subsystems before combining the complete system. Define the test setup, input, expected behaviour, observed result, and pass/fail condition. For the rover, this included testing motor control, ESP32 communication, MQTT publishing and subscribing, and local-network response before progressing toward an online communication system.</p></article>
-<article class="process-step reveal"><span class="process-number">10</span><h3>Integration and system testing</h3><p>Combine the validated subsystems and test the complete system under realistic operating conditions. Check whether mechanical, electrical, software, sensing, communication, and power systems work together as intended. Record response time, repeatability, operating range, failures, unexpected behaviour, and any dependency between subsystems.</p></article>
-<article class="process-step reveal"><span class="process-number">11</span><h3>Failure analysis and iteration</h3><p>Document what did not work and the evidence used to diagnose it. Identify the probable cause, corrective action, and result of the next iteration. The goal is not to present a perfect development process, but to show how testing informed engineering decisions. For the rover, successful local MQTT testing provided a baseline before moving to the more difficult long-distance communication stage.</p></article>
-<article class="process-step reveal"><span class="process-number">12</span><h3>Validation and final evaluation</h3><p>Compare the completed system against the original requirements and measurable success criteria. State what was achieved, what remains incomplete, and what evidence supports the conclusion. Include test results, measurements, photographs, videos, graphs, or observed performance where available. Distinguish clearly between a feature that was demonstrated and one that is only planned.</p></article>
-<article class="process-step reveal"><span class="process-number">13</span><h3>Engineering lessons</h3><p>Record what the project taught you about design, manufacturing, electronics, programming, simulation, testing, teamwork, or project planning. Highlight lessons that would change the way you approach the next design. Practical work on the fonio machine, for example, showed the importance of designing with manufacturing conditions in mind rather than treating CAD and fabrication as separate stages.</p></article>
-<article class="process-step reveal"><span class="process-number">14</span><h3>Documentation and next iteration</h3><p>Close the development record with the final configuration, drawings or code revision, test evidence, known limitations, and recommended next steps. State what you would improve with additional time, resources, or testing. This creates a traceable engineering record from the original problem through each design decision, prototype, test, failure, modification, and final result.</p></article>
-</div></div></section>
+  <section class="section" id="process" aria-labelledby="process-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-label">03 / Process</p>
+          <h2 id="process-title">From problem to working system.</h2>
+        </div>
+        <p class="section-intro">Document the engineering process in the order it actually happened: define the problem, establish requirements, develop and analyse concepts, build prototypes, test against measurable criteria, iterate from evidence, and record the final outcome.</p>
+      </div>
+      <div class="process">
+        <article class="process-step reveal">
+          <span class="process-number">01</span>
+          <h3>Problem definition</h3>
+          <p>State the problem clearly and explain its context. Identify who or what is affected, the existing limitation, why the problem matters, and the specific engineering objective. For the fonio machine, this meant addressing the dehulling process and developing a machine that could perform the operation more effectively than the existing approach.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">02</span>
+          <h3>Requirements and constraints</h3><p>Translate the problem into engineering requirements. Record functional requirements, expected performance, dimensions, available power, materials, cost, safety considerations, environmental conditions, manufacturability, and project limitations. Separate what the system must do from constraints imposed by available components, tools, time, or manufacturing resources.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">03</span>
+          <h3>Research and investigation</h3>
+          <p>Document the information gathered before committing to a design. Include existing solutions, component datasheets, mechanisms, operating principles, previous attempts, measurements, references, and observations from practical work. The purpose is to establish why particular mechanisms, components, communication methods, or materials are being considered.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">04</span>
+          <h3>System architecture</h3>
+          <p>Break the project into subsystems and define how they interact. For a robotic system, this can include mechanical structure, actuation, power, sensing, control, communication, and software. Show the flow of commands and data, identify interfaces between subsystems, and establish what each subsystem is responsible for before detailed design begins.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">05</span>
+          <h3>Concept development</h3>
+          <p>Generate possible solutions and compare them against the requirements. Record sketches, mechanism choices, component selection, calculations, assumptions, and trade-offs. Explain why the selected concept was chosen rather than simply presenting the final design. This is where engineering decisions should be connected to performance, simplicity, cost, reliability, and manufacturability.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">06</span>
+          <h3>Detailed design and modelling</h3>
+          <p>Turn the selected concept into a buildable system. Include CAD models, dimensions, assemblies, drawings, circuit diagrams, wiring, PCB or breadboard layouts, control logic, software structure, and component specifications. Record important calculations such as loads, torque, speed, dimensions, power requirements, tolerances, or communication parameters used to justify the design.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">07</span>
+          <h3>Simulation and analysis</h3>
+          <p>Use engineering analysis to identify problems before or during fabrication. Record the model assumptions, boundary conditions, calculated or simulated results, and what those results mean for the design. In the fonio machine development, simulation was used to investigate the machine design and helped reveal that a straight shaft arrangement was not suitable for the chamber length, leading to a small shaft incline.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">08</span>
+          <h3>Prototype and fabrication</h3>
+          <p>Describe how the digital design became a physical system. Document manufacturing methods, 3D printing, machining, bending, welding, soldering, assembly, wiring, programming, and any changes required during fabrication. Record differences between the CAD design and the manufactured part rather than hiding them; these differences are valuable engineering evidence.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">09</span>
+          <h3>Subsystem testing</h3>
+          <p>Test individual subsystems before combining the complete system. Define the test setup, input, expected behaviour, observed result, and pass/fail condition. For the rover, this included testing motor control, ESP32 communication, MQTT publishing and subscribing, and local-network response before progressing toward an online communication system.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">10</span>
+          <h3>Integration and system testing</h3>
+          <p>Combine the validated subsystems and test the complete system under realistic operating conditions. Check whether mechanical, electrical, software, sensing, communication, and power systems work together as intended. Record response time, repeatability, operating range, failures, unexpected behaviour, and any dependency between subsystems.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">11</span>
+          <h3>Failure analysis and iteration</h3>
+          <p>Document what did not work and the evidence used to diagnose it. Identify the probable cause, corrective action, and result of the next iteration. The goal is not to present a perfect development process, but to show how testing informed engineering decisions. For the rover, successful local MQTT testing provided a baseline before moving to the more difficult long-distance communication stage.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">12</span>
+          <h3>Validation and final evaluation</h3>
+          <p>Compare the completed system against the original requirements and measurable success criteria. State what was achieved, what remains incomplete, and what evidence supports the conclusion. Include test results, measurements, photographs, videos, graphs, or observed performance where available. Distinguish clearly between a feature that was demonstrated and one that is only planned.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">13</span>
+          <h3>Engineering lessons</h3>
+          <p>Record what the project taught you about design, manufacturing, electronics, programming, simulation, testing, teamwork, or project planning. Highlight lessons that would change the way you approach the next design. Practical work on the fonio machine, for example, showed the importance of designing with manufacturing conditions in mind rather than treating CAD and fabrication as separate stages.</p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">14</span>
+          <h3>Documentation and next iteration</h3>
+          <p>Close the development record with the final configuration, drawings or code revision, test evidence, known limitations, and recommended next steps. State what you would improve with additional time, resources, or testing. This creates a traceable engineering record from the original problem through each design decision, prototype, test, failure, modification, and final result.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-  <section class="section video-section" id="video" aria-labelledby="video-title"><div class="shell"><div class="section-heading reveal"><div><p class="section-label">04 / Video</p><h2 id="video-title">Show the project in motion.</h2></div><p class="section-intro">Use the video to demonstrate the build, explain a design decision, show a test, or give visitors the short version before they read the details.</p></div><div class="video-layout"><figure class="video-frame reveal"><video controls preload="metadata" poster="assets/project-video-poster.jpg"><source src="assets/project-demo.mp4" type="video/mp4">Your browser does not support the video element. Add a modern browser or download the video file.</video><figcaption class="video-caption">Add your video at <strong>assets/project-demo.mp4</strong> and an optional poster at <strong>assets/project-video-poster.jpg</strong>.</figcaption></figure><aside class="video-note reveal"><div><h3>Let people see the decisions.</h3><p>Keep the clip focused. A clear 60 to 120 second walkthrough usually beats a long, unedited recording.</p></div><div class="video-details"><div class="video-detail"><span>Format</span><strong>MP4</strong></div><div class="video-detail"><span>Suggested length</span><strong>1 to 2 minutes</strong></div><div class="video-detail"><span>Best for</span><strong>Demo or walkthrough</strong></div></div></aside></div></div></section>
+  <section class="section video-section" id="video" aria-labelledby="video-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-label">04 / Video</p>
+          <h2 id="video-title">Show the project in motion.</h2>
+        </div>
+        <p class="section-intro">Use the video to demonstrate the build, explain a design decision, show a test, or give visitors the short version before they read the details.</p>
+      </div>
+      <div class="video-layout">
+        <figure class="video-frame reveal">
+          <video controls preload="metadata" poster="assets/project-video-poster.jpg">
+            <source src="assets/project-demo.mp4" type="video/mp4">Your browser does not support the video element. Add a modern browser or download the video file.
+          </video><figcaption class="video-caption">Add your video at <strong>assets/project-demo.mp4</strong> and an optional poster at <strong>assets/project-video-poster.jpg</strong>.</figcaption>
+        </figure><aside class="video-note reveal">
+          <div>
+            <h3>Let people see the decisions.</h3>
+            <p>Keep the clip focused. A clear 60 to 120 second walkthrough usually beats a long, unedited recording.</p>
+          </div>
+          <div class="video-details">
+            <div class="video-detail">
+              <span>Format</span><strong>MP4</strong>
+            </div>
+            <div class="video-detail">
+              <span>Suggested length</span><strong>1 to 2 minutes</strong>
+            </div>
+            <div class="video-detail">
+              <span>Best for</span><strong>Demo or walkthrough</strong>
+            </div>
+          </div></aside>
+        </div>
+      </div>
+    </section>
 
-  <section class="section" id="gallery" aria-labelledby="gallery-title"><div class="shell"><div class="section-heading reveal"><div><p class="section-label">05 / Evidence</p><h2 id="gallery-title">Let the work speak visually.</h2></div><p class="section-intro">Drop in screenshots, CAD renders, circuit diagrams, test photos, or results. The placeholders are already sized for a clean presentation.</p></div><div class="gallery"><article class="gallery-slot tall reveal"><h3>Primary artifact</h3><p>Use this for the strongest image, render, or diagram.</p><div class="gallery-placeholder">Add image at assets/project-main.jpg</div></article><div class="gallery-slot reveal"><h3>Process detail</h3><p>Show an intermediate step, test setup, or technical detail.</p><div class="gallery-placeholder">Add image at assets/project-detail.jpg</div></div><div class="gallery-slot reveal"><h3>Result or test</h3><p>Show the proof that the project works.</p><div class="gallery-placeholder">Add image at assets/project-result.jpg</div></div></div></div></section>
+  <section class="section" id="gallery" aria-labelledby="gallery-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-label">05 / Evidence</p>
+          <h2 id="gallery-title">Let the work speak visually.</h2>
+        </div>
+        <p class="section-intro">Drop in screenshots, CAD renders, circuit diagrams, test photos, or results. The placeholders are already sized for a clean presentation.</p>
+      </div>
+      <div class="gallery">
+        <article class="gallery-slot tall reveal">
+          <h3>Primary artifact</h3>
+          <p>Use this for the strongest image, render, or diagram.</p>
+          <div class="gallery-placeholder">Add image at assets/project-main.jpg</div>
+        </article>
+        <div class="gallery-slot reveal">
+          <h3>Process detail</h3>
+          <p>Show an intermediate step, test setup, or technical detail.</p>
+          <div class="gallery-placeholder">Add image at assets/project-detail.jpg</div>
+        </div>
+        <div class="gallery-slot reveal">
+          <h3>Result or test</h3>
+          <p>Show the proof that the project works.</p>
+          <div class="gallery-placeholder">Add image at assets/project-result.jpg</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <section class="section" id="discussion" aria-labelledby="discussion-title"><div class="shell discussion"><div class="discussion-copy reveal"><p class="section-label">06 / Discussion</p><h2 id="discussion-title">Now make room for questions.</h2><p>Use the form to collect feedback, questions, or collaboration ideas. It opens the visitor's email client with the message prepared.</p><a class="button secondary" href="mailto:juniorcesarkore@gmail.com">Email Junior directly <span class="arrow">↗</span></a></div><form class="discussion-form reveal" id="discussionForm"><div class="field"><label for="visitorName">Your name</label><input id="visitorName" name="name" type="text" placeholder="Name" required></div><div class="field"><label for="visitorEmail">Your email</label><input id="visitorEmail" name="email" type="email" placeholder="name@example.com" required></div><div class="field"><label for="visitorMessage">Question or project idea</label><textarea id="visitorMessage" name="message" placeholder="What would you like to discuss?" required></textarea></div><button class="button" type="submit">Prepare message <span class="arrow">↗</span></button><p class="form-feedback" id="formFeedback" aria-live="polite"></p></form></div></section>
+
+  <section class="section" id="design" aria-labelledby="design-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div><p class="section-label">06 / Design</p>
+          <h2 id="design-title">Show the design behind the system.</h2>
+        </div>
+        <p class="section-intro">Present the SolidWorks work alongside the physical or modelling process so the visitor can connect the final form to the engineering decisions documented above.</p>
+      </div>
+
+      <div class="project-showcase">
+        <article class="project-showcase-card reveal">
+          <div class="project-showcase-media">
+            <img src="assets/solidworks-design.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+          </div>
+          <div class="project-showcase-info">
+            <h3>01 / SolidWorks model</h3>
+            <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
+          </div>
+        </article>
+
+        <article class="project-showcase-card reveal">
+          <div class="project-showcase-media">
+            <video controls preload="metadata" poster="assets/solidworks-video-poster.jpg">
+              <source src="assets/solidworks-demo.mp4" type="video/mp4">
+              Your browser does not support video.
+            </video>
+          </div>
+          <div class="project-showcase-info">
+            <h3>02 / Design in motion</h3>
+            <p>Use this space for a modelling walkthrough, assembly sequence, simulation, mechanism movement, or demonstration of the completed design.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="interactive-model reveal">
+        <div>
+          <p class="eyebrow">Interactive 3D</p>
+          <p>Give visitors the option to rotate, inspect, and explore the complete model.</p>
+        </div>
+        <a class="button small" href="YOUR_3D_MODEL_LINK" target="_blank" rel="noopener">Open 3D model <span class="arrow">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="calculations" aria-labelledby="calculations-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div><p class="section-label">07 / Calculations</p><h2 id="calculations-title">Show the numbers behind the design.</h2></div>
+        <p class="section-intro">Use this section for the calculations that justified the dimensions, component choices, loads, torque, speed, power, or other engineering decisions in the project.</p>
+      </div>
+
+      <article class="calculation-card reveal">
+        <div class="calculation-image">
+          <img src="assets/project-calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
+        </div>
+        <div class="calculation-info">
+          <h3>Engineering calculations</h3>
+          <p>Replace this description with a short explanation of what the calculations establish and how they influenced the final design. Additional calculation sheets can be added as separate cards if needed.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="project-code" aria-labelledby="project-code-title">
+    <div class="shell">
+      <div class="section-heading reveal">
+        <div><p class="section-label">08 / Code</p>
+          <h2 id="project-code-title">Show the logic behind the build.</h2></div>
+        <p class="section-intro">Keep the complete source visible and separate the main program from supporting control, communication, or subsystem code. Each block has a small description so the reader knows what it does before reading the implementation.</p>
+      </div>
+
+      <div class="code-layout-project">
+        <article class="project-code-card reveal">
+          <div class="project-code-top">
+            <strong>01 / Main program</strong>
+            <span>project_main.ino</span></div>
+          <pre class="project-code-window">
+            <code>// ============================================================
+ // MAIN PROJECT CODE
+ // Paste your complete main program here.
+ // ============================================================
+
+ #include &lt;Arduino.h&gt;
+
+ void setup() {
+   Serial.begin(115200);
+   // Initialization
+ }
+
+ void loop() {
+   // Main project logic
+ }
+
+ // Replace this placeholder with the FULL source code.</code></pre>
+        </article>
+        <aside class="project-code-info reveal">
+          <p class="eyebrow">Description</p>
+          <h3>Main system logic.</h3>
+          <p>Explain what this program controls, its inputs and outputs, the hardware it communicates with, and the main sequence of operation.</p>
+        </aside>
+      </div>
+
+      <div class="code-layout-project" style="margin-top:16px">
+        <article class="project-code-card reveal">
+          <div class="project-code-top">
+            <strong>02 / Supporting program</strong>
+            <span>communication_or_control.ino</span>
+          </div>
+          <pre class="project-code-window">
+            <code>// ============================================================
+ // SUPPORTING PROJECT CODE
+ // Paste your complete second code file here.
+ // ============================================================
+
+ #include &lt;Arduino.h&gt;
+
+ void setup() {
+   // Initialization
+ }
+
+ void loop() {
+   // Supporting logic
+ }
+
+ // Replace this placeholder with the FULL source code.
+</code>
+</pre>
+        </article>
+        <aside class="project-code-info reveal">
+          <p class="eyebrow">Description</p>
+          <h3>Supporting logic.</h3>
+          <p>Explain what this code handles and how it communicates with, monitors, or supports the main system.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="discussion" aria-labelledby="discussion-title">
+    <div class="shell discussion">
+      <div class="discussion-copy reveal">
+        <p class="section-label">06 / Discussion</p>
+        <h2 id="discussion-title">Now make room for questions.</h2>
+        <p>Use the form to collect feedback, questions, or collaboration ideas. It opens the visitor's email client with the message prepared.</p>
+        <a class="button secondary" href="mailto:juniorcesarkore@gmail.com">Email Junior Cesar directly 
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+      <form class="discussion-form reveal" id="discussionForm">
+        <div class="field">
+          <label for="visitorName">Your name</label>
+          <input id="visitorName" name="name" type="text" placeholder="Name" required>
+        </div>
+        <div class="field">
+          <label for="visitorEmail">Your email</label>
+          <input id="visitorEmail" name="email" type="email" placeholder="name@example.com" required>
+        </div>
+        <div class="field">
+          <label for="visitorMessage">Question or project idea</label>
+          <textarea id="visitorMessage" name="message" placeholder="What would you like to discuss?" required></textarea>
+        </div>
+        <button class="button" type="submit">Prepare message 
+          <span class="arrow">↗</span>
+        </button>
+        <p class="form-feedback" id="formFeedback" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
 </main>
-<footer class="shell"><p>© <span id="year"></span> Junior Cesar Kore</p><p class="accent">Project discussion page</p></footer>
+<footer class="shell">
+  <p>© <span id="year"></span> Junior Cesar Kore</p>
+  <p class="accent">Project discussion page</p>
+</footer>
 <script>
 const navToggle=document.querySelector('.nav-toggle');const nav=document.querySelector('.nav');navToggle.addEventListener('click',()=>{const isOpen=nav.classList.toggle('is-open');navToggle.setAttribute('aria-expanded',String(isOpen))});nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('is-open');navToggle.setAttribute('aria-expanded','false')}));
 const revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');revealObserver.unobserve(entry.target)}})},{threshold:.12});document.querySelectorAll('.reveal').forEach((element,index)=>{element.style.transitionDelay=`${Math.min(index*35,240)}ms`;revealObserver.observe(element)});document.getElementById('year').textContent=new Date().getFullYear();
