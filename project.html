@@ -169,7 +169,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
     </div>
     <div class="hero-visual reveal">
       <figure class="project-image image-empty">
-        <img src="assets/project-hero.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
+        <img src="image_.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
         <figcaption class="image-caption">Project image</figcaption>
       </figure>
       <div class="hero-meta">
@@ -343,8 +343,8 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       </div>
       <div class="video-layout">
         <figure class="video-frame reveal">
-          <video controls preload="metadata" poster="assets/project-video-poster.jpg">
-            <source src="assets/project-demo.mp4" type="video/mp4">Your browser does not support the video element. Add a modern browser or download the video file.
+          <video controls preload="metadata" poster="kjc-Krojecs31 logo demo_Motto.jpg">
+            <source src="fastforward.mp4" type="video/mp4">Your browser does not support the video element. Add a modern browser or download the video file.
           </video><figcaption class="video-caption">Add your video at <strong>assets/project-demo.mp4</strong> and an optional poster at <strong>assets/project-video-poster.jpg</strong>.</figcaption>
         </figure><aside class="video-note reveal">
           <div>
@@ -381,7 +381,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Use this for the strongest image, render, or diagram.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="assets/fonio-design-03.jpg" alt="Fonio machine design view 3">
+            <img src="solidworks Wp.jpg" alt="Fonio machine design view 3">
           </div>
         </article>
         <div class="gallery-slot reveal">
@@ -389,7 +389,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Show an intermediate step, test setup, or technical detail.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="assets/fonio-design-03.jpg" alt="Fonio machine design view 3">
+            <img src="Stair Master circuit.jpg" alt="Fonio machine design view 3">
           </div>
         </div>
         <div class="gallery-slot reveal">
@@ -397,7 +397,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Show the proof that the project works.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="assets/fonio-design-03.jpg" alt="Fonio machine design view 3">
+            <img src="krojecs printer.jpg" alt="Fonio machine design view 3">
           </div>
         </div>
       </div>
@@ -417,7 +417,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="project-showcase">
         <article class="project-showcase-card reveal">
           <div class="project-showcase-media">
-            <img src="assets/solidworks-design.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+            <img src="aaenics rover.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
           </div>
           <div class="project-showcase-info">
             <h3>01 / SolidWorks model</h3>
@@ -427,8 +427,8 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
         <article class="project-showcase-card reveal">
           <div class="project-showcase-media">
-            <video controls preload="metadata" poster="assets/solidworks-video-poster.jpg">
-              <source src="assets/solidworks-demo.mp4" type="video/mp4">
+            <video controls preload="metadata" poster="aaenics rover1.jpg">
+              <source src="rover recap1.mp4" type="video/mp4">
               Your browser does not support video.
             </video>
           </div>
@@ -458,7 +458,10 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
       <article class="calculation-card reveal">
         <div class="calculation-image">
-          <img src="assets/project-calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
+          <img src="kjc printer hand calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
+        </div>
+        <div class="calculation-image">
+          <img src="kjc printer calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
         </div>
         <div class="calculation-info">
           <h3>Engineering calculations</h3>
@@ -481,30 +484,116 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="project-code-card reveal">
           <div class="project-code-top">
             <strong>01 / Main program</strong>
-            <span>project_main.ino</span></div>
+            <span>KJC Logo.py</span></div>
           <pre class="project-code-window">
             <code>// ============================================================
  // MAIN PROJECT CODE
- // Paste your complete main program here.
- // ============================================================
+ # By KJC
 
- #include &lt;Arduino.h&gt;
+import time
+import turtle
+from turtle import *
 
- void setup() {
-   Serial.begin(115200);
-   // Initialization
- }
+def kjc_2logo():
 
- void loop() {
-   // Main project logic
- }
+   speed(5)
+   color("", "brown")
+   pensize(5)
+   pencolor("grey")
+   hideturtle()
 
- // Replace this placeholder with the FULL source code.</code></pre>
+   begin_fill()
+# 1st turn
+   left(90)
+   forward(150)
+# 2nd turn
+   right(90)
+   forward(175)
+# 3rd turn
+   left(90)
+   forward(60)
+# 4th turn
+   left(90)
+   forward(400)
+
+   left(90)
+   forward(30)
+# 1st arc
+   circle(30, 90)
+   forward(70)
+# 2nd arc
+   right(180)
+   circle(50, -90)
+# 5th turn
+   right(180)
+   forward(240)
+# 3rd arc
+   right(180)
+   circle(50, -90)
+# 5th turn
+   right(180)
+   forward(130)
+# 3rd arc
+   circle(30, 90)
+   forward(30)
+   left(90)
+   forward(250)
+
+# 4th arc
+   circle(40, 90)
+   forward(110)
+# th turn
+   right(50)
+   forward(30)
+# K rotation 1
+   right(25)
+   forward(5)
+   right(25)
+   forward(5)
+   right(25)
+   forward(5)
+   right(25)
+# end rotation + line
+   forward(200)
+# th turn
+   left(60)
+   forward(70)
+# th turn
+   left(120)
+   forward(260)
+# K rotation 2
+   right(25)
+   forward(5)
+   right(20)
+   forward(5)
+# end rotation + line
+   right(20)
+   forward(209)
+# th turn
+   left(125)
+   forward(70)
+# th turn
+   left(51)
+   forward(210)
+   right(141)
+   forward(15)
+# calibration
+   right(90)
+
+   time.sleep(1)
+   end_fill()
+
+   done()
+
+if __name__ == '__main__':
+    print('Starting....')
+    kjc_2logo()
+</code></pre>
         </article>
         <aside class="project-code-info reveal">
           <p class="eyebrow">Description</p>
           <h3>Main system logic.</h3>
-          <p>Explain what this program controls, its inputs and outputs, the hardware it communicates with, and the main sequence of operation.</p>
+          <p>This code is one of my favorite. I remember membling the path to myself while making it. It is one for my first love when learning python. This code draws my logo and was used as a opener for other python projects</p>
         </aside>
       </div>
 
@@ -512,32 +601,84 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="project-code-card reveal">
           <div class="project-code-top">
             <strong>02 / Supporting program</strong>
-            <span>communication_or_control.ino</span>
+            <span>AudioBook.py</span>
           </div>
           <pre class="project-code-window">
             <code>// ============================================================
  // SUPPORTING PROJECT CODE
- // Paste your complete second code file here.
- // ============================================================
+ # By KJC
 
- #include &lt;Arduino.h&gt;
+try:
+    import PyPDF2
+    import pyttsx3
+    import pdfplumber
+    from tkinter import filedialog
+    from tkinter import *
+    pass
 
- void setup() {
-   // Initialization
- }
+except:
+    import pip
+    pip.main(["install", 'PyPDF2'])
+    pip.main(["install", 'pyttsx3'])
+    pip.main(["install", 'pdfplumber'])
+    import PyPDF2
+    import pyttsx3
+    import pdfplumber
+    from tkinter import filedialog
+    pass
 
- void loop() {
-   // Supporting logic
- }
+# setting up the speaker
+Speaker = pyttsx3.init()
+voices = Speaker.getProperty("voices")
+Speaker.setProperty('voice', voices[0].id)
+Speaker.setProperty('rate', 150)
 
- // Replace this placeholder with the FULL source code.
+# defining the speak function
+def speak(things):
+    Speaker.say(things)
+    Speaker.runAndWait()
+    pass
+
+# test ting the speak function
+speak('Welcome in KJC')
+speak('Please, Choose your file!')
+# file path and name through the gui
+file = filedialog.askopenfilename()
+
+
+
+# create a pdf file object
+pdfFileObj = open(file, "rb")
+
+# create a pdf reader object
+pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+
+# pages of the pdf file
+pages = pdfReader.numPages
+
+# where do you want to start
+speak("Where do you wish to start")
+begin = int(input('Where do you wish to start : '))
+
+
+# create pdfplumber object and loop through the number of pages in pdf
+with pdfplumber.open(file) as pdf:
+    # loop through the number fo pages
+    for i in range(begin-1, pages):
+        print("\n \nPage " + str(i + 1) + "/" + str(pages) + "\n\n")
+        page = pdf.pages[i]
+        text = page.extract_text()
+        print(text, "\n")
+        speak(text)
+
+
 </code>
 </pre>
         </article>
         <aside class="project-code-info reveal">
           <p class="eyebrow">Description</p>
           <h3>Supporting logic.</h3>
-          <p>Explain what this code handles and how it communicates with, monitors, or supports the main system.</p>
+          <p>I made this code in my early python encounter to facilitate my learning. This is an Audio Book code that reads off pdf.</p>
         </aside>
       </div>
     </div>
