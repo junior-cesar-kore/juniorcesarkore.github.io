@@ -129,7 +129,14 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 .project-code-info{padding:22px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
 .project-code-info h3{margin:0 0 10px;font-size:1.25rem;font-weight:600;letter-spacing:-.04em}
 .project-code-info p{margin:0;color:var(--ink-soft);font-size:.86rem}
-@media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video{height:300px;min-height:300px}.calculation-image{min-height:280px}}
+@media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video{height:300px;min-height:300px}.calculation-image{min-height:280px}} 
+/* YouTube video embed support — keeps the existing page styling and video proportions */
+.video-frame > .youtube-video{display:block;width:100%;aspect-ratio:16/9;min-height:320px;border:0;border-radius:inherit;background:oklch(17% .025 60)}
+.project-showcase-media > .youtube-video{display:block;width:100%;height:360px;border:0;background:oklch(17% .025 60)}
+@media(max-width:820px){
+  .video-frame > .youtube-video{min-height:220px}
+  .project-showcase-media > .youtube-video{height:300px}
+}
 </style></head>
 <body>
 <header class="shell topbar">
@@ -169,7 +176,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
     </div>
     <div class="hero-visual reveal">
       <figure class="project-image image-empty">
-        <img src="./base media/image_.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
+        <img src="./03/intro_image.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
         <figcaption class="image-caption">Project image</figcaption>
       </figure>
       <div class="hero-meta">
@@ -192,7 +199,9 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="snapshot">
         <article class="statement reveal">
           <h3>The challenge is simple to state. The solution is not.</h3>
-          <p>Replace this paragraph with the real problem your project addresses. Explain what was difficult, why it mattered, and what would improve if the project succeeded.</p>
+          <p>The project was developed to create a mobile robot capable of moving across different floor levels without relying on conventional elevators or ramps.<br>
+          Normal wheeled robots work well on flat surfaces, but stairs create a major mobility problem. A robot designed only for flat-ground movement can lose contact, become unstable, or tip over when it encounters a step.<br>
+          The aim was therefore to develop a stair-climbing mechanism that can lift, support, and reposition the robot while maintaining stability.</p>
         </article>
         <div class="project-facts reveal" aria-label="Project facts">
           <div class="fact">
@@ -233,17 +242,33 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="story-piece reveal">
           <span class="number">01 / Need</span>
           <h3>What needed solving?</h3>
-          <p>Describe the context, the limitation, and the question that started the project.</p>
+          <p>The main problem was simple:How can a mobile robot move from one level to another using stairs while remaining stable and controllable?<br>
+            A normal four-wheel arrangement cannot simply drive up a staircase because the wheels cannot continuously maintain the required contact with the stair surfaces.
+          </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">02 / Decision</span>
           <h3>Why this approach?</h3>
-          <p>Explain the alternatives you considered, the constraints, and the trade-offs behind your design.</p>
+          <p>The project explored a mechanical climbing mechanism where the robot does more than simply rotate its wheels.<br>
+
+            The mechanism must:<br>
+
+            Support the robot's weight.<br>
+            Lift the robot to the next step.<br>
+            Move the robot forward.<br>
+            Maintain balance during lifting.<br>
+            Return to a stable position before the next climbing cycle.<br>
+
+            This makes the project both a mechanical design problem and a control problem.
+          </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">03 / Result</span>
           <h3>What works now?</h3>
-          <p>Show the result with evidence: a working prototype, a measured improvement, a test, or a lesson.</p>
+          <p>The working concept is based on coordinating the drive system, lifting mechanism, and control sequence.<br>
+
+            Instead of trying to force the wheels to climb the stair directly, the mechanism helps reposition the robot onto the next step.
+          </p>
         </article>
       </div>
     </div>
@@ -262,71 +287,330 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="process-step reveal">
           <span class="process-number">01</span>
           <h3>Problem definition</h3>
-          <p>State the problem clearly and explain its context. Identify who or what is affected, the existing limitation, why the problem matters, and the specific engineering objective. For the fonio machine, this meant addressing the dehulling process and developing a machine that could perform the operation more effectively than the existing approach.</p>
+          <p>The first step was to define the mobility problem.<br>
+
+            The robot needed to:<br>
+
+            - Detect/approach a stair.<br>
+            - Position itself correctly.<br>
+            - Lift or reposition its body.<br>
+            - Move onto the next step.<br>
+            - Stabilize itself.<br>
+            - Repeat the sequence until the staircase is completed.<br>
+
+            The major engineering challenge was maintaining stability while the robot's center of gravity changes during climbing.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">02</span>
-          <h3>Requirements and constraints</h3><p>Translate the problem into engineering requirements. Record functional requirements, expected performance, dimensions, available power, materials, cost, safety considerations, environmental conditions, manufacturability, and project limitations. Separate what the system must do from constraints imposed by available components, tools, time, or manufacturing resources.</p>
+          <h3>Requirements and constraints</h3>
+          <p>The design requirements included:<br>
+
+            - Ability to climb stairs.<br>
+            - Stable movement.<br>
+            - Sufficient lifting force.<br>
+            - Controlled motor movement.<br>
+            - Controlled servo/mechanical movement.<br>
+            - Compact mechanical structure.<br>
+            - Reasonable weight.<br>
+            - Strong enough frame.<br>
+            - Safe operation.<br>
+            - Repeatable climbing sequence.<br>
+
+            Important constraints included:<br>
+
+            - Motor torque.<br>
+            - Servo torque.<br>
+            - Robot weight.<br>
+            - Stair height.<br>
+            - Stair depth.<br>
+            - Available space for the mechanism.<br>
+            - Battery capacity.<br>
+            - Material strength.<br>
+            - Manufacturing limitations.
+
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">03</span>
           <h3>Research and investigation</h3>
-          <p>Document the information gathered before committing to a design. Include existing solutions, component datasheets, mechanisms, operating principles, previous attempts, measurements, references, and observations from practical work. The purpose is to establish why particular mechanisms, components, communication methods, or materials are being considered.</p>
+          <p>Different stair-climbing approaches were investigated, including:<br>
+
+            - Wheel-based systems.<br>
+            - Tracked systems.<br>
+            - Legged mechanisms.<br>
+            - Triangular wheel arrangements.<br>
+            - Articulated mechanisms.<br>
+            - Lifting mechanisms.<br>
+
+            The research helped identify what each approach does well and where it becomes difficult.<br>
+
+            The important question was not simply: "Which mechanism can climb stairs?"<br>
+
+            but: "Which mechanism can climb the required stairs using the components, manufacturing methods, and control system available to us?"
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">04</span>
           <h3>System architecture</h3>
-          <p>Break the project into subsystems and define how they interact. For a robotic system, this can include mechanical structure, actuation, power, sensing, control, communication, and software. Show the flow of commands and data, identify interfaces between subsystems, and establish what each subsystem is responsible for before detailed design begins.</p>
+          <p>The robot can be divided into several major subsystems:<br>
+
+            Mechanical System :<br>
+
+            - Frame<br>
+            - Wheels<br>
+            - Lifting mechanism<br>
+            - Servo mechanisms<br>
+           -  Mechanical joints<br>
+
+            Drive System :<br>
+
+            - DC motors<br>
+            - Motor driver<br>
+            - Wheels<br>
+
+            Control System :<br>
+
+            - Microcontroller<br>
+            - Control logic<br>
+            - Servo control<br>
+            - Motor control<br>
+
+            Sensing System :<br>
+
+            - Ultrasonic sensor(s)<br>
+            - Position/distance feedback<br>
+
+            Power System :<br>
+
+            - Battery<br>
+            - Voltage regulation<br>
+            - Motor supply<br>
+            - Servo supply<br>
+
+            The complete system works by coordinating these subsystems rather than treating them as separate components.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">05</span>
           <h3>Concept development</h3>
-          <p>Generate possible solutions and compare them against the requirements. Record sketches, mechanism choices, component selection, calculations, assumptions, and trade-offs. Explain why the selected concept was chosen rather than simply presenting the final design. This is where engineering decisions should be connected to performance, simplicity, cost, reliability, and manufacturability.</p>
+          <p>Several concepts can be considered before selecting the final mechanism.<br>
+
+            Each concept is evaluated based on:<br>
+
+            - Stability<br>
+            - Complexity<br>
+            - Cost<br>
+            - Manufacturability<br>
+            - Weight<br>
+            - Torque requirements<br>
+            - Control difficulty<br>
+            - Stair dimensions<br>
+
+            The selected concept should provide the best balance between these requirements.
+            
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">06</span>
           <h3>Detailed design and modelling</h3>
-          <p>Turn the selected concept into a buildable system. Include CAD models, dimensions, assemblies, drawings, circuit diagrams, wiring, PCB or breadboard layouts, control logic, software structure, and component specifications. Record important calculations such as loads, torque, speed, dimensions, power requirements, tolerances, or communication parameters used to justify the design.</p>
+          <p>The mechanical structure was then developed in SolidWorks.<br>
+
+            The modeling stage involved:<br>
+
+            - Creating the robot frame.<br>
+            - Designing the lifting mechanism.<br>
+            - Positioning the motors.<br>
+            - Designing servo mounting points.<br>
+            - Designing wheel locations.<br>
+            - Checking clearances.<br>
+            - Checking mechanical interference.<br>
+            - Estimating the center of gravity.<br>
+            - Preparing components for fabrication.<br>
+
+            This stage allowed mechanical problems to be identified before building the physical prototype.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">07</span>
           <h3>Simulation and analysis</h3>
-          <p>Use engineering analysis to identify problems before or during fabrication. Record the model assumptions, boundary conditions, calculated or simulated results, and what those results mean for the design. In the fonio machine development, simulation was used to investigate the machine design and helped reveal that a straight shaft arrangement was not suitable for the chamber length, leading to a small shaft incline.</p>
+          <p>Before fabrication, the design can be analyzed to determine whether it can withstand the expected loads.<br>
+
+            Important calculations include:<br>
+
+            Motor torque<br>
+
+             T = F * r <br>
+
+            where:<br>
+
+            T = required torque<br>
+            F = required force<br>
+            r = effective wheel/mechanism radius<br>
+
+            For the lifting mechanism, the robot's weight creates a moment around the mechanism:<br>
+
+            M = W * d <br>
+
+            where:<br>
+
+            W = robot weight<br>
+            d = perpendicular distance from the pivot.<br>
+
+            The simulation and calculations help answer:<br>
+
+            Can the mechanism physically lift and support the robot?
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">08</span>
           <h3>Prototype and fabrication</h3>
-          <p>Describe how the digital design became a physical system. Document manufacturing methods, 3D printing, machining, bending, welding, soldering, assembly, wiring, programming, and any changes required during fabrication. Record differences between the CAD design and the manufactured part rather than hiding them; these differences are valuable engineering evidence.</p>
+          <p>After the design was finalized, the components were fabricated and assembled.<br>
+
+            This stage revealed an important engineering reality:<br>
+
+              A design that works in CAD does not automatically work perfectly in the physical world.<br>
+
+            Manufacturing tolerances, friction, material flexibility, screw alignment, motor positioning, and assembly errors can all affect performance.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">09</span>
           <h3>Subsystem testing</h3>
-          <p>Test individual subsystems before combining the complete system. Define the test setup, input, expected behaviour, observed result, and pass/fail condition. For the rover, this included testing motor control, ESP32 communication, MQTT publishing and subscribing, and local-network response before progressing toward an online communication system.</p>
+          <p>Instead of testing the complete robot immediately, individual subsystems were tested first.<br>
+
+            For example:<br>
+
+            Motor system<br>
+
+            - Forward<br>
+            - Reverse<br>
+            - Left<br>
+            - Right<br>
+            - Stop<br>
+
+            Servo system<br>
+
+            - Starting position<br>
+            - Lifting position<br>
+            - Returning position<br>
+
+            Sensor system<br>
+
+            - Distance measurement<br>
+            - Obstacle detection<br>
+
+            Power system<br>
+
+            - Voltage levels<br>
+            - Current requirements<br>
+            - Servo supply<br>
+            - Motor supply<br>
+
+            This makes troubleshooting much easier.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">10</span>
           <h3>Integration and system testing</h3>
-          <p>Combine the validated subsystems and test the complete system under realistic operating conditions. Check whether mechanical, electrical, software, sensing, communication, and power systems work together as intended. Record response time, repeatability, operating range, failures, unexpected behaviour, and any dependency between subsystems.</p>
+          <p>Once the individual subsystems worked, they were integrated.<br>
+
+              The complete sequence could then be tested:<br>
+
+              Approach → Detect → Position → Lift → Move → Stabilize → Repeat<br>
+
+              This is where problems that do not appear during individual subsystem testing can become visible.<br>
+
+              For example, a servo may work perfectly by itself but struggle when carrying the actual robot load.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">11</span>
           <h3>Failure analysis and iteration</h3>
-          <p>Document what did not work and the evidence used to diagnose it. Identify the probable cause, corrective action, and result of the next iteration. The goal is not to present a perfect development process, but to show how testing informed engineering decisions. For the rover, successful local MQTT testing provided a baseline before moving to the more difficult long-distance communication stage.</p>
+          <p>Failures are not simply problems; they provide engineering information.<br>
+
+              Possible failures include:<br>
+
+              - Insufficient motor torque.<br>
+              - Servo struggling under load.<br>
+              - Robot losing balance.<br>
+              - Wheels slipping.<br>
+              - Mechanism binding.<br>
+              - Frame deformation.<br>
+              - Incorrect timing between motors and servos.<br>
+              - Sensor giving unreliable readings.<br>
+              - Robot stopping at the wrong position.<br>
+
+              Each failure leads to a question:<br>
+
+              Why did it happen?<br>
+
+              Then:<br>
+
+              Failure → Cause → Modification → Retest<br>
+
+              This cycle is one of the most important parts of the project
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">12</span>
           <h3>Validation and final evaluation</h3>
-          <p>Compare the completed system against the original requirements and measurable success criteria. State what was achieved, what remains incomplete, and what evidence supports the conclusion. Include test results, measurements, photographs, videos, graphs, or observed performance where available. Distinguish clearly between a feature that was demonstrated and one that is only planned.</p>
+          <p>The final design should be tested against the original requirements.<br>
+
+            For example:<br>
+
+            Requirement	              Test<br><br>
+            Climb stairs	            Complete multiple stair cycles<br>
+            Maintain stability	      Observe robot during lifting<br>
+            Lift robot	              Measure/verify lifting capability<br>
+            Detect obstacle	          Test ultrasonic response<br>
+            Repeat operation	        Perform multiple cycles<br>
+            Safe operation	          Check emergency/stop behavior<br>
+
+            The goal is not simply to show that the robot moves.<br>
+
+            The goal is to demonstrate that it meets the engineering requirements that were defined at the beginning.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">13</span>
           <h3>Engineering lessons</h3>
-          <p>Record what the project taught you about design, manufacturing, electronics, programming, simulation, testing, teamwork, or project planning. Highlight lessons that would change the way you approach the next design. Practical work on the fonio machine, for example, showed the importance of designing with manufacturing conditions in mind rather than treating CAD and fabrication as separate stages.</p>
+          <p>The stair-climbing robot demonstrates several important engineering lessons:<br>
+
+            - Design starts with the problem, not the component.<br>
+            - CAD is important, but physical testing is essential.<br>
+            - Mechanical design and electronics must be developed together.<br>
+            - Torque requirements must be calculated before selecting actuators.<br>
+            - Stability is as important as movement.<br>
+            - Subsystem testing makes troubleshooting easier.<br>
+            - Failure is part of the engineering process.<br>
+            - Small mechanical changes can have a major effect on system performance.<br>
+            - A successful prototype is the result of repeated design → build → test → improve cycles.
+          </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">14</span>
           <h3>Documentation and next iteration</h3>
-          <p>Close the development record with the final configuration, drawings or code revision, test evidence, known limitations, and recommended next steps. State what you would improve with additional time, resources, or testing. This creates a traceable engineering record from the original problem through each design decision, prototype, test, failure, modification, and final result.</p>
+          <p>The final stage is documenting:
+
+            - Original problem.
+            - Design requirements.
+            - Research.
+            - Concepts considered.
+            - Selected concept.
+            - CAD models.
+            - Calculations.
+            - Simulation results.
+            - Fabrication process.
+            - Circuit/control system.
+            - Testing results.
+            - Failures.
+            - Modifications.
+            - Final performance.
+            - Lessons learned.
+
+            The next iteration can then focus on improvements such as greater stability, higher climbing speed, better weight distribution, improved sensing, stronger mechanical components, and more autonomous control.
+          </p>
         </article>
       </div>
     </div>
@@ -343,9 +627,16 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       </div>
       <div class="video-layout">
         <figure class="video-frame reveal">
-          <video controls preload="metadata" poster="./base media/kjc-Krojecs31 logo demo_Motto.jpg">
-            <source src="./base media/fastforward.mp4" type="video/mp4">Your browser does not support the video element. Add a modern browser or download the video file.
-          </video><figcaption class="video-caption">Add your video at <strong>assets/project-demo.mp4</strong> and an optional poster at <strong>assets/project-video-poster.jpg</strong>.</figcaption>
+          <iframe class="youtube-video"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S&origin=https%3A%2F%2Fjunior-cesar-kore.github.io"
+            title="KJC Printer Animation"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+          <figcaption class="video-caption">Project video</figcaption>
         </figure><aside class="video-note reveal">
           <div>
             <h3>Let people see the decisions.</h3>
@@ -427,10 +718,15 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
         <article class="project-showcase-card reveal">
           <div class="project-showcase-media">
-            <video controls preload="metadata" poster="./base media/aaenics rover1.jpg">
-              <source src="./base media/rover recap1.mp4" type="video/mp4">
-              Your browser does not support video.
-            </video>
+            <iframe class="youtube-video"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S&origin=https%3A%2F%2Fjunior-cesar-kore.github.io"
+            title="KJC Printer Animation"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
           </div>
           <div class="project-showcase-info">
             <h3>02 / Design in motion</h3>
