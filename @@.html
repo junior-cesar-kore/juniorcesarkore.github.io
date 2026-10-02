@@ -129,7 +129,14 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 .project-code-info{padding:22px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
 .project-code-info h3{margin:0 0 10px;font-size:1.25rem;font-weight:600;letter-spacing:-.04em}
 .project-code-info p{margin:0;color:var(--ink-soft);font-size:.86rem}
-@media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video{height:300px;min-height:300px}.calculation-image{min-height:280px}}
+@media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video{height:300px;min-height:300px}.calculation-image{min-height:280px}} 
+/* YouTube video embed support — keeps the existing page styling and video proportions */
+.video-frame > .youtube-video{display:block;width:100%;aspect-ratio:16/9;min-height:320px;border:0;border-radius:inherit;background:oklch(17% .025 60)}
+.project-showcase-media > .youtube-video{display:block;width:100%;height:360px;border:0;background:oklch(17% .025 60)}
+@media(max-width:820px){
+  .video-frame > .youtube-video{min-height:220px}
+  .project-showcase-media > .youtube-video{height:300px}
+}
 </style></head>
 <body>
 <header class="shell topbar">
@@ -192,7 +199,9 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="snapshot">
         <article class="statement reveal">
           <h3>The challenge is simple to state. The solution is not.</h3>
-          <p>Replace this paragraph with the real problem your project addresses. Explain what was difficult, why it mattered, and what would improve if the project succeeded.</p>
+          <p>The project was developed to create a mobile robot capable of moving across different floor levels without relying on conventional elevators or ramps.<br>
+          Normal wheeled robots work well on flat surfaces, but stairs create a major mobility problem. A robot designed only for flat-ground movement can lose contact, become unstable, or tip over when it encounters a step.<br>
+          The aim was therefore to develop a stair-climbing mechanism that can lift, support, and reposition the robot while maintaining stability.</p>
         </article>
         <div class="project-facts reveal" aria-label="Project facts">
           <div class="fact">
@@ -343,9 +352,16 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       </div>
       <div class="video-layout">
         <figure class="video-frame reveal">
-          <video controls preload="metadata" poster="./base media/kjc-Krojecs31 logo demo_Motto.jpg">
-            <source src="./base media/fastforward.mp4" type="video/mp4">Your browser does not support the video element. Add a modern browser or download the video file.
-          </video><figcaption class="video-caption">Add your video at <strong>assets/project-demo.mp4</strong> and an optional poster at <strong>assets/project-video-poster.jpg</strong>.</figcaption>
+          <iframe class="youtube-video"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S&origin=https%3A%2F%2Fjunior-cesar-kore.github.io"
+            title="KJC Printer Animation"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+          <figcaption class="video-caption">Project video</figcaption>
         </figure><aside class="video-note reveal">
           <div>
             <h3>Let people see the decisions.</h3>
@@ -427,10 +443,15 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
         <article class="project-showcase-card reveal">
           <div class="project-showcase-media">
-            <video controls preload="metadata" poster="./base media/aaenics rover1.jpg">
-              <source src="./base media/rover recap1.mp4" type="video/mp4">
-              Your browser does not support video.
-            </video>
+            <iframe class="youtube-video"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S&origin=https%3A%2F%2Fjunior-cesar-kore.github.io"
+            title="KJC Printer Animation"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
           </div>
           <div class="project-showcase-info">
             <h3>02 / Design in motion</h3>
