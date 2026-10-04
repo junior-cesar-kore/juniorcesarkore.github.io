@@ -176,7 +176,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
     </div>
     <div class="hero-visual reveal">
       <figure class="project-image image-empty">
-        <img src="./03/intro_image.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
+        <img src="./06/intro_image.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
         <figcaption class="image-caption">Project image</figcaption>
       </figure>
       <div class="hero-meta">
@@ -199,9 +199,20 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="snapshot">
         <article class="statement reveal">
           <h3>The challenge is simple to state. The solution is not.</h3>
-          <p>The project was developed to create a mobile robot capable of moving across different floor levels without relying on conventional elevators or ramps.<br>
-          Normal wheeled robots work well on flat surfaces, but stairs create a major mobility problem. A robot designed only for flat-ground movement can lose contact, become unstable, or tip over when it encounters a step.<br>
-          The aim was therefore to develop a stair-climbing mechanism that can lift, support, and reposition the robot while maintaining stability.</p>
+          <p>
+            The project started from a limitation I encountered with conventional 3D printers:
+            <strong>The available print volume was not large enough for the type of
+            mechanical prototypes I wanted to develop.</strong><br>
+            As a Robotics Engineering student working on mechanical and mechatronic
+            projects, I wanted to be able to prototype larger mechanical components
+            and assemblies, particularly parts related to robotic arms and other large
+            scale mechanisms.<br>
+            Instead of adapting my designs to fit a small printer, I decided to approach the
+            problem from the other direction:
+            <strong>What if I designed and built a 3D printer around the size of
+            prototypes I actually wanted to manufacture?</strong><br>
+            This became the reason for developing a large-format 3D printer.
+        </p>
         </article>
         <div class="project-facts reveal" aria-label="Project facts">
           <div class="fact">
@@ -283,32 +294,58 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="story-piece reveal">
           <span class="number">01 / Need</span>
           <h3>What needed solving?</h3>
-          <p>The main problem was simple:How can a mobile robot move from one level to another using stairs while remaining stable and controllable?<br>
-            A normal four-wheel arrangement cannot simply drive up a staircase because the wheels cannot continuously maintain the required contact with the stair surfaces.
+          <p>
+            The problem was not simply:
+            "I need a 3D printer."<br>
+            It was:
+            "I need a 3D printer with a sufficiently large build volume to
+            manufacture the prototypes I want to design."<br>
+            A larger printer, however, creates new engineering problems.
+            Increasing the size of the printer also increases:<br>
+            - Structural loads.<br>
+            - Bending.<br>
+            - Deflection.<br>
+            - Motor torque requirements.<br>
+            - Lead-screw loading.<br>
+            - Buckling risk.<br>
+            - Shaft loading.<br>
+            - Frame instability.<br>
+            - Moving mass.<br>
+            - Manufacturing requirements.<br>
+            So the project became more than a 3D-printer assembly project.
+            It became a structural and mechanical engineering design problem
           </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">02 / Decision</span>
           <h3>Why this approach?</h3>
-          <p>The project explored a mechanical climbing mechanism where the robot does more than simply rotate its wheels.<br>
-
-            The mechanism must:<br>
-
-            Support the robot's weight.<br>
-            Lift the robot to the next step.<br>
-            Move the robot forward.<br>
-            Maintain balance during lifting.<br>
-            Return to a stable position before the next climbing cycle.<br>
-
-            This makes the project both a mechanical design problem and a control problem.
+          <p>
+            Before purchasing or fabricating components, I created a rough hand sketch
+            and 3d draft of the proposed printer.<br>
+            The purpose of those sketches were to establish:<br>
+            - Approximate overall dimensions.<br>
+            - General frame arrangement.<br>
+            - Motion axes.<br>
+            - Position of the Z-axis.<br>
+            - Lead-screw arrangement.<br>
+            - Motor locations.<br>
+            - Supporting pillars.<br>
+            - Moving modules.<br>
+            - General mechanism.<br>
+            This was the first transition from:
+            "I want a large printer."
+            to:
+            "This is how I think a large printer could physically work."
+            The sketch then became the basis for the engineering calculations.
           </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">03 / Result</span>
           <h3>What works now?</h3>
-          <p>The working concept is based on coordinating the drive system, lifting mechanism, and control sequence.<br>
-
-            Instead of trying to force the wheels to climb the stair directly, the mechanism helps reposition the robot onto the next step.
+          <p>
+            I have not yet started assemblying the electronics, however some of the shafts and their 3d printed 
+            holders are already connected. They fit perfectly and the ACME shafts have recenly been acquired, as well as 
+            the motors and their drivers. Therefore, it is just a matter of time for the different testes.
           </p>
         </article>
       </div>
@@ -328,329 +365,435 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="process-step reveal">
           <span class="process-number">01</span>
           <h3>Problem definition</h3>
-          <p>The first step was to define the mobility problem.<br>
-
-            The robot needed to:<br>
-
-            - Detect/approach a stair.<br>
-            - Position itself correctly.<br>
-            - Lift or reposition its body.<br>
-            - Move onto the next step.<br>
-            - Stabilize itself.<br>
-            - Repeat the sequence until the staircase is completed.<br>
-
-            The major engineering challenge was maintaining stability while the robot's center of gravity changes during climbing.
+          <p>
+            The main objective was defined as:
+            Design and build a large-format 3D printer capable of producing
+            large prototypes while maintaining sufficient structural strength,
+            positional stability, and reliable axis movement.<br>
+            The design therefore needed to satisfy two requirements simultaneously:<br>
+            <strong>Large</strong><br>
+            Large enough for the intended robotic and mechanical prototypes.<br>
+            <strong>Stable</strong><br>
+            Rigid enough that increasing the size would not result in excessive:<br>
+            - Deflection.<br>
+            - Vibration.<br>
+            - Misalignment.<br>
+            - Buckling.<br>
+            - Shaft deformation.<br>
+            - Positioning errors.<br>
+            This created the fundamental engineering trade-off:
+            The larger the printer becomes, the more carefully the structure
+            and motion systems have to be designed.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">02</span>
           <h3>Requirements and constraints</h3>
-          <p>The design requirements included:<br>
-
-            - Ability to climb stairs.<br>
-            - Stable movement.<br>
-            - Sufficient lifting force.<br>
-            - Controlled motor movement.<br>
-            - Controlled servo/mechanical movement.<br>
-            - Compact mechanical structure.<br>
-            - Reasonable weight.<br>
-            - Strong enough frame.<br>
-            - Safe operation.<br>
-            - Repeatable climbing sequence.<br>
-
-            Important constraints included:<br>
-
-            - Motor torque.<br>
-            - Servo torque.<br>
-            - Robot weight.<br>
-            - Stair height.<br>
-            - Stair depth.<br>
-            - Available space for the mechanism.<br>
-            - Battery capacity.<br>
-            - Material strength.<br>
-            - Manufacturing limitations.
-
+          <p>
+            The requirements included:<br>
+            - Large build volume.<br>
+            - Rigid frame.<br>
+            - Stable Z-axis.<br>
+            - Reliable X/Y movement.<br>
+            - Controlled Z-axis movement.<br>
+            - Sufficient motor torque.<br>
+            - Adequate shaft strength.<br>
+            - Adequate lead-screw strength.<br>
+            - Resistance to buckling.<br>
+            - Controlled deflection.<br>
+            - Reliable bearings.<br>
+            - Manufacturability.<br>
+            - Reasonable safety margin.<br>
+            A <strong>factor of safety of 2.5</strong> was used as an important design criterion for the
+            structural calculations.<br>
+            This meant the components were not designed simply to survive the expected
+            load. They were designed with additional capacity to account for uncertainties
+            and real-world conditions.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">03</span>
           <h3>Research and investigation</h3>
-          <p>Different stair-climbing approaches were investigated, including:<br>
-
-            - Wheel-based systems.<br>
-            - Tracked systems.<br>
-            - Legged mechanisms.<br>
-            - Triangular wheel arrangements.<br>
-            - Articulated mechanisms.<br>
-            - Lifting mechanisms.<br>
-
-            The research helped identify what each approach does well and where it becomes difficult.<br>
-
-            The important question was not simply: "Which mechanism can climb stairs?"<br>
-
-            but: "Which mechanism can climb the required stairs using the components, manufacturing methods, and control system available to us?"
+          <p>
+            The next step was deciding how the printer should actually move.
+            Several mechanical considerations were investigated, particularly for the Z
+            axis.<br>
+            A lead-screw-based mechanism was selected because it provides:
+            - Controlled linear movement.<br>
+            - High mechanical advantage.<br>
+            - Good load carrying capability.<br>
+            - Suitable positioning.<br>
+            - Resistance to back-driving depending on the screw geometry.<br>
+            - Practical implementation for a large machine.<br>
+            For the screw mechanism, an <strong>ACME screw</strong> was selected.
+            The reason was not simply availability.
+            The screw was evaluated from an engineering perspective, including:<br>
+            - Pitch.<br>
+            - Lead.<br>
+            - Torque.<br>
+            - Friction.<br>
+            - Load capacity.<br>
+            - Self-locking/back-driving behavior.<br>
+            - Strength.<br>
+            - Manufacturing practicality.<br>
+            The higher friction of the ACME form can be useful in a loaded linear
+            mechanism because it can improve resistance to unwanted movement
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">04</span>
           <h3>System architecture</h3>
-          <p>The robot can be divided into several major subsystems:<br>
-
-            Mechanical System :<br>
-
-            - Frame<br>
-            - Wheels<br>
-            - Lifting mechanism<br>
-            - Servo mechanisms<br>
-           -  Mechanical joints<br>
-
-            Drive System :<br>
-
-            - DC motors<br>
-            - Motor driver<br>
-            - Wheels<br>
-
-            Control System :<br>
-
-            - Microcontroller<br>
-            - Control logic<br>
-            - Servo control<br>
-            - Motor control<br>
-
-            Sensing System :<br>
-
-            - Ultrasonic sensor(s)<br>
-            - Position/distance feedback<br>
-
-            Power System :<br>
-
-            - Battery<br>
-            - Voltage regulation<br>
-            - Motor supply<br>
-            - Servo supply<br>
-
-            The complete system works by coordinating these subsystems rather than treating them as separate components.
+          <p>
+            The printer was treated as a complete mechanical system rather than a
+            collection of independent parts.<br>
+            <strong>Main systems</strong><br><br>
+            <strong>Frame</strong><br>
+            - Pillars<br>
+            - Cross members<br>
+            - Structural supports<br>
+            <strong>X/Y motion system</strong><br>
+            - Rails/guides<br>
+            - Moving members<br>
+            - Motors<br>
+            - Drive mechanisms<br>
+            <strong>Z-axis</strong><br>
+            - Lead screws<br>
+            - Shafts<br>
+            - Bearings<br>
+            - Z-axis module<br>
+            - Motors<br>
+            <strong>Printing system</strong><br>
+            - Extruder<br>
+            - Hot end<br>
+            - Build platform<br>
+            <strong>Control system</strong><br>
+            - Controller<br>
+            - Stepper drivers<br>
+            - Sensors<br>
+            - End stops<br>
+            The interaction between these systems was considered during the design.
+            That last point is important.
+            The components were not analyzed in isolation. The effect of one
+            component on the rest of the structure was considered.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">05</span>
-          <h3>Concept development</h3>
-          <p>Several concepts can be considered before selecting the final mechanism.<br>
-
-            Each concept is evaluated based on:<br>
-
-            - Stability<br>
-            - Complexity<br>
-            - Cost<br>
-            - Manufacturability<br>
-            - Weight<br>
-            - Torque requirements<br>
-            - Control difficulty<br>
-            - Stair dimensions<br>
-
-            The selected concept should provide the best balance between these requirements.
+          <h3>Detailed design & mechanical calculations</h3>
+          <p>
+            This was one of the biggest parts of the project.
+            Rather than selecting shafts and motors based only on what was available, the
+            required dimensions and capacities were calculated.<br>
+            <strong>Z-Axis Structural Study</strong><br>
+            The Z-axis was studied extensively because it carries significant loads and
+            directly affects the stability of the printer.
+            The analysis included:<br>
+            <strong>Shear force : </strong>
+            The applied loads were used to determine the shear forces acting on the
+            structural members.<br>
+            <strong>Bending moment : </strong>
+            The bending moment was calculated to determine how strongly the members
+            would tend to deform under load.<br>
+            <strong>Bearing loading : </strong>
+            The forces transmitted through the bearings were also considered.<br>
+            <strong>Shaft sizing : </strong>
+            The shaft diameter was calculated based on the required strength and stability.
+            After evaluating the different possibilities, a <strong>12 mm</strong> shaft diameter was
+            selected.<br>
+            The resulting calculated factor of safety was approximately:
+            <strong>FoS = 3.39</strong><br>
+            This was above the target factor of safety of 2.5.
+            That provided additional margin for the selected shaft under the evaluated
+            loading conditions
             
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">06</span>
-          <h3>Detailed design and modelling</h3>
-          <p>The mechanical structure was then developed in SolidWorks.<br>
-
-            The modeling stage involved:<br>
-
-            - Creating the robot frame.<br>
-            - Designing the lifting mechanism.<br>
-            - Positioning the motors.<br>
-            - Designing servo mounting points.<br>
-            - Designing wheel locations.<br>
-            - Checking clearances.<br>
-            - Checking mechanical interference.<br>
-            - Estimating the center of gravity.<br>
-            - Preparing components for fabrication.<br>
-
-            This stage allowed mechanical problems to be identified before building the physical prototype.
+          <h3>Bending and deflection</h3>
+          <p>
+            For a large-format printer, strength alone is not enough.
+            A component can technically be strong enough not to break but still deform
+            enough to affect print quality.<br>
+            Therefore, the analysis considered:<br>
+            - Bending moment.<br>
+            - Deflection.<br>
+            - Support conditions.<br>
+            - Load distribution.<br>
+            - Interaction between components.<br>
+            This is particularly important for a large printer because even a relatively small
+            structural deflection can translate into positioning errors over a large build
+            volume.<br>
+            So the design question became:
+            Will the structure remain sufficiently rigid, not simply "will it
+            break?
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">07</span>
-          <h3>Simulation and analysis</h3>
-          <p>Before fabrication, the design can be analyzed to determine whether it can withstand the expected loads.<br>
-
-            Important calculations include:<br>
-
-            Motor torque<br>
-
-             T = F * r <br>
-
-            where:<br>
-
-            T = required torque<br>
-            F = required force<br>
-            r = effective wheel/mechanism radius<br>
-
-            For the lifting mechanism, the robot's weight creates a moment around the mechanism:<br>
-
-            M = W * d <br>
-
-            where:<br>
-
-            W = robot weight<br>
-            d = perpendicular distance from the pivot.<br>
-
-            The simulation and calculations help answer:<br>
-
-            Can the mechanism physically lift and support the robot?
+          <h3>Buckling Analysis</h3>
+          <p>
+            The vertical members and other compression-loaded components were also
+            checked for <strong>buckling</strong>.<br>
+            This was important because increasing the height of the printer increases the
+            possibility of instability in slender structural members.<br>
+            The analysis considered the relationship between:<br>
+            - Applied compressive load.<br>
+            - Member length.<br>
+            - Cross-sectional properties.<br>
+            - Material properties.<br>
+            - End/support conditions.<br>
+            The goal was to ensure that the structural members would not experience
+            instability before reaching their required working loads.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">08</span>
-          <h3>Prototype and fabrication</h3>
-          <p>After the design was finalized, the components were fabricated and assembled.<br>
-
-            This stage revealed an important engineering reality:<br>
-
-              A design that works in CAD does not automatically work perfectly in the physical world.<br>
-
-            Manufacturing tolerances, friction, material flexibility, screw alignment, motor positioning, and assembly errors can all affect performance.
+          <h3>Motor torque calculation</h3>
+          <p>
+            The motors were not selected randomly.
+            The required torque was calculated from the mechanical loads acting on the
+            system.<br>
+            For a rotational system: <strong></strong>T =Fr<br>
+            where:<br>
+            - T= torque<br>
+            - F= force<br>
+            - r= effective radius.<br>
+            
+            For the lead-screw system, the torque requirement also depends on:<br>
+            - Axial load.<br>
+            - Screw lead.<br>
+            - Screw efficiency.<br>
+            - Friction.<br>
+            A simplified relationship can be represented as: <strong>T ∝ FL/η</strong><br>
+            where:<br>
+            - F= axial load<br>
+            - L= lead<br>
+            - η= screw efficiency.<br>
+            
+            This allowed the motor requirement to be connected directly to the mechanical
+            requirements of the printer
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">09</span>
-          <h3>Subsystem testing</h3>
-          <p>Instead of testing the complete robot immediately, individual subsystems were tested first.<br>
+          <h3>Lead-screw study</h3>
+          <p>
+            The lead-screw system received its own engineering study.<br>
+            We considered:<br>
+            - Screw diameter.<br>
+            - Pitch.<br>
+            - Lead.<br>
+            - Axial loading.<br>
+            - Torque.<br>
+            - Friction.<br>
+            - Locking behavior.<br>
+            - Buckling.<br>
+            - Strength.<br>
+            - Motor requirements.<br>
+            The purpose was to make sure the lead screw could both <strong>move the required
+            load and remain structurally safe</strong>.<br>
+            The ACME screw mechanism was selected after considering these factors.
+            This was particularly important because the lead screw is not just a
+            transmission component—it is also part of the structural load path.
 
-            For example:<br>
-
-            Motor system<br>
-
-            - Forward<br>
-            - Reverse<br>
-            - Left<br>
-            - Right<br>
-            - Stop<br>
-
-            Servo system<br>
-
-            - Starting position<br>
-            - Lifting position<br>
-            - Returning position<br>
-
-            Sensor system<br>
-
-            - Distance measurement<br>
-            - Obstacle detection<br>
-
-            Power system<br>
-
-            - Voltage levels<br>
-            - Current requirements<br>
-            - Servo supply<br>
-            - Motor supply<br>
-
-            This makes troubleshooting much easier.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">10</span>
-          <h3>Integration and system testing</h3>
-          <p>Once the individual subsystems worked, they were integrated.<br>
-
-              The complete sequence could then be tested:<br>
-
-              Approach → Detect → Position → Lift → Move → Stabilize → Repeat<br>
-
-              This is where problems that do not appear during individual subsystem testing can become visible.<br>
-
-              For example, a servo may work perfectly by itself but struggle when carrying the actual robot load.
+          <h3>Arm/moving mechanism study</h3>
+          <p>
+            The moving mechanism was also analyzed to determine:<br>
+            - Number of motors required.<br>
+            - Required motor torque.<br>
+            - Applied loads.<br>
+            - Mechanical moments.<br>
+            - Load distribution.<br>
+            - Interaction between the moving components.<br>
+            The mechanism was therefore sized based on the actual loads rather than
+            simply choosing motors based on their availability.<br>
+            This helped answer:
+            How many motors do I actually need, and what torque must each
+            motor provide?
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">11</span>
-          <h3>Failure analysis and iteration</h3>
-          <p>Failures are not simply problems; they provide engineering information.<br>
+          <h3>Interaction between components</h3>
+          <p>
+            One of the strongest aspects of this project was that the analysis did not stop at
+            individual components.<br>
+            For example:
+            <strong>Motor → lead screw → bearing → shaft → Z-axis module → frame</strong><br>
+            Every component transfers forces to another component.
+            Therefore, changing one component can change the loading of another.
+            <br>For example:<br>
+            - Increasing the printer size increases the load.<br>
+            - Increased load affects the lead screw.<br>
+            - Lead-screw loading affects motor torque.<br>
+            - Motor and screw forces affect the bearings.<br>
+            - Bearing forces affect the supporting structure.<br>
+            - Structural flexibility affects printer accuracy.<br>
+            This creates a complete mechanical chain.
 
-              Possible failures include:<br>
-
-              - Insufficient motor torque.<br>
-              - Servo struggling under load.<br>
-              - Robot losing balance.<br>
-              - Wheels slipping.<br>
-              - Mechanism binding.<br>
-              - Frame deformation.<br>
-              - Incorrect timing between motors and servos.<br>
-              - Sensor giving unreliable readings.<br>
-              - Robot stopping at the wrong position.<br>
-
-              Each failure leads to a question:<br>
-
-              Why did it happen?<br>
-
-              Then:<br>
-
-              Failure → Cause → Modification → Retest<br>
-
-              This cycle is one of the most important parts of the project
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">12</span>
-          <h3>Validation and final evaluation</h3>
-          <p>The final design should be tested against the original requirements.<br>
+          <h3>Prototype & fabrication</h3>
+          <p>
+            Once the mechanical design and calculations were established, the printer
+            could move toward fabrication.<br>
+            The important difference here was that the prototype was not simply
+            assembled from commercially available components.
+            The structure was developed around the calculated requirements of the
+            intended machine.
+            This included consideration of:<br>
+            - Frame dimensions.<br>
+            - Shaft diameter.<br>
+            - Lead-screw mechanism.<br>
+            - Motor requirements.<br>
+            - Bearing arrangement.<br>
+            - Structural supports.<br>
+            - Assembly interfaces<br><br>
 
-            For example:<br>
-
-            Requirement	              Test<br><br>
-            Climb stairs	            Complete multiple stair cycles<br>
-            Maintain stability	      Observe robot during lifting<br>
-            Lift robot	              Measure/verify lifting capability<br>
-            Detect obstacle	          Test ultrasonic response<br>
-            Repeat operation	        Perform multiple cycles<br>
-            Safe operation	          Check emergency/stop behavior<br>
-
-            The goal is not simply to show that the robot moves.<br>
-
-            The goal is to demonstrate that it meets the engineering requirements that were defined at the beginning.
+            <strong>Right now I am at the fabrication process. With all the calculation done I have a good amount of confidence
+              on the safety and integrity of the design.
+            </strong>
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">13</span>
-          <h3>Engineering lessons</h3>
-          <p>The stair-climbing robot demonstrates several important engineering lessons:<br>
+          <h3>Subsystem testing</h3>
+          <p>
+            Testing could then be performed subsystem by subsystem.<br><br>
 
-            - Design starts with the problem, not the component.<br>
-            - CAD is important, but physical testing is essential.<br>
-            - Mechanical design and electronics must be developed together.<br>
-            - Torque requirements must be calculated before selecting actuators.<br>
-            - Stability is as important as movement.<br>
-            - Subsystem testing makes troubleshooting easier.<br>
-            - Failure is part of the engineering process.<br>
-            - Small mechanical changes can have a major effect on system performance.<br>
-            - A successful prototype is the result of repeated design → build → test → improve cycles.
+            Z-axis<br>
+            - Up/down movement.<br>
+            - Motor torque.<br>
+            - Lead-screw rotation.<br>
+            - Alignment.<br>
+            - Stability.<br>
+            - Backlash.<br>
+            - Vertical load.<br><br>
+            
+            Frame<br>
+            - Rigidity.<br>
+            - Deflection.<br>
+            - Joint stability.<br>
+            - Alignment.<br><br>
+
+            X/Y system<br>
+            - Smooth movement.<br>
+            - Motor operation.<br>
+            - Alignment.<br>
+            - Repeatability.<br><br>
+
+            Printing system<br>
+            - Extrusion.<br>
+            - Heating.<br>
+            - Bed operation.<br>
+            - Layer deposition<br>
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">14</span>
+          <h3>Integration & System testing</h3>
+          <p>
+            After the individual systems were tested, everything could be integrated.
+            The complete sequence becomes:
+            <strong>Command → Motor → Mechanical transmission → Axis movement →
+            Position → Printing</strong><br><br>
+            The final test is not simply:
+            "Does the printer move?"<br>
+            It is:
+            "Can the entire system maintain accurate and stable movement
+            while carrying out an actual print?
+          </p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">15</span>
+          <h3>Failure Analysis & Iteration</h3>
+          <p>
+            The project was designed with failure prevention in mind.<br>
+            Instead of waiting for the physical prototype to fail, potential failure modes
+            were considered mathematically.<br><br>
+            These included:<br>
+            - Excessive bending.<br>
+            - Shaft failure.<br>
+            - Bearing overload.<br>
+            - Lead-screw failure.<br>
+            - Buckling.<br>
+            - Insufficient motor torque.<br>
+            - Structural instability.<br>
+            - Excessive deflection.<br>
+            - Misalignment.<br>
+            The <strong>factor of safety of 2.5</strong> was incorporated into the design process to
+            provide additional capacity beyond the expected working loads.
+            The 12 mm shaft selection, for example, resulted in a calculated <strong>factor of
+            safety of 3.39</strong>, giving additional margin relative to the original target.
+            This demonstrates a key engineering principle:
+            Failure analysis should happen before failure happens
+          </p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">16</span>
+          <h3>Validation & Final Evalution</h3>
+          <p>
+            The final printer should ultimately be evaluated against the original purpose:
+            - Can it provide the required large build volume?
+            - Can the structure remain stable?
+            - Can the motors move the required loads?
+            - Can the lead screws support and accurately position the Z
+            axis?
+            - Can the structure resist bending and buckling?
+            - Can the machine maintain sufficient positioning accuracy?
+            - Can it successfully produce large prototypes?
+            These questions connect the final machine directly back to the reason the
+            project started
+          </p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">17</span>
+          <h3>Engineering Lessons</h3>
+          <p>
+            I have not finish the printer yet, thus I can not draw the final lessons learnt. 
+            However so far I can say that starting a project with an estimation of what could 
+            go wrong and right, and being able to quantity both gives some kind of motivational
+            push that make me want to see the outcome. <br>
+            I have to finish this project to know how much I can trust the numbers and how I could 
+            have made more accurate estimations, and most improtantly what I missed in my estimation
+            to ensure that those parameters do not get overlooked in my futur endeavors.
+          </p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">18</span>
           <h3>Documentation and next iteration</h3>
-          <p>The final stage is documenting:
-
-            - Original problem.
-            - Design requirements.
-            - Research.
-            - Concepts considered.
-            - Selected concept.
-            - CAD models.
-            - Calculations.
-            - Simulation results.
-            - Fabrication process.
-            - Circuit/control system.
-            - Testing results.
-            - Failures.
-            - Modifications.
-            - Final performance.
-            - Lessons learned.
-
-            The next iteration can then focus on improvements such as greater stability, higher climbing speed, better weight distribution, improved sensing, stronger mechanical components, and more autonomous control.
+          <p>
+            The documentation should preserve the entire engineering journey:<br>
+            <strong>Problem → Rough Sketch → Requirements → Research → Concept →
+            Mechanical Architecture → Calculations → Shaft Study → Z-Axis Study →
+            Lead-Screw Study → Motor Torque → Buckling → Factor of Safety →
+            CAD → Fabrication → Testing → Failure Analysis → Improvements →
+            Final Printer</strong><br>
+            And the next iteration can focus on things such as:<br>
+            - Increasing build volume further if required.<br>
+            - Improving rigidity.<br>
+            - Reducing vibration.<br>
+            - Improving Z-axis synchronization.<br>
+            - Improving print accuracy.<br>
+            - Increasing printing speed.<br>
+            - Improving thermal management.<br>
+            - Improving electronics.<br>
+            - Adding better monitoring and safety features.<br>
+            - Making the printer easier to maintain.<br><br>
+            The complete story in one line:
+            <strong>The 3D printer project started from a personal need for a larger
+            prototyping platform, then evolved into a complete mechanical
+            engineering study where the required machine size drove the
+            structural design, shaft sizing, bearing loads, motor torque, lead
+            screw selection, buckling analysis, and factor-of-safety calculations
+            before the physical machine was built</strong>
           </p>
         </article>
       </div>
@@ -674,7 +817,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Use this for the strongest image, render, or diagram.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/solidworks Wp.jpg" alt="Fonio machine design view 3">
+            <img src="./06/intro_image.jpg" alt="Fonio machine design view 3">
           </div>
         </article>
         <div class="gallery-slot reveal">
@@ -682,7 +825,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Show an intermediate step, test setup, or technical detail.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/Stair Master circuit.jpg" alt="Fonio machine design view 3">
+            <img src="./06/intro_image.jpg" alt="Fonio machine design view 3">
           </div>
         </div>
         <div class="gallery-slot reveal">
@@ -690,7 +833,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Show the proof that the project works.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/krojecs printer.jpg" alt="Fonio machine design view 3">
+            <img src="./06/intro_image.jpg" alt="Fonio machine design view 3">
           </div>
         </div>
       </div>
@@ -710,10 +853,20 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="project-showcase">
         <article class="project-showcase-card reveal">
           <div class="project-showcase-media">
-            <img src="./base media/aaenics rover.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+            <img src="./06/image_2.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
           </div>
           <div class="project-showcase-info">
             <h3>01 / SolidWorks model</h3>
+            <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
+          </div>
+        </article>
+
+        <article class="project-showcase-card reveal">
+          <div class="project-showcase-media">
+            <img src="./06/image_3.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+          </div>
+          <div class="project-showcase-info">
+            <h3>02 / SolidWorks model</h3>
             <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
           </div>
         </article>
@@ -731,7 +884,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           </iframe>
           </div>
           <div class="project-showcase-info">
-            <h3>02 / Design in motion</h3>
+            <h3>03 / Design in motion</h3>
             <p>Use this space for a modelling walkthrough, assembly sequence, simulation, mechanism movement, or demonstration of the completed design.</p>
           </div>
         </article>
@@ -756,10 +909,10 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 
       <article class="calculation-card reveal">
         <div class="calculation-image">
-          <img src="./base media/kjc printer hand calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
+          <img src="./06/cal_image_1.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
         </div>
         <div class="calculation-image">
-          <img src="./base media/kjc printer calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
+          <img src="./06/cal_image_2.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
         </div>
         <div class="calculation-info">
           <h3>Engineering calculations</h3>
@@ -788,104 +941,6 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
  // MAIN PROJECT CODE
  # By KJC
 
-import time
-import turtle
-from turtle import *
-
-def kjc_2logo():
-
-   speed(5)
-   color("", "brown")
-   pensize(5)
-   pencolor("grey")
-   hideturtle()
-
-   begin_fill()
-# 1st turn
-   left(90)
-   forward(150)
-# 2nd turn
-   right(90)
-   forward(175)
-# 3rd turn
-   left(90)
-   forward(60)
-# 4th turn
-   left(90)
-   forward(400)
-
-   left(90)
-   forward(30)
-# 1st arc
-   circle(30, 90)
-   forward(70)
-# 2nd arc
-   right(180)
-   circle(50, -90)
-# 5th turn
-   right(180)
-   forward(240)
-# 3rd arc
-   right(180)
-   circle(50, -90)
-# 5th turn
-   right(180)
-   forward(130)
-# 3rd arc
-   circle(30, 90)
-   forward(30)
-   left(90)
-   forward(250)
-
-# 4th arc
-   circle(40, 90)
-   forward(110)
-# th turn
-   right(50)
-   forward(30)
-# K rotation 1
-   right(25)
-   forward(5)
-   right(25)
-   forward(5)
-   right(25)
-   forward(5)
-   right(25)
-# end rotation + line
-   forward(200)
-# th turn
-   left(60)
-   forward(70)
-# th turn
-   left(120)
-   forward(260)
-# K rotation 2
-   right(25)
-   forward(5)
-   right(20)
-   forward(5)
-# end rotation + line
-   right(20)
-   forward(209)
-# th turn
-   left(125)
-   forward(70)
-# th turn
-   left(51)
-   forward(210)
-   right(141)
-   forward(15)
-# calibration
-   right(90)
-
-   time.sleep(1)
-   end_fill()
-
-   done()
-
-if __name__ == '__main__':
-    print('Starting....')
-    kjc_2logo()
 </code></pre>
         </article>
         <aside class="project-code-info reveal">
@@ -905,69 +960,6 @@ if __name__ == '__main__':
             <code>// ============================================================
  // SUPPORTING PROJECT CODE
  # By KJC
-
-try:
-    import PyPDF2
-    import pyttsx3
-    import pdfplumber
-    from tkinter import filedialog
-    from tkinter import *
-    pass
-
-except:
-    import pip
-    pip.main(["install", 'PyPDF2'])
-    pip.main(["install", 'pyttsx3'])
-    pip.main(["install", 'pdfplumber'])
-    import PyPDF2
-    import pyttsx3
-    import pdfplumber
-    from tkinter import filedialog
-    pass
-
-# setting up the speaker
-Speaker = pyttsx3.init()
-voices = Speaker.getProperty("voices")
-Speaker.setProperty('voice', voices[0].id)
-Speaker.setProperty('rate', 150)
-
-# defining the speak function
-def speak(things):
-    Speaker.say(things)
-    Speaker.runAndWait()
-    pass
-
-# test ting the speak function
-speak('Welcome in KJC')
-speak('Please, Choose your file!')
-# file path and name through the gui
-file = filedialog.askopenfilename()
-
-
-
-# create a pdf file object
-pdfFileObj = open(file, "rb")
-
-# create a pdf reader object
-pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
-
-# pages of the pdf file
-pages = pdfReader.numPages
-
-# where do you want to start
-speak("Where do you wish to start")
-begin = int(input('Where do you wish to start : '))
-
-
-# create pdfplumber object and loop through the number of pages in pdf
-with pdfplumber.open(file) as pdf:
-    # loop through the number fo pages
-    for i in range(begin-1, pages):
-        print("\n \nPage " + str(i + 1) + "/" + str(pages) + "\n\n")
-        page = pdf.pages[i]
-        text = page.extract_text()
-        print(text, "\n")
-        speak(text)
 
 
 </code>
