@@ -176,7 +176,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
     </div>
     <div class="hero-visual reveal">
       <figure class="project-image image-empty">
-        <img src="./03/intro_image.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
+        <img src="./05/intro_image.jpg.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
         <figcaption class="image-caption">Project image</figcaption>
       </figure>
       <div class="hero-meta">
@@ -199,9 +199,28 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="snapshot">
         <article class="statement reveal">
           <h3>The challenge is simple to state. The solution is not.</h3>
-          <p>The project was developed to create a mobile robot capable of moving across different floor levels without relying on conventional elevators or ramps.<br>
-          Normal wheeled robots work well on flat surfaces, but stairs create a major mobility problem. A robot designed only for flat-ground movement can lose contact, become unstable, or tip over when it encounters a step.<br>
-          The aim was therefore to develop a stair-climbing mechanism that can lift, support, and reposition the robot while maintaining stability.</p>
+          <p>
+            The project began from the idea of creating a <strong>mobile robotic platform
+            capable of transporting items from one location to another with
+            minimal human involvement</strong>.<br>
+            The long-term vision is a rover that could operate within a local area and
+            transport items between people—for example, one person could place an item
+            on the rover, provide its destination, and the rover could deliver it to another
+            person.<br>
+            The concept is intended to evolve beyond simple remote control.<br>
+            The long-term system could combine:<br>
+            - Remote control.<br>
+            - Semi-autonomous operation.<br>
+            - Autonomous navigation.<br>
+            - Long-range communication.<br>
+            - Outdoor mobility.<br>
+            - Payload transportation.<br>
+            - Additional robotic attachments.<br>
+            The idea is therefore not simply to build a remote-controlled car.
+            The goal is to develop a robotic transportation platform that can
+            eventually operate in real-world environments and perform useful
+            tasks
+        </p>
         </article>
         <div class="project-facts reveal" aria-label="Project facts">
           <div class="fact">
@@ -283,32 +302,41 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="story-piece reveal">
           <span class="number">01 / Need</span>
           <h3>What needed solving?</h3>
-          <p>The main problem was simple:How can a mobile robot move from one level to another using stairs while remaining stable and controllable?<br>
-            A normal four-wheel arrangement cannot simply drive up a staircase because the wheels cannot continuously maintain the required contact with the stair surfaces.
+          <p>
+            The initial question was:<br>
+            <strong>How can we create a rover that can transport objects and
+            eventually operate beyond direct line-of-sight control?</strong><br>
+            A conventional RC vehicle is limited because the operator needs to remain
+            relatively close to the vehicle.<br>
+            For a transportation robot, that is not enough.
+            The rover needs a communication system that allows a user to send
+            commands from a much greater distance.<br>
+            This led to the first major technical direction:
+            Internet-based control using MQTT
           </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">02 / Decision</span>
           <h3>Why this approach?</h3>
-          <p>The project explored a mechanical climbing mechanism where the robot does more than simply rotate its wheels.<br>
-
-            The mechanism must:<br>
-
-            Support the robot's weight.<br>
-            Lift the robot to the next step.<br>
-            Move the robot forward.<br>
-            Maintain balance during lifting.<br>
-            Return to a stable position before the next climbing cycle.<br>
-
-            This makes the project both a mechanical design problem and a control problem.
+          <p>
+            MQTT was selected because it provides a lightweight communication method
+            suitable for exchanging commands and sensor information between the rover
+            and a remote interface.<br>
+            Instead of:
+            <strong>Remote → Direct radio → Rover</strong><br>
+            the system became:
+            <strong>Web interface → Internet → MQTT broker → Rover</strong><br>
+            This opened the possibility of controlling the rover from essentially anywhere
+            with network connectivity.
+            It also creates a foundation for eventually moving from manual control toward
+            more intelligent and autonomous behavior.
           </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">03 / Result</span>
           <h3>What works now?</h3>
-          <p>The working concept is based on coordinating the drive system, lifting mechanism, and control sequence.<br>
-
-            Instead of trying to force the wheels to climb the stair directly, the mechanism helps reposition the robot onto the next step.
+          <p>
+            hgfjhf,h
           </p>
         </article>
       </div>
@@ -327,330 +355,390 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="process">
         <article class="process-step reveal">
           <span class="process-number">01</span>
-          <h3>Problem definition</h3>
-          <p>The first step was to define the mobility problem.<br>
-
-            The robot needed to:<br>
-
-            - Detect/approach a stair.<br>
-            - Position itself correctly.<br>
-            - Lift or reposition its body.<br>
-            - Move onto the next step.<br>
-            - Stabilize itself.<br>
-            - Repeat the sequence until the staircase is completed.<br>
-
-            The major engineering challenge was maintaining stability while the robot's center of gravity changes during climbing.
+          <h3>Stage 1 - Small Prototype</h3>
+          <p>
+            The first stage focused on proving the communication and control concept
+            before building the larger physical platform.
+            An <strong>ESP32</strong> was used as the main controller.<br>
+            The prototype included:<br>
+            - ESP32.<br>
+            - Motor driver.<br>
+            - DC motors.<br>
+            - Rover chassis.<br>
+            - Sensors.<br>
+            - Power system.<br>
+            - MQTT communication.<br>
+            - Web-based control interface.<br>
+            The purpose of this stage was not to create the final transport rover.<br>
+            It was to answer:
+            Can we reliably communicate with and control a physical rover
+            remotely through the internet?
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">02</span>
-          <h3>Requirements and constraints</h3>
-          <p>The design requirements included:<br>
-
-            - Ability to climb stairs.<br>
-            - Stable movement.<br>
-            - Sufficient lifting force.<br>
-            - Controlled motor movement.<br>
-            - Controlled servo/mechanical movement.<br>
-            - Compact mechanical structure.<br>
-            - Reasonable weight.<br>
-            - Strong enough frame.<br>
-            - Safe operation.<br>
-            - Repeatable climbing sequence.<br>
-
-            Important constraints included:<br>
-
-            - Motor torque.<br>
-            - Servo torque.<br>
-            - Robot weight.<br>
-            - Stair height.<br>
-            - Stair depth.<br>
-            - Available space for the mechanism.<br>
-            - Battery capacity.<br>
-            - Material strength.<br>
-            - Manufacturing limitations.
-
+          <h3>Problem During Stage 1 — Power Management</h3>
+          <p>
+            One of the major problems encountered during development was <strong>power
+            management</strong>.
+            Two ESP32 boards were damaged during the development process because the
+            power system was not sufficiently protected from disturbances generated by
+            the motor/driver system.
+            This was an important engineering lesson.
+            Motors are not electrically "quiet" loads.<br>
+            Their switching and changing current demand can introduce:<br>
+            - Voltage fluctuations.<br>
+            - Electrical noise.<br>
+            - Transient effects.<br>
+            - Back EMF-related disturbances.<br>
+            These disturbances can affect sensitive electronics.
+            Instead of simply replacing the ESP32 and continuing, the power system was
+            investigated and modified
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">03</span>
-          <h3>Research and investigation</h3>
-          <p>Different stair-climbing approaches were investigated, including:<br>
-
-            - Wheel-based systems.<br>
-            - Tracked systems.<br>
-            - Legged mechanisms.<br>
-            - Triangular wheel arrangements.<br>
-            - Articulated mechanisms.<br>
-            - Lifting mechanisms.<br>
-
-            The research helped identify what each approach does well and where it becomes difficult.<br>
-
-            The important question was not simply: "Which mechanism can climb stairs?"<br>
-
-            but: "Which mechanism can climb the required stairs using the components, manufacturing methods, and control system available to us?"
+          <h3>Failure analysis and solution</h3>
+          <p>
+            The power-management problem led to a redesign of the protection around
+            the control electronics.<br>
+            The system was improved using components such as:<br>
+            - <strong>Capacitors</strong> for filtering and stabilizing the supply.<br>
+            - <strong>Diodes</strong> for protection against unwanted voltage transients/back EMF paths.<br>
+            - Better separation/management of the motor and logic power paths.<br>
+            The goal was to prevent motor-related electrical disturbances from reaching
+            and damaging the ESP32.
+            This created one of the strongest engineering stories in the rover project:
+            <strong>The system failed → the failure was investigated → the electrical
+            architecture was modified → the system was retested.</strong><br>
+            The lesson was that mechanical and electrical systems cannot be treated
+            independently
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">04</span>
-          <h3>System architecture</h3>
-          <p>The robot can be divided into several major subsystems:<br>
-
-            Mechanical System :<br>
-
-            - Frame<br>
-            - Wheels<br>
-            - Lifting mechanism<br>
-            - Servo mechanisms<br>
-           -  Mechanical joints<br>
-
-            Drive System :<br>
-
-            - DC motors<br>
-            - Motor driver<br>
-            - Wheels<br>
-
-            Control System :<br>
-
-            - Microcontroller<br>
-            - Control logic<br>
-            - Servo control<br>
-            - Motor control<br>
-
-            Sensing System :<br>
-
-            - Ultrasonic sensor(s)<br>
-            - Position/distance feedback<br>
-
-            Power System :<br>
-
-            - Battery<br>
-            - Voltage regulation<br>
-            - Motor supply<br>
-            - Servo supply<br>
-
-            The complete system works by coordinating these subsystems rather than treating them as separate components.
+          <h3>MQTT Control System</h3>
+          <p>
+            After resolving the hardware problems, the next major milestone was
+            establishing communication.
+            The rover used <strong>MQTT</strong> as the communication protocol.<br>
+            The system architecture became:<br>
+            User<br>
+            ↓<br>
+            Web Interface<br>
+            ↓<br>
+            Internet<br>
+            ↓<br>
+            MQTT Broker<br>
+            ↓<br>
+            ESP32<br>
+            ↓<br>
+            Motor Driver<br>
+            ↓<br>
+            Rover Motors<br>
+            Commands could then be sent to the rover through MQTT
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">05</span>
-          <h3>Concept development</h3>
-          <p>Several concepts can be considered before selecting the final mechanism.<br>
-
-            Each concept is evaluated based on:<br>
-
-            - Stability<br>
-            - Complexity<br>
-            - Cost<br>
-            - Manufacturability<br>
-            - Weight<br>
-            - Torque requirements<br>
-            - Control difficulty<br>
-            - Stair dimensions<br>
-
-            The selected concept should provide the best balance between these requirements.
-            
+          <h3>Local Testing</h3>
+          <p>
+            The first communication tests were performed locally.
+            The rover was successfully controlled through the MQTT system.<br>
+            This established that:<br>
+            - The ESP32 could connect to the broker.<br>
+            - Commands could be published.<br>
+            - The rover could receive commands.<br>
+            - The motor controller could interpret those commands.<br>
+            - The rover could respond accordingly.<br>
+            This was an important proof-of-concept milestone
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">06</span>
-          <h3>Detailed design and modelling</h3>
-          <p>The mechanical structure was then developed in SolidWorks.<br>
-
-            The modeling stage involved:<br>
-
-            - Creating the robot frame.<br>
-            - Designing the lifting mechanism.<br>
-            - Positioning the motors.<br>
-            - Designing servo mounting points.<br>
-            - Designing wheel locations.<br>
-            - Checking clearances.<br>
-            - Checking mechanical interference.<br>
-            - Estimating the center of gravity.<br>
-            - Preparing components for fabrication.<br>
-
-            This stage allowed mechanical problems to be identified before building the physical prototype.
+          <h3> Moving From Local to Web Control</h3>
+          <p>
+            The next step was extending the system beyond local operation.
+            The rover was connected to a web-based interface.<br>
+            The user could interact with controls such as:<br>
+            - Forward.<br>
+            - Reverse.<br>
+            - Left.<br>
+            - Right.<br>
+            - Stop.<br>
+            The commands were sent through MQTT to the rover.<br>
+            The major achievement of Stage 1 was therefore:
+            The rover could be controlled remotely through the web rather
+            than only through a local connection.<br>
+            This established the communication foundation for the larger rover.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">07</span>
-          <h3>Simulation and analysis</h3>
-          <p>Before fabrication, the design can be analyzed to determine whether it can withstand the expected loads.<br>
-
-            Important calculations include:<br>
-
-            Motor torque<br>
-
-             T = F * r <br>
-
-            where:<br>
-
-            T = required torque<br>
-            F = required force<br>
-            r = effective wheel/mechanism radius<br>
-
-            For the lifting mechanism, the robot's weight creates a moment around the mechanism:<br>
-
-            M = W * d <br>
-
-            where:<br>
-
-            W = robot weight<br>
-            d = perpendicular distance from the pivot.<br>
-
-            The simulation and calculations help answer:<br>
-
-            Can the mechanism physically lift and support the robot?
+          <h3>Stage 1 Result</h3>
+          <p>
+            At the end of Stage 1, the project had successfully demonstrated:<br>
+            Physical rover<br>
+            ↕<br>
+            ESP32<br>
+            ↕<br>
+            MQTT<br>
+            ↕<br>
+            Internet<br>
+            ↕<br>
+            Web interface<br>
+            The first prototype therefore proved the remote-control architecture.
+            But it also revealed that the small prototype was not sufficient for the final
+            purpose.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">08</span>
-          <h3>Prototype and fabrication</h3>
-          <p>After the design was finalized, the components were fabricated and assembled.<br>
-
-            This stage revealed an important engineering reality:<br>
-
-              A design that works in CAD does not automatically work perfectly in the physical world.<br>
-
-            Manufacturing tolerances, friction, material flexibility, screw alignment, motor positioning, and assembly errors can all affect performance.
+          <h3>Stage 2 — Larger Outdoor Rover</h3>
+          <p>
+            The project is now moving into its second stage.
+            The focus is shifting from:
+            "Can we remotely control a rover?"
+            to:
+            "Can we build a rover capable of carrying useful payloads and
+            operating in a real outdoor environment?"<br>
+            This requires a major mechanical redesign.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">09</span>
-          <h3>Subsystem testing</h3>
-          <p>Instead of testing the complete robot immediately, individual subsystems were tested first.<br>
-
-            For example:<br>
-
-            Motor system<br>
-
-            - Forward<br>
-            - Reverse<br>
-            - Left<br>
-            - Right<br>
-            - Stop<br>
-
-            Servo system<br>
-
-            - Starting position<br>
-            - Lifting position<br>
-            - Returning position<br>
-
-            Sensor system<br>
-
-            - Distance measurement<br>
-            - Obstacle detection<br>
-
-            Power system<br>
-
-            - Voltage levels<br>
-            - Current requirements<br>
-            - Servo supply<br>
-            - Motor supply<br>
-
-            This makes troubleshooting much easier.
+          <h3>New Mechanical Requirements</h3>
+          <p>
+            The second prototype will have:<br>
+            - Larger frame.<br>
+            - Larger body.<br>
+            - Stronger wheels.<br>
+            - Greater payload capacity.<br>
+            - More suitable outdoor mobility.<br>
+            - More robust mechanical components.<br>
+            - Improved steering.<br>
+            - More space for electronics.<br>
+            - Space for future attachments.<br>
+            The design therefore has to move from a small experimental rover toward a
+            functional robotic platform.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">10</span>
-          <h3>Integration and system testing</h3>
-          <p>Once the individual subsystems worked, they were integrated.<br>
-
-              The complete sequence could then be tested:<br>
-
-              Approach → Detect → Position → Lift → Move → Stabilize → Repeat<br>
-
-              This is where problems that do not appear during individual subsystem testing can become visible.<br>
-
-              For example, a servo may work perfectly by itself but struggle when carrying the actual robot load.
+          <h3>Steering System</h3>
+          <p>
+            One of the major changes between Stage 1 and Stage 2 is the steering method.
+            The first prototype used a form of differential/friction steering, where the
+            rover could turn by changing the direction or speed of wheels on different
+            sides.<br>
+            For example:<br>
+            Left side → forward<br>
+            Right side → reverse<br>
+            This allows the rover to rotate around its own center.
+            That is useful for compact robots, but it is not necessarily the ideal approach
+            for the larger outdoor platform.<br><br>
+            Stage 2 Steering<br>
+            The new rover is being designed around a car-like steering mechanism.
+            Instead of rotating the rover by driving opposite sides in opposite directions, the
+            wheels will be steered mechanically.
+            Conceptually:<br>
+            Steering input<br>
+            ↓<br>
+            Steering mechanism<br>
+            ↓<br>
+            Wheel angle changes<br>
+            ↓<br>
+            Rover changes direction<br>
+            This should provide behavior more similar to a conventional vehicle and is more
+            appropriate for the intended outdoor platform
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">11</span>
-          <h3>Failure analysis and iteration</h3>
-          <p>Failures are not simply problems; they provide engineering information.<br>
-
-              Possible failures include:<br>
-
-              - Insufficient motor torque.<br>
-              - Servo struggling under load.<br>
-              - Robot losing balance.<br>
-              - Wheels slipping.<br>
-              - Mechanism binding.<br>
-              - Frame deformation.<br>
-              - Incorrect timing between motors and servos.<br>
-              - Sensor giving unreliable readings.<br>
-              - Robot stopping at the wrong position.<br>
-
-              Each failure leads to a question:<br>
-
-              Why did it happen?<br>
-
-              Then:<br>
-
-              Failure → Cause → Modification → Retest<br>
-
-              This cycle is one of the most important parts of the project
+          <h3>Current Mechanical Development</h3>
+          <p>
+            You have already completed the CAD design for:<br><br>
+            Prototype 1<br>
+            The original smaller rover used to validate:<br>
+            - Motor control.<br>
+            - ESP32 control.<br>
+            - MQTT.<br>
+            - Web communication.<br>
+            - Remote operation.<br><br>
+            Prototype 2<br>
+            The larger rover designed for:<br>
+            - Outdoor operation.<br>
+            - Increased payload.<br>
+            - Larger wheels.<br>
+            - Stronger frame.<br>
+            - Car-like steering.<br>
+            - Future attachments.<br>
+            - More capable mechanical architecture.<br>
+            The project is therefore currently transitioning from:
+            CAD → Physical mechanical construction
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">12</span>
-          <h3>Validation and final evaluation</h3>
-          <p>The final design should be tested against the original requirements.<br>
-
-            For example:<br>
-
-            Requirement	              Test<br><br>
-            Climb stairs	            Complete multiple stair cycles<br>
-            Maintain stability	      Observe robot during lifting<br>
-            Lift robot	              Measure/verify lifting capability<br>
-            Detect obstacle	          Test ultrasonic response<br>
-            Repeat operation	        Perform multiple cycles<br>
-            Safe operation	          Check emergency/stop behavior<br>
-
-            The goal is not simply to show that the robot moves.<br>
-
-            The goal is to demonstrate that it meets the engineering requirements that were defined at the beginning.
+          <h3>Current Stage — Electrical Integration</h3>
+          <p>
+            Your immediate next step is now the electrical system for Prototype 2.<br>
+            The objective is to determine:
+            Can the new mechanical system and electrical system work
+            together as one complete rover?<br><br>
+            This means working out:<br>
+            - Motor connections.<br>
+            - Motor drivers.<br>
+            - Steering actuator.<br>
+            - Main controller.<br>
+            - Power distribution.<br>
+            - Voltage regulation.<br>
+            - Sensors.<br>
+            - Communication system.<br>
+            - Protection circuitry.<br>
+            - Emergency stop/safety.<br>
+            - Wiring architecture.<br>
+            And importantly, the lessons from Stage 1 should be carried into Stage 2.
+            The power-management failure from the first prototype should not be
+            repeated.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">13</span>
-          <h3>Engineering lessons</h3>
-          <p>The stair-climbing robot demonstrates several important engineering lessons:<br>
-
-            - Design starts with the problem, not the component.<br>
-            - CAD is important, but physical testing is essential.<br>
-            - Mechanical design and electronics must be developed together.<br>
-            - Torque requirements must be calculated before selecting actuators.<br>
-            - Stability is as important as movement.<br>
-            - Subsystem testing makes troubleshooting easier.<br>
-            - Failure is part of the engineering process.<br>
-            - Small mechanical changes can have a major effect on system performance.<br>
-            - A successful prototype is the result of repeated design → build → test → improve cycles.
+          <h3>System Architecture — Stage 2</h3>
+          <p>
+            The larger rover can eventually be structured like this:<br><br>
+            Communication<br>
+            Web Interface<br>
+            ↓<br>
+            Internet<br>
+            ↓<br>
+            MQTT Broker<br>
+            ↓<br>
+            Rover Controller<br><br>
+            Control<br>
+            Rover Controller<br>
+            ↓<br>
+            Motor Drivers<br>
+            ↓<br>
+            Drive Motors<br><br>
+            Steering<br>
+            Rover Controller<br>
+            ↓<br>
+            Steering Actuator<br>
+            ↓<br>
+            Mechanical Steering System<br>
+            ↓<br>
+            Steered Wheels<br><br>
+            Sensors<br>
+            Sensors<br>
+            ↓<br>
+            Controller<br>
+            ↓<br>
+            MQTT<br>
+            ↓<br>
+            Web Interface<br>
+            This creates the foundation for eventually adding autonomous behavior
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">14</span>
+          <h3> Future Development</h3>
+          <p>
+            The larger rover is intended to become more than a remotely controlled
+            vehicle.
+            Future stages could introduce:<br><br>
+            Semi-autonomous operation<br>
+            The operator gives the rover a destination or task, while the system handles
+            some of the movement.<br><br>
+            Autonomous navigation<br>
+            The rover could eventually:<br>
+            - Determine its position.<br>
+            - Detect obstacles.<br>
+            - Plan a route.<br>
+            - Navigate toward a destination.<br>
+            - Stop when necessary.<br>
+            - Return to a defined location.<br>
+            Payload system<br>
+            The rover could eventually have:<br>
+            - Storage compartments.<br>
+            - Delivery trays.<br>
+            - Robotic arms.<br>
+            - Lifting mechanisms.<br>
+            - Specialized attachments.<br>
+            This would transform the rover from a transportation platform into a multi
+            purpose robotic platform
+          </p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">15</span>
+          <h3>Engineering lessons</h3>
+          <p>
+            The rover project has already demonstrated several important engineering
+            lessons.<br><br>
+            1. Start with the bigger problem<br>
+            The final goal wasn't simply:
+            "Build a rover."
+            It was:
+            "Build a robotic platform capable of performing useful
+            transportation tasks."<br>
+            That changes how every subsystem is designed.<br>
+            2. Prototype before scaling<br>
+            Stage 1 allowed the communication architecture to be proven before investing
+            heavily in the larger mechanical platform.<br>
+            3. Failure is information<br>
+            The damaged ESP32 boards exposed a weakness in the power architecture.
+            Instead of hiding the failure, the project used it to improve the system.<br>
+            4. Mechanical and electrical engineering are connected<br>
+            A motor is not only a mechanical device.
+            Its electrical behavior can directly affect the controller.<br>
+            5. Build in stages<br>
+            The project naturally follows:<br>
+            Small prototype<br>
+            ↓<br>
+            Communication proof<br>
+            ↓<br>
+            Power-system improvement<br>
+            ↓<br>
+            Local MQTT control<br>
+            ↓<br>
+            Web control<br>
+            ↓<br>
+            Larger mechanical platform<br>
+            ↓<br>
+            Electrical integration<br>
+            ↓<br>
+            Outdoor testing<br>
+            ↓<br>
+            Semi-autonomous operation<br>
+            ↓<br>
+            Autonomous functionality<br> 
+          </p>
+        </article>
+        <article class="process-step reveal">
+          <span class="process-number">16</span>
           <h3>Documentation and next iteration</h3>
-          <p>The final stage is documenting:
-
-            - Original problem.
-            - Design requirements.
-            - Research.
-            - Concepts considered.
-            - Selected concept.
-            - CAD models.
-            - Calculations.
-            - Simulation results.
-            - Fabrication process.
-            - Circuit/control system.
-            - Testing results.
-            - Failures.
-            - Modifications.
-            - Final performance.
-            - Lessons learned.
-
-            The next iteration can then focus on improvements such as greater stability, higher climbing speed, better weight distribution, improved sensing, stronger mechanical components, and more autonomous control.
+          <p>
+            The rover documentation should preserve this progression because it tells a
+            much stronger story than simply showing the final CAD model.<br><br>
+            Stage 1<br>
+            Idea → Small prototype → ESP32 → Power failure → Protection redesign
+            → MQTT → Local control → Web control → Successful remote operation<br>
+            Stage 2<br>
+            New requirements → Larger frame → Outdoor wheels → Car-like
+            steering → New CAD design → Mechanical fabrication → Electrical
+            integration → Testing<br>
+            Future<br>
+            Sensors → Localization → Navigation → Semi-autonomy → Autonomous
+            transportation → Attachments → Multi-purpose robotic platform<br><br>
+            The complete story in one line<br>
+            The AAENICS Rover started as an idea for a robotic transportation
+            platform, was first validated through a small ESP32-based
+            prototype and MQTT web control, overcame major power
+            management failures through electrical redesign, and is now
+            evolving into a larger outdoor rover with stronger mechanics, car
+            like steering, greater payload capability, and a foundation for
+            future semi-autonomous and autonomous operation.
           </p>
         </article>
       </div>
@@ -674,7 +762,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Use this for the strongest image, render, or diagram.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/solidworks Wp.jpg" alt="Fonio machine design view 3">
+            <img src="./05/make_image_.jpg" alt="Fonio machine design view 3">
           </div>
         </article>
         <div class="gallery-slot reveal">
@@ -682,17 +770,16 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Show an intermediate step, test setup, or technical detail.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/Stair Master circuit.jpg" alt="Fonio machine design view 3">
+            <img src="./05/make_image_.jpg" alt="Fonio machine design view 3">
           </div>
         </div>
-        <div class="gallery-slot reveal">
+        <!-- <div class="gallery-slot reveal">
           <h3>Result or test</h3>
           <p>Show the proof that the project works.</p>
           <div class="gallery-placeholder">
-            <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/krojecs printer.jpg" alt="Fonio machine design view 3">
+            <img src="./05/image_.jpg" alt="Rover AAENICS design view 3">
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -710,7 +797,25 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="project-showcase">
         <article class="project-showcase-card reveal">
           <div class="project-showcase-media">
-            <img src="./base media/aaenics rover.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+            <img src="./05/image_.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+          </div>
+          <div class="project-showcase-info">
+            <h3>01 / SolidWorks model</h3>
+            <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
+          </div>
+        </article>
+        <article class="project-showcase-card reveal">
+          <div class="project-showcase-media">
+            <img src="./05/image_.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+          </div>
+          <div class="project-showcase-info">
+            <h3>01 / SolidWorks model</h3>
+            <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
+          </div>
+        </article>
+        <article class="project-showcase-card reveal">
+          <div class="project-showcase-media">
+            <img src="./05/image_.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
           </div>
           <div class="project-showcase-info">
             <h3>01 / SolidWorks model</h3>
