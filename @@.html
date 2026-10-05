@@ -1,41 +1,71 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 <head>
 <!-- skill:chrome -->
 <style>
-/* Credit line — bottom-right */
-.design-ui-credit {
-  position: fixed;
-  bottom: 12px;
-  right: 12px;
-  font: 11px/1 system-ui, sans-serif;
-  color: rgba(128,128,128,0.5);
-  pointer-events: none;
-  z-index: 2147483647;
-  transition: opacity 0.4s ease;
-  user-select: none;
-  letter-spacing: 0.02em;
-}
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{--ink:oklch(23% .025 60);--ink-soft:oklch(43% .025 60);--muted:oklch(59% .02 60);--paper:oklch(97.5% .012 78);--surface:oklch(94.8% .016 78);--surface-deep:oklch(89.8% .03 74);--line:oklch(84.5% .025 72);--line-strong:oklch(68% .045 64);--accent:oklch(66% .16 46);--accent-deep:oklch(51% .14 42);--accent-soft:oklch(91% .055 72);--teal:oklch(54% .1 184);--success:oklch(55% .12 150);--max:1180px;--radius-lg:26px;--radius-md:18px;--radius-sm:12px;--ease-out:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-width:320px;background:var(--paper);color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;font-size:16px;line-height:1.5;font-optical-sizing:auto;overflow-x:hidden}a{color:inherit;text-decoration:none}button,textarea,input{font:inherit}img{display:block;max-width:100%}h1,h2,h3,h4,p{text-wrap:pretty}h1,h2,h3,h4{text-wrap:balance}:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.shell{width:min(var(--max),calc(100% - 48px));margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 0;border-bottom:1px solid var(--line)}.brand{display:inline-flex;align-items:center;gap:12px;font-size:.94rem;font-weight:700;letter-spacing:-.02em}.brand-mark{display:grid;width:34px;height:34px;place-items:center;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.76rem;letter-spacing:.04em}.nav{display:flex;align-items:center;gap:24px;color:var(--ink-soft);font-size:.84rem;font-weight:600}.nav a{transition:color 160ms ease-out}.nav a:hover{color:var(--accent-deep)}.nav-toggle{display:none;min-width:44px;min-height:44px;border:1px solid var(--line-strong);border-radius:50%;background:transparent;cursor:pointer}
+.button{display:inline-flex;min-height:46px;align-items:center;justify-content:center;gap:9px;padding:11px 16px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--paper);cursor:pointer;font-size:.84rem;font-weight:700;transition:transform 180ms var(--ease-out),background 180ms var(--ease-out),border-color 180ms var(--ease-out),color 180ms var(--ease-out)}.button:hover{transform:translateY(-3px);background:var(--accent-deep);border-color:var(--accent-deep)}.button.secondary{background:transparent;color:var(--ink);border-color:var(--line-strong)}.button.secondary:hover{color:var(--accent-deep);background:var(--accent-soft);border-color:var(--accent)}.button.small{min-height:40px;padding:9px 12px;font-size:.78rem}.arrow{font-size:1.05rem;line-height:1}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);gap:clamp(42px,8vw,112px);align-items:center;min-height:630px;padding:96px 0 104px}.hero:before{position:absolute;top:20px;right:-14vw;width:50vw;height:50vw;max-width:640px;max-height:640px;border:1px solid var(--line);border-radius:50%;content:'';opacity:.62;pointer-events:none}.hero:after{position:absolute;top:80px;right:4vw;width:32vw;height:32vw;max-width:410px;max-height:410px;border:1px solid var(--line);border-radius:50%;content:'';opacity:.38;pointer-events:none}.hero-copy,.hero-visual{position:relative;z-index:1}.eyebrow,.section-label{color:var(--accent-deep);font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.eyebrow{margin:0 0 22px}.eyebrow:before{display:inline-block;width:34px;height:2px;margin:0 10px 3px 0;background:var(--accent);content:''}h1{max-width:11ch;margin:0;font-size:clamp(3.5rem,8vw,7.4rem);font-weight:600;letter-spacing:-.09em;line-height:.88}h1 span{color:var(--accent-deep)}.hero-lede{max-width:54ch;margin:34px 0 0;color:var(--ink-soft);font-size:clamp(1.04rem,1.8vw,1.22rem);line-height:1.58}.hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:36px}.hero-visual{display:grid;gap:16px}.project-image{position:relative;min-height:370px;overflow:hidden;border:1px solid var(--line-strong);border-radius:var(--radius-lg);background:var(--surface)}.project-image:before{position:absolute;inset:18px;z-index:2;border:1px solid var(--line);border-radius:calc(var(--radius-lg) - 10px);content:'';pointer-events:none}.project-image img{width:100%;height:100%;min-height:370px;object-fit:cover}.project-image.image-empty{display:grid;place-items:center}.project-image.image-empty:after{position:absolute;inset:0;display:grid;place-items:center;padding:50px;color:var(--muted);content:'Add a project hero image at assets/project-hero.jpg';font-size:.94rem;font-weight:600;text-align:center}.project-image.image-empty img{display:none}.image-caption{position:absolute;right:28px;bottom:28px;z-index:3;padding:8px 11px;border:1px solid var(--line-strong);border-radius:999px;background:var(--paper);color:var(--ink-soft);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.hero-meta{display:flex;flex-wrap:wrap;gap:8px}.meta-chip{padding:8px 10px;border:1px solid var(--line-strong);border-radius:999px;color:var(--muted);font-size:.74rem;font-weight:700}
+.section{padding:88px 0;border-top:1px solid var(--line)}.section-heading{display:grid;grid-template-columns:minmax(220px,.62fr) minmax(0,1fr);gap:42px;align-items:start;margin-bottom:44px}.section-label{margin:0 0 12px}h2{max-width:16ch;margin:0;font-size:clamp(2.15rem,4.5vw,4.3rem);font-weight:600;letter-spacing:-.075em;line-height:.96}.section-intro{max-width:60ch;margin:0;color:var(--ink-soft);font-size:1rem}
+.snapshot{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(230px,.8fr);gap:16px}.statement{min-height:278px;padding:28px;border-radius:var(--radius-md);background:var(--ink);color:var(--paper)}.statement h3{max-width:16ch;margin:0 0 22px;font-size:clamp(1.8rem,3.2vw,3.1rem);font-weight:600;letter-spacing:-.07em;line-height:.98}.statement p{max-width:58ch;margin:0;color:oklch(78% .02 78);font-size:.92rem}.project-facts{display:grid;gap:0;padding:0 22px;border-top:1px solid var(--line-strong)}.fact{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}.fact span:first-child{color:var(--muted);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.fact strong{color:var(--ink-soft);font-size:.9rem;font-weight:600;text-align:right}
+.story{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.story-piece{padding:24px 0 0;border-top:2px solid var(--ink)}.story-piece .number{color:var(--accent-deep);font-size:.74rem;font-weight:700;letter-spacing:.1em}.story-piece h3{margin:22px 0 10px;font-size:1.4rem;font-weight:600;letter-spacing:-.05em}.story-piece p{max-width:35ch;margin:0;color:var(--ink-soft);font-size:.88rem}
+.process{display:grid;gap:0;border-top:1px solid var(--line)}.process-step{display:grid;grid-template-columns:70px minmax(170px,.65fr) minmax(0,1.35fr);gap:22px;align-items:start;padding:24px 0;border-bottom:1px solid var(--line);transition:padding 220ms var(--ease-out),background 220ms var(--ease-out)}.process-step:hover{padding-right:16px;padding-left:16px;background:var(--accent-soft)}.process-number{color:var(--accent-deep);font-size:.8rem;font-weight:700}.process-step h3{margin:0;font-size:1.16rem;font-weight:600;letter-spacing:-.03em}.process-step p{max-width:52ch;margin:0;color:var(--ink-soft);font-size:.9rem}
+.video-section{background:var(--ink);color:var(--paper)}.video-section .section-label{color:oklch(78% .09 58)}.video-section .section-intro{color:oklch(78% .02 78)}.video-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(230px,.65fr);gap:18px;align-items:stretch}.video-frame{position:relative;overflow:hidden;border:1px solid oklch(60% .03 60);border-radius:var(--radius-md);background:oklch(17% .025 60)}.video-frame video{display:block;width:100%;aspect-ratio:16/9;min-height:320px;object-fit:cover;background:oklch(17% .025 60)}.video-note{display:flex;flex-direction:column;justify-content:space-between;padding:24px;border:1px solid oklch(60% .03 60);border-radius:var(--radius-md);background:oklch(29% .03 60)}.video-note h3{max-width:12ch;margin:0 0 16px;font-size:clamp(1.7rem,3vw,2.8rem);font-weight:600;letter-spacing:-.07em;line-height:.98}.video-note p{margin:0;color:oklch(78% .02 78);font-size:.88rem}.video-details{display:grid;gap:0;margin-top:30px;border-top:1px solid oklch(60% .03 60)}.video-detail{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid oklch(50% .03 60);font-size:.78rem}.video-detail span{color:oklch(72% .02 78)}.video-detail strong{font-weight:600;text-align:right}.video-caption{margin:10px 0 0;color:oklch(72% .02 78);font-size:.76rem}
+.gallery{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.gallery-slot{min-height:250px;padding:18px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}.gallery-slot.tall{min-height:340px}.gallery-slot h3{margin:0 0 10px;font-size:1rem;font-weight:600}.gallery-slot p{max-width:36ch;margin:0;color:var(--muted);font-size:.84rem}.gallery-placeholder{display:grid;min-height:155px;place-items:center;margin-top:20px;border:1px dashed var(--line-strong);border-radius:var(--radius-sm);color:var(--muted);font-size:.78rem;text-align:center}.gallery-slot.tall .gallery-placeholder{min-height:245px}
+.discussion{display:grid;grid-template-columns:minmax(0,.9fr) minmax(280px,1.1fr);gap:54px;align-items:start}.discussion-copy h2{max-width:12ch}.discussion-copy p{max-width:42ch;margin:22px 0;color:var(--ink-soft)}.discussion-form{display:grid;gap:14px;padding:26px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}.field{display:grid;gap:7px}.field label{color:var(--ink-soft);font-size:.78rem;font-weight:700}.field input,.field textarea{width:100%;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--paper);color:var(--ink);padding:12px 13px;font-size:.9rem}.field textarea{min-height:136px;resize:vertical}.field input::placeholder,.field textarea::placeholder{color:var(--muted)}.form-feedback{min-height:22px;margin:0;color:var(--success);font-size:.8rem;font-weight:600}
+footer{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:28px 0 34px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}footer p{margin:0}footer .accent{color:var(--accent-deep);font-weight:700}.reveal{opacity:0;transform:translateY(18px);transition:opacity 650ms var(--ease-out),transform 650ms var(--ease-out)}.reveal.is-visible{opacity:1;transform:translateY(0)}
+@media (max-width:820px){.hero{grid-template-columns:1fr;min-height:auto;padding:72px 0 84px}.hero-visual{max-width:620px}.section-heading{grid-template-columns:1fr;gap:18px}.snapshot,.discussion,.video-layout{grid-template-columns:1fr}.story{grid-template-columns:1fr;gap:32px}.story-piece p{max-width:60ch}}
+@media (max-width:620px){.shell{width:min(100% - 32px,var(--max))}.topbar{padding:18px 0}.nav{display:none;position:absolute;top:72px;right:16px;left:16px;z-index:20;padding:14px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--paper);box-shadow:0 18px 42px oklch(23% .025 60 / .14)}.nav.is-open{display:grid;gap:4px}.nav a{padding:10px}.nav-toggle{display:inline-flex;align-items:center;justify-content:center}.hero{padding:62px 0 70px}h1{font-size:clamp(3.4rem,18vw,5.6rem)}.section{padding:66px 0}.project-image,.project-image img{min-height:280px}.process-step{grid-template-columns:42px 1fr;gap:12px}.process-step p{grid-column:2}.video-frame video{min-height:220px}.video-note{min-height:260px}.gallery{grid-template-columns:1fr}.gallery-slot,.gallery-slot.tall{min-height:250px}.gallery-slot.tall .gallery-placeholder{min-height:160px}.discussion-form{padding:20px}footer{align-items:flex-start;flex-direction:column}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
 
-/* Hide chrome on touch devices */
-@media (hover: none) {
-  .design-ui-credit { display: none; }
+/* Projects index — built directly on the supplied project-page design system */
+.projects-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.8fr);gap:clamp(42px,8vw,112px);align-items:center;min-height:470px;padding:78px 0 84px}
+.projects-hero:before{position:absolute;top:20px;right:-14vw;width:50vw;height:50vw;max-width:640px;max-height:640px;border:1px solid var(--line);border-radius:50%;content:'';opacity:.62;pointer-events:none}
+.projects-hero:after{position:absolute;top:80px;right:4vw;width:32vw;height:32vw;max-width:410px;max-height:410px;border:1px solid var(--line);border-radius:50%;content:'';opacity:.38;pointer-events:none}
+.projects-hero-copy,.projects-hero-main{position:relative;z-index:1}
+.projects-hero h1{max-width:11ch;margin:0;font-size:clamp(3.5rem,8vw,7.4rem);font-weight:600;letter-spacing:-.09em;line-height:.88}
+.projects-hero h1 span{color:var(--accent-deep)}
+.projects-hero-copy{max-width:54ch;color:var(--ink-soft);font-size:clamp(1.04rem,1.8vw,1.22rem);line-height:1.58}
+.project-list{display:grid;gap:16px}
+.project-card{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface);transition:transform 180ms var(--ease-out),border-color 180ms var(--ease-out),background 180ms var(--ease-out)}
+.project-card:hover{transform:translateY(-3px);border-color:var(--line-strong);background:var(--accent-soft)}
+.project-card-head{display:grid;grid-template-columns:70px minmax(0,1fr);gap:22px;align-items:start;padding:26px 28px 22px;border-bottom:1px solid var(--line)}
+.project-number{color:var(--accent-deep);font-size:.8rem;font-weight:700}
+.project-card h2{max-width:none;margin:0;font-size:clamp(1.9rem,4vw,3.5rem);font-weight:600;letter-spacing:-.075em;line-height:.96}
+.project-description{max-width:62ch;margin:15px 0 0;color:var(--ink-soft);font-size:.92rem}
+.project-media{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:16px;padding:22px 28px}
+.project-images{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.project-media-card{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--paper)}
+.project-media-card img{display:block;width:100%;height:100%;min-height:220px;object-fit:cover}
+.project-video{min-height:300px}
+.project-video video,.project-video iframe{display:block;width:100%;height:100%;min-height:300px;border:0;background:var(--ink)}
+.project-actions{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 28px 22px;border-top:1px solid var(--line)}
+.project-note{color:var(--muted);font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.project-links{display:flex;flex-wrap:wrap;gap:10px}
+.project-link{display:inline-flex;min-height:40px;align-items:center;justify-content:center;gap:9px;padding:9px 12px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--paper);font-size:.78rem;font-weight:700;transition:transform 180ms var(--ease-out),background 180ms var(--ease-out),border-color 180ms var(--ease-out),color 180ms var(--ease-out)}
+.project-link:hover{transform:translateY(-3px);background:var(--accent-deep);border-color:var(--accent-deep)}
+.project-link.secondary{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.project-link.secondary:hover{color:var(--accent-deep);background:var(--accent-soft);border-color:var(--accent)}
+.projects-footer-intro{padding:88px 0 0}
+@media(max-width:820px){
+  .projects-hero{grid-template-columns:1fr;min-height:auto;padding:72px 0 84px}
+  .project-media{grid-template-columns:1fr}
+  .project-video,.project-video video{min-height:280px}
+  .project-actions{align-items:flex-start;flex-direction:column}
 }
-
-/* Print fixes */
-@media print {
-  * {
-    transition: none !important;
-    animation: none !important;
-    box-shadow: none !important;
-  }
-  body {
-    print-color-adjust: exact;
-    -webkit-print-color-adjust: exact;
-  }
-  .design-ui-credit { display: none !important; }
+@media(max-width:620px){
+  .projects-hero{padding:62px 0 70px}
+  .project-card-head{grid-template-columns:42px 1fr;gap:12px;padding:22px 20px}
+  .project-media{padding:18px 20px}
+  .project-images{grid-template-columns:1fr}
+  .project-media-card img{min-height:220px}
+  .project-actions{padding:16px 20px 20px}
+  .project-links{width:100%}
+  .project-link{flex:1}
 }
-
 </style>
 <script>
 (function () {
@@ -82,8 +112,8 @@
 <!-- /skill:chrome -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Project presentation and discussion page by Junior Cesar Kore.">
-<title>Project Discussion | Junior Cesar Kore</title>
+<meta name="description" content="Embedded System Collection page by Junior Cesar Kore.">
+<title>Embedded System Collection | Junior Cesar Kore</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{--ink:oklch(23% .025 60);--ink-soft:oklch(43% .025 60);--muted:oklch(59% .02 60);--paper:oklch(97.5% .012 78);--surface:oklch(94.8% .016 78);--surface-deep:oklch(89.8% .03 74);--line:oklch(84.5% .025 72);--line-strong:oklch(68% .045 64);--accent:oklch(66% .16 46);--accent-deep:oklch(51% .14 42);--accent-soft:oklch(91% .055 72);--teal:oklch(54% .1 184);--success:oklch(55% .12 150);--max:1180px;--radius-lg:26px;--radius-md:18px;--radius-sm:12px;--ease-out:cubic-bezier(.16,1,.3,1)}
@@ -129,898 +159,449 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
 .project-code-info{padding:22px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
 .project-code-info h3{margin:0 0 10px;font-size:1.25rem;font-weight:600;letter-spacing:-.04em}
 .project-code-info p{margin:0;color:var(--ink-soft);font-size:.86rem}
-@media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video{height:300px;min-height:300px}.calculation-image{min-height:280px}} 
-/* YouTube video embed support — keeps the existing page styling and video proportions */
-.video-frame > .youtube-video{display:block;width:100%;aspect-ratio:16/9;min-height:320px;border:0;border-radius:inherit;background:oklch(17% .025 60)}
-.project-showcase-media > .youtube-video{display:block;width:100%;height:360px;border:0;background:oklch(17% .025 60)}
-@media(max-width:820px){
-  .video-frame > .youtube-video{min-height:220px}
-  .project-showcase-media > .youtube-video{height:300px}
+@media(max-width:820px){.project-showcase,.code-layout-project{grid-template-columns:1fr}.interactive-model{align-items:flex-start;flex-direction:column}.project-showcase-media,.project-showcase-media img,.project-showcase-media video,.project-showcase-media iframe{height:300px;min-height:300px}.calculation-image{min-height:280px}}
+
+/* Project media lightbox — added only for expandable project media */
+.project-lightbox{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:28px;background:oklch(10% .02 60 / .92)}
+.project-lightbox.is-open{display:flex}
+.project-lightbox-content{position:relative;width:min(1200px,94vw);height:min(88vh,900px);display:flex;align-items:center;justify-content:center}
+.project-lightbox-media{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.project-lightbox-media img,.project-lightbox-media video{display:block;max-width:calc(100% - 120px);max-height:calc(100% - 40px);width:auto;height:auto;object-fit:contain;border-radius:var(--radius-md);background:var(--ink)}
+.project-lightbox-button{position:absolute;z-index:2;width:48px;height:48px;border:1px solid oklch(84.5% .025 72 / .7);border-radius:50%;background:var(--paper);color:var(--ink);cursor:pointer;display:grid;place-items:center;font-size:1.5rem;line-height:1;transition:transform 180ms var(--ease-out),background 180ms var(--ease-out)}
+.project-lightbox-button:hover{transform:scale(1.06);background:var(--accent-soft)}
+.project-lightbox-prev{left:8px}
+.project-lightbox-next{right:8px}
+.project-lightbox-close{top:8px;right:8px;font-size:1.2rem}
+.project-lightbox-counter{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);padding:7px 11px;border:1px solid oklch(84.5% .025 72 / .7);border-radius:999px;background:var(--paper);color:var(--ink-soft);font-size:.72rem;font-weight:700}
+.project-media-card.is-lightbox-trigger{cursor:zoom-in}
+@media(max-width:620px){
+  .project-lightbox{padding:14px}
+  .project-lightbox-content{width:100%;height:88vh}
+  .project-lightbox-media img,.project-lightbox-media video{max-width:calc(100% - 82px);max-height:calc(100% - 30px)}
+  .project-lightbox-button{width:42px;height:42px}
+  .project-lightbox-prev{left:2px}.project-lightbox-next{right:2px}.project-lightbox-close{top:2px;right:2px}
 }
 </style></head>
 <body>
 <header class="shell topbar">
   <a class="brand" href="./index.html" aria-label="Home">
   <!-- <a class="brand" href="https://junior-cesar-kore.github.io/juniorcesarkore.github.io/" target="_blank" rel="noopener" aria-label="Back to portfolio"> -->
-  <!-- <a class="brand" href="./index.html" target="_blank" rel="noopener" aria-label="Back to portfolio"> -->
     <span class="brand-mark">KJC</span>
     <span>Junior Cesar Kore</span>
   </a>
   <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-  <nav class="nav" aria-label="Project navigation">
-    <a href="#overview">Overview</a>
-    <a href="#story">Story</a>
-    <a href="#video">Video</a>
-    <a href="#process">Process</a>
-    <a href="#gallery">Evidence</a>
-    <a href="#design">Design</a>
-    <a href="#calculations">Calculations</a>
-    <a href="#project-code">Code</a>
-    <a href="#discussion">Discuss</a></nav>
+  <nav class="nav" aria-label="Projects navigation">
+    <a href="#repertoire">Repertoire</a>
+    <a href="https://junior-cesar-kore.github.io/juniorcesarkore.github.io/" target="_blank" rel="noopener">Portfolio</a>
+    <!-- <a class="brand" href="./index.html" aria-label="Home">Portfolio</a> -->
+    <!-- <a href="https://junior-cesar-kore.github.io/juniorcesarkore.github.io/#contact" target="_blank" rel="noopener">Contact</a> -->
+  </nav>
 </header>
 
 <main>
-  <section class="shell hero" aria-labelledby="project-title">
-    <div class="hero-copy reveal">
-      <p class="eyebrow">Project presentation</p>
-      <h1 id="project-title">A project worth 
-        <span>talking about.</span>
-      </h1>
-      <p class="hero-lede">Use this page to explain the problem, show the work, walk people through your decisions, and open a useful conversation around the result.</p>
-      <div class="hero-actions">
-        <a class="button" href="#overview">Start the walkthrough 
-          <span class="arrow">↘</span>
-        </a>
-        <a class="button secondary" href="#discussion">Discuss the project</a>
-      </div>
-    </div>
-    <div class="hero-visual reveal">
-      <figure class="project-image image-empty">
-        <img src="./03/intro_image.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
-        <figcaption class="image-caption">Project image</figcaption>
-      </figure>
-      <div class="hero-meta">
-        <span class="meta-chip">Robotics engineering</span>
-        <span class="meta-chip">Design + build</span>
-        <span class="meta-chip">2026</span>
-      </div>
-    </div>
-  </section>
+<section class="shell projects-hero" aria-labelledby="projects-title">
+  <div class="projects-hero-main reveal">
+    <p class="eyebrow">Embedded System Collection</p>
+    <h1 id="projects-title">From Code and Signals <span>To Live.</span></h1>
+  </div>
+  <p class="projects-hero-copy reveal">
+    A collection of my engineering work — from CAD and mechanical systems to robotics,
+    embedded systems, simulation, and physical prototypes.
+  </p>
+</section>
 
-  <section class="section" id="overview" aria-labelledby="overview-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div>
-          <p class="section-label">01 / Overview</p>
-          <h2 id="overview-title">Give the audience the reason first.</h2>
-        </div>
-        <p class="section-intro">A strong project conversation does not begin with a list of tools. It begins with the need, the people affected, and the outcome you wanted to create.</p>
+<section class="section" id="repertoire" aria-labelledby="projects-section-title">
+  <div class="shell">
+    <div class="section-heading reveal">
+      <div>
+        <p class="section-label">01 / Repertoire</p>
+        <h2 id="projects-section-title">See the work. Explore the design.</h2>
       </div>
-      <div class="snapshot">
-        <article class="statement reveal">
-          <h3>The challenge is simple to state. The solution is not.</h3>
-          <p>The project was developed to create a mobile robot capable of moving across different floor levels without relying on conventional elevators or ramps.<br>
-          Normal wheeled robots work well on flat surfaces, but stairs create a major mobility problem. A robot designed only for flat-ground movement can lose contact, become unstable, or tip over when it encounters a step.<br>
-          The aim was therefore to develop a stair-climbing mechanism that can lift, support, and reposition the robot while maintaining stability.</p>
-        </article>
-        <div class="project-facts reveal" aria-label="Project facts">
-          <div class="fact">
-            <span>Role</span>
-            <strong>Designer and builder</strong>
-          </div>
-          <div class="fact">
-            <span>Status</span>
-            <strong>In progress</strong>
-          </div>
-          <div class="fact">
-            <span>Timeline</span>
-            <strong>2026</strong>
-          </div>
-          <div class="fact">
-            <span>Tools</span>
-            <strong>CAD, PCB, code</strong>
-          </div>
-          <div class="fact">
-            <span>Focus</span>
-            <strong>Practical impact</strong>
-          </div>
-        </div>
-      </div>
+      <p class="section-intro">
+        Each project gives a quick visual overview before taking you into the full
+        engineering story, calculations, code, testing, and decisions behind the build.
+      </p>
     </div>
-  </section>
 
-  <section class="section video-section" id="video" aria-labelledby="video-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div>
-          <p class="section-label">02 / Video</p>
-          <h2 id="video-title">Show the project in motion.</h2>
-        </div>
-        <p class="section-intro">Use the video to demonstrate the build, explain a design decision, show a test, or give visitors the short version before they read the details.</p>
-      </div>
-      <div class="video-layout">
-        <figure class="video-frame reveal">
-          <iframe class="youtube-video"
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S&origin=https%3A%2F%2Fjunior-cesar-kore.github.io"
-            title="KJC Printer Animation"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-          <figcaption class="video-caption">Project video</figcaption>
-        </figure><aside class="video-note reveal">
+    <div class="project-list">
+
+      <article class="project-card reveal">
+        <div class="project-card-head">
+          <span class="project-number">01</span>
           <div>
-            <h3>Let people see the decisions.</h3>
-            <p>Keep the clip focused. A clear 60 to 120 second walkthrough usually beats a long, unedited recording.</p>
+            <h2>Fonio Dehulling Machine</h2>
+            <p class="project-description">
+              A mechanical system developed to improve fonio dehulling through CAD,
+              simulation, fabrication, testing, and iterative design.
+            </p>
           </div>
-          <div class="video-details">
-            <div class="video-detail">
-              <span>Format</span><strong>MP4</strong>
+        </div>
+
+        <div class="project-media">
+          <div class="project-images" aria-label="Three Fonio machine design images">
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/fonio-design-01.jpg" alt="Fonio machine design view 1">
+            </figure>
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/fonio-design-02.jpg" alt="Fonio machine design view 2">
+            </figure>
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/fonio-design-03.jpg" alt="Fonio machine design view 3">
+            </figure>
+          </div>
+          <figure class="project-media-card project-video">
+            <iframe class="youtube-project-video"
+              src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S"
+              title="YouTube project video"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </figure>
+        </div>
+
+        <!-- <div class="section-heading reveal" style="margin:22px 28px 0;">
+          <div>
+            <p class="section-label">Code / Implementation</p>
+            <h3 style="margin:0;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:600;letter-spacing:-.06em;">Project code</h3>
+          </div>
+          <p class="section-intro">A compact view of the code and implementation behind this project.</p>
+        </div>
+
+        <div class="code-layout-project" style="padding:0 28px 22px;">
+          <div class="project-code-card">
+            <div class="project-code-top">
+              <strong>fonio-dehulling-machine.js</strong>
+              <span>Source code</span>
             </div>
-            <div class="video-detail">
-              <span>Suggested length</span><strong>1 to 2 minutes</strong>
-            </div>
-            <div class="video-detail">
-              <span>Best for</span><strong>Demo or walkthrough</strong>
-            </div>
-          </div></aside>
-        </div>
-      </div>
-    </section>
-
-  <section class="section" id="story" aria-labelledby="story-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div>
-          <p class="section-label">03 / The story</p>
-          <h2 id="story-title">Make the thinking easy to follow.</h2>
-        </div>
-        <p class="section-intro">Use these three beats to keep the discussion focused: what happened, what you decided, and what changed because of the work.</p>
-      </div>
-      <div class="story">
-        <article class="story-piece reveal">
-          <span class="number">01 / Need</span>
-          <h3>What needed solving?</h3>
-          <p>The main problem was simple:How can a mobile robot move from one level to another using stairs while remaining stable and controllable?<br>
-            A normal four-wheel arrangement cannot simply drive up a staircase because the wheels cannot continuously maintain the required contact with the stair surfaces.
-          </p>
-        </article>
-        <article class="story-piece reveal">
-          <span class="number">02 / Decision</span>
-          <h3>Why this approach?</h3>
-          <p>The project explored a mechanical climbing mechanism where the robot does more than simply rotate its wheels.<br>
-
-            The mechanism must:<br>
-
-            Support the robot's weight.<br>
-            Lift the robot to the next step.<br>
-            Move the robot forward.<br>
-            Maintain balance during lifting.<br>
-            Return to a stable position before the next climbing cycle.<br>
-
-            This makes the project both a mechanical design problem and a control problem.
-          </p>
-        </article>
-        <article class="story-piece reveal">
-          <span class="number">03 / Result</span>
-          <h3>What works now?</h3>
-          <p>The working concept is based on coordinating the drive system, lifting mechanism, and control sequence.<br>
-
-            Instead of trying to force the wheels to climb the stair directly, the mechanism helps reposition the robot onto the next step.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="process" aria-labelledby="process-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div>
-          <p class="section-label">04 / Process</p>
-          <h2 id="process-title">From problem to working system.</h2>
-        </div>
-        <p class="section-intro">Document the engineering process in the order it actually happened: define the problem, establish requirements, develop and analyse concepts, build prototypes, test against measurable criteria, iterate from evidence, and record the final outcome.</p>
-      </div>
-      <div class="process">
-        <article class="process-step reveal">
-          <span class="process-number">01</span>
-          <h3>Problem definition</h3>
-          <p>The first step was to define the mobility problem.<br>
-
-            The robot needed to:<br>
-
-            - Detect/approach a stair.<br>
-            - Position itself correctly.<br>
-            - Lift or reposition its body.<br>
-            - Move onto the next step.<br>
-            - Stabilize itself.<br>
-            - Repeat the sequence until the staircase is completed.<br>
-
-            The major engineering challenge was maintaining stability while the robot's center of gravity changes during climbing.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">02</span>
-          <h3>Requirements and constraints</h3>
-          <p>The design requirements included:<br>
-
-            - Ability to climb stairs.<br>
-            - Stable movement.<br>
-            - Sufficient lifting force.<br>
-            - Controlled motor movement.<br>
-            - Controlled servo/mechanical movement.<br>
-            - Compact mechanical structure.<br>
-            - Reasonable weight.<br>
-            - Strong enough frame.<br>
-            - Safe operation.<br>
-            - Repeatable climbing sequence.<br>
-
-            Important constraints included:<br>
-
-            - Motor torque.<br>
-            - Servo torque.<br>
-            - Robot weight.<br>
-            - Stair height.<br>
-            - Stair depth.<br>
-            - Available space for the mechanism.<br>
-            - Battery capacity.<br>
-            - Material strength.<br>
-            - Manufacturing limitations.
-
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">03</span>
-          <h3>Research and investigation</h3>
-          <p>Different stair-climbing approaches were investigated, including:<br>
-
-            - Wheel-based systems.<br>
-            - Tracked systems.<br>
-            - Legged mechanisms.<br>
-            - Triangular wheel arrangements.<br>
-            - Articulated mechanisms.<br>
-            - Lifting mechanisms.<br>
-
-            The research helped identify what each approach does well and where it becomes difficult.<br>
-
-            The important question was not simply: "Which mechanism can climb stairs?"<br>
-
-            but: "Which mechanism can climb the required stairs using the components, manufacturing methods, and control system available to us?"
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">04</span>
-          <h3>System architecture</h3>
-          <p>The robot can be divided into several major subsystems:<br>
-
-            Mechanical System :<br>
-
-            - Frame<br>
-            - Wheels<br>
-            - Lifting mechanism<br>
-            - Servo mechanisms<br>
-           -  Mechanical joints<br>
-
-            Drive System :<br>
-
-            - DC motors<br>
-            - Motor driver<br>
-            - Wheels<br>
-
-            Control System :<br>
-
-            - Microcontroller<br>
-            - Control logic<br>
-            - Servo control<br>
-            - Motor control<br>
-
-            Sensing System :<br>
-
-            - Ultrasonic sensor(s)<br>
-            - Position/distance feedback<br>
-
-            Power System :<br>
-
-            - Battery<br>
-            - Voltage regulation<br>
-            - Motor supply<br>
-            - Servo supply<br>
-
-            The complete system works by coordinating these subsystems rather than treating them as separate components.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">05</span>
-          <h3>Concept development</h3>
-          <p>Several concepts can be considered before selecting the final mechanism.<br>
-
-            Each concept is evaluated based on:<br>
-
-            - Stability<br>
-            - Complexity<br>
-            - Cost<br>
-            - Manufacturability<br>
-            - Weight<br>
-            - Torque requirements<br>
-            - Control difficulty<br>
-            - Stair dimensions<br>
-
-            The selected concept should provide the best balance between these requirements.
-            
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">06</span>
-          <h3>Detailed design and modelling</h3>
-          <p>The mechanical structure was then developed in SolidWorks.<br>
-
-            The modeling stage involved:<br>
-
-            - Creating the robot frame.<br>
-            - Designing the lifting mechanism.<br>
-            - Positioning the motors.<br>
-            - Designing servo mounting points.<br>
-            - Designing wheel locations.<br>
-            - Checking clearances.<br>
-            - Checking mechanical interference.<br>
-            - Estimating the center of gravity.<br>
-            - Preparing components for fabrication.<br>
-
-            This stage allowed mechanical problems to be identified before building the physical prototype.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">07</span>
-          <h3>Simulation and analysis</h3>
-          <p>Before fabrication, the design can be analyzed to determine whether it can withstand the expected loads.<br>
-
-            Important calculations include:<br>
-
-            Motor torque<br>
-
-             T = F * r <br>
-
-            where:<br>
-
-            T = required torque<br>
-            F = required force<br>
-            r = effective wheel/mechanism radius<br>
-
-            For the lifting mechanism, the robot's weight creates a moment around the mechanism:<br>
-
-            M = W * d <br>
-
-            where:<br>
-
-            W = robot weight<br>
-            d = perpendicular distance from the pivot.<br>
-
-            The simulation and calculations help answer:<br>
-
-            Can the mechanism physically lift and support the robot?
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">08</span>
-          <h3>Prototype and fabrication</h3>
-          <p>After the design was finalized, the components were fabricated and assembled.<br>
-
-            This stage revealed an important engineering reality:<br>
-
-              A design that works in CAD does not automatically work perfectly in the physical world.<br>
-
-            Manufacturing tolerances, friction, material flexibility, screw alignment, motor positioning, and assembly errors can all affect performance.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">09</span>
-          <h3>Subsystem testing</h3>
-          <p>Instead of testing the complete robot immediately, individual subsystems were tested first.<br>
-
-            For example:<br>
-
-            Motor system<br>
-
-            - Forward<br>
-            - Reverse<br>
-            - Left<br>
-            - Right<br>
-            - Stop<br>
-
-            Servo system<br>
-
-            - Starting position<br>
-            - Lifting position<br>
-            - Returning position<br>
-
-            Sensor system<br>
-
-            - Distance measurement<br>
-            - Obstacle detection<br>
-
-            Power system<br>
-
-            - Voltage levels<br>
-            - Current requirements<br>
-            - Servo supply<br>
-            - Motor supply<br>
-
-            This makes troubleshooting much easier.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">10</span>
-          <h3>Integration and system testing</h3>
-          <p>Once the individual subsystems worked, they were integrated.<br>
-
-              The complete sequence could then be tested:<br>
-
-              Approach → Detect → Position → Lift → Move → Stabilize → Repeat<br>
-
-              This is where problems that do not appear during individual subsystem testing can become visible.<br>
-
-              For example, a servo may work perfectly by itself but struggle when carrying the actual robot load.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">11</span>
-          <h3>Failure analysis and iteration</h3>
-          <p>Failures are not simply problems; they provide engineering information.<br>
-
-              Possible failures include:<br>
-
-              - Insufficient motor torque.<br>
-              - Servo struggling under load.<br>
-              - Robot losing balance.<br>
-              - Wheels slipping.<br>
-              - Mechanism binding.<br>
-              - Frame deformation.<br>
-              - Incorrect timing between motors and servos.<br>
-              - Sensor giving unreliable readings.<br>
-              - Robot stopping at the wrong position.<br>
-
-              Each failure leads to a question:<br>
-
-              Why did it happen?<br>
-
-              Then:<br>
-
-              Failure → Cause → Modification → Retest<br>
-
-              This cycle is one of the most important parts of the project
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">12</span>
-          <h3>Validation and final evaluation</h3>
-          <p>The final design should be tested against the original requirements.<br>
-
-            For example:<br>
-
-            Requirement	              Test<br><br>
-            Climb stairs	            Complete multiple stair cycles<br>
-            Maintain stability	      Observe robot during lifting<br>
-            Lift robot	              Measure/verify lifting capability<br>
-            Detect obstacle	          Test ultrasonic response<br>
-            Repeat operation	        Perform multiple cycles<br>
-            Safe operation	          Check emergency/stop behavior<br>
-
-            The goal is not simply to show that the robot moves.<br>
-
-            The goal is to demonstrate that it meets the engineering requirements that were defined at the beginning.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">13</span>
-          <h3>Engineering lessons</h3>
-          <p>The stair-climbing robot demonstrates several important engineering lessons:<br>
-
-            - Design starts with the problem, not the component.<br>
-            - CAD is important, but physical testing is essential.<br>
-            - Mechanical design and electronics must be developed together.<br>
-            - Torque requirements must be calculated before selecting actuators.<br>
-            - Stability is as important as movement.<br>
-            - Subsystem testing makes troubleshooting easier.<br>
-            - Failure is part of the engineering process.<br>
-            - Small mechanical changes can have a major effect on system performance.<br>
-            - A successful prototype is the result of repeated design → build → test → improve cycles.
-          </p>
-        </article>
-        <article class="process-step reveal">
-          <span class="process-number">14</span>
-          <h3>Documentation and next iteration</h3>
-          <p>The final stage is documenting:
-
-            - Original problem.
-            - Design requirements.
-            - Research.
-            - Concepts considered.
-            - Selected concept.
-            - CAD models.
-            - Calculations.
-            - Simulation results.
-            - Fabrication process.
-            - Circuit/control system.
-            - Testing results.
-            - Failures.
-            - Modifications.
-            - Final performance.
-            - Lessons learned.
-
-            The next iteration can then focus on improvements such as greater stability, higher climbing speed, better weight distribution, improved sensing, stronger mechanical components, and more autonomous control.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  
-
-  <section class="section" id="gallery" aria-labelledby="gallery-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div>
-          <p class="section-label">05 / Evidence</p>
-          <h2 id="gallery-title">Let the work speak visually.</h2>
-        </div>
-        <p class="section-intro">Drop in screenshots, CAD renders, circuit diagrams, test photos, or results. The placeholders are already sized for a clean presentation.</p>
-      </div>
-      <div class="gallery">
-        <article class="gallery-slot tall reveal">
-          <h3>Primary artifact</h3>
-          <p>Use this for the strongest image, render, or diagram.</p>
-          <div class="gallery-placeholder">
-            <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/solidworks Wp.jpg" alt="Fonio machine design view 3">
+            <pre class="project-code-window"><code>// Fonio Dehulling Machine
+// Add your project-specific control or simulation code here.
+
+function runDehullingProcess() {
+  // Define machine sequence
+  // Control motor and monitor operation
+}</code></pre>
           </div>
-        </article>
-        <div class="gallery-slot reveal">
-          <h3>Process detail</h3>
-          <p>Show an intermediate step, test setup, or technical detail.</p>
-          <div class="gallery-placeholder">
-            <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/Stair Master circuit.jpg" alt="Fonio machine design view 3">
+          <div class="project-code-info">
+            <h3>Implementation notes</h3>
+            <p>Replace this example with the actual source code, logic, or embedded implementation for this project.</p>
           </div>
-        </div>
-        <div class="gallery-slot reveal">
-          <h3>Result or test</h3>
-          <p>Show the proof that the project works.</p>
-          <div class="gallery-placeholder">
-            <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/krojecs printer.jpg" alt="Fonio machine design view 3">
+        </div> -->
+
+        <div class="project-actions">
+          <span class="project-note">Design + Simulation + Fabrication</span>
+          <div class="project-links">
+            <!-- <a class="project-link secondary" href="YOUR_FONIO_3D_MODEL_LINK" target="_blank" rel="noopener">Interact with 3D ↗</a> -->
+            <a class="project-link" href="project.html">View project <span class="arrow">↘</span></a>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="section" id="design" aria-labelledby="design-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div><p class="section-label">06 / Design</p>
-          <h2 id="design-title">Show the design behind the system.</h2>
-        </div>
-        <p class="section-intro">Present the SolidWorks work alongside the physical or modelling process so the visitor can connect the final form to the engineering decisions documented above.</p>
-      </div>
-
-      <div class="project-showcase">
-        <article class="project-showcase-card reveal">
-          <div class="project-showcase-media">
-            <img src="./base media/aaenics rover.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
-          </div>
-          <div class="project-showcase-info">
-            <h3>01 / SolidWorks model</h3>
-            <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
-          </div>
-        </article>
-
-        <article class="project-showcase-card reveal">
-          <div class="project-showcase-media">
-            <iframe class="youtube-video"
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S&origin=https%3A%2F%2Fjunior-cesar-kore.github.io"
-            title="KJC Printer Animation"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-          </iframe>
-          </div>
-          <div class="project-showcase-info">
-            <h3>02 / Design in motion</h3>
-            <p>Use this space for a modelling walkthrough, assembly sequence, simulation, mechanism movement, or demonstration of the completed design.</p>
-          </div>
-        </article>
-      </div>
-
-      <div class="interactive-model reveal">
-        <div>
-          <p class="eyebrow">Interactive 3D</p>
-          <p>Give visitors the option to rotate, inspect, and explore the complete model.</p>
-        </div>
-        <a class="button small" href="YOUR_3D_MODEL_LINK" target="_blank" rel="noopener">Open 3D model <span class="arrow">↗</span></a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="calculations" aria-labelledby="calculations-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div><p class="section-label">07 / Calculations</p><h2 id="calculations-title">Show the numbers behind the design.</h2></div>
-        <p class="section-intro">Use this section for the calculations that justified the dimensions, component choices, loads, torque, speed, power, or other engineering decisions in the project.</p>
-      </div>
-
-      <article class="calculation-card reveal">
-        <div class="calculation-image">
-          <img src="./base media/kjc printer hand calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
-        </div>
-        <div class="calculation-image">
-          <img src="./base media/kjc printer calculations.jpg" alt="Engineering calculations" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your calculations image at<br><strong>assets/project-calculations.jpg</strong></div>'">
-        </div>
-        <div class="calculation-info">
-          <h3>Engineering calculations</h3>
-          <p>Replace this description with a short explanation of what the calculations establish and how they influenced the final design. Additional calculation sheets can be added as separate cards if needed.</p>
         </div>
       </article>
-    </div>
-  </section>
 
-  <section class="section" id="project-code" aria-labelledby="project-code-title">
-    <div class="shell">
-      <div class="section-heading reveal">
-        <div>
-          <p class="section-label">08 / Code</p>
-          <h2 id="project-code-title">Show the logic behind the build.</h2></div>
-        <p class="section-intro">Keep the complete source visible and separate the main program from supporting control, communication, or subsystem code. Each block has a small description so the reader knows what it does before reading the implementation.</p>
-      </div>
-
-      <div class="code-layout-project">
-        <article class="project-code-card reveal">
-          <div class="project-code-top">
-            <strong>01 / Main program</strong>
-            <span>KJC Logo.py</span></div>
-          <pre class="project-code-window">
-            <code>// ============================================================
- // MAIN PROJECT CODE
- # By KJC
-
-import time
-import turtle
-from turtle import *
-
-def kjc_2logo():
-
-   speed(5)
-   color("", "brown")
-   pensize(5)
-   pencolor("grey")
-   hideturtle()
-
-   begin_fill()
-# 1st turn
-   left(90)
-   forward(150)
-# 2nd turn
-   right(90)
-   forward(175)
-# 3rd turn
-   left(90)
-   forward(60)
-# 4th turn
-   left(90)
-   forward(400)
-
-   left(90)
-   forward(30)
-# 1st arc
-   circle(30, 90)
-   forward(70)
-# 2nd arc
-   right(180)
-   circle(50, -90)
-# 5th turn
-   right(180)
-   forward(240)
-# 3rd arc
-   right(180)
-   circle(50, -90)
-# 5th turn
-   right(180)
-   forward(130)
-# 3rd arc
-   circle(30, 90)
-   forward(30)
-   left(90)
-   forward(250)
-
-# 4th arc
-   circle(40, 90)
-   forward(110)
-# th turn
-   right(50)
-   forward(30)
-# K rotation 1
-   right(25)
-   forward(5)
-   right(25)
-   forward(5)
-   right(25)
-   forward(5)
-   right(25)
-# end rotation + line
-   forward(200)
-# th turn
-   left(60)
-   forward(70)
-# th turn
-   left(120)
-   forward(260)
-# K rotation 2
-   right(25)
-   forward(5)
-   right(20)
-   forward(5)
-# end rotation + line
-   right(20)
-   forward(209)
-# th turn
-   left(125)
-   forward(70)
-# th turn
-   left(51)
-   forward(210)
-   right(141)
-   forward(15)
-# calibration
-   right(90)
-
-   time.sleep(1)
-   end_fill()
-
-   done()
-
-if __name__ == '__main__':
-    print('Starting....')
-    kjc_2logo()
-</code></pre>
-        </article>
-        <aside class="project-code-info reveal">
-          <p class="eyebrow">Description</p>
-          <h3>Main system logic.</h3>
-          <p>This code is one of my favorite. I remember membling the path to myself while making it. It is one for my first love when learning python. This code draws my logo and was used as a opener for other python projects</p>
-        </aside>
-      </div>
-
-      <div class="code-layout-project" style="margin-top:16px">
-        <article class="project-code-card reveal">
-          <div class="project-code-top">
-            <strong>02 / Supporting program</strong>
-            <span>AudioBook.py</span>
+      <article class="project-card reveal">
+        <div class="project-card-head">
+          <span class="project-number">02</span>
+          <div>
+            <h2>Remote Rover</h2>
+            <p class="project-description">
+              A mobile robotic platform combining wireless control, motor actuation,
+              communication, sensing, and remote monitoring.
+            </p>
           </div>
-          <pre class="project-code-window">
-            <code>// ============================================================
- // SUPPORTING PROJECT CODE
- # By KJC
+        </div>
 
-try:
-    import PyPDF2
-    import pyttsx3
-    import pdfplumber
-    from tkinter import filedialog
-    from tkinter import *
-    pass
+        <div class="project-media">
+          <div class="project-images" aria-label="Three rover design images">
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/rover-design-01.jpg" alt="Rover design view 1">
+            </figure>
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/rover-design-02.jpg" alt="Rover design view 2">
+            </figure>
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/rover-design-03.jpg" alt="Rover design view 3">
+            </figure>
+          </div>
+          <figure class="project-media-card project-video">
+            <iframe class="youtube-project-video"
+              src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S"
+              title="YouTube project video"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </figure>
+        </div>
 
-except:
-    import pip
-    pip.main(["install", 'PyPDF2'])
-    pip.main(["install", 'pyttsx3'])
-    pip.main(["install", 'pdfplumber'])
-    import PyPDF2
-    import pyttsx3
-    import pdfplumber
-    from tkinter import filedialog
-    pass
+        <!-- <div class="section-heading reveal" style="margin:22px 28px 0;">
+          <div>
+            <p class="section-label">Code / Implementation</p>
+            <h3 style="margin:0;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:600;letter-spacing:-.06em;">Project code</h3>
+          </div>
+          <p class="section-intro">A compact view of the code and implementation behind this project.</p>
+        </div>
 
-# setting up the speaker
-Speaker = pyttsx3.init()
-voices = Speaker.getProperty("voices")
-Speaker.setProperty('voice', voices[0].id)
-Speaker.setProperty('rate', 150)
+        <div class="code-layout-project" style="padding:0 28px 22px;">
+          <div class="project-code-card">
+            <div class="project-code-top">
+              <strong>remote-rover.js</strong>
+              <span>Source code</span>
+            </div>
+            <pre class="project-code-window"><code>// Remote Rover
+// Add your project-specific embedded control code here.
 
-# defining the speak function
-def speak(things):
-    Speaker.say(things)
-    Speaker.runAndWait()
-    pass
+function controlRover(command) {
+  // Process wireless command
+  // Control motors and read sensors
+}</code></pre>
+          </div>
+          <div class="project-code-info">
+            <h3>Implementation notes</h3>
+            <p>Replace this example with the actual source code, logic, or embedded implementation for this project.</p>
+          </div>
+        </div> -->
 
-# test ting the speak function
-speak('Welcome in KJC')
-speak('Please, Choose your file!')
-# file path and name through the gui
-file = filedialog.askopenfilename()
+        <div class="project-actions">
+          <span class="project-note">Robotics + Embedded + Communication</span>
+          <div class="project-links">
+            <!-- <a class="project-link secondary" href="YOUR_ROVER_3D_MODEL_LINK" target="_blank" rel="noopener">Interact with 3D ↗</a> -->
+            <a class="project-link" href="project.html">View project <span class="arrow">↘</span></a>
+          </div>
+        </div>
+      </article>
 
+      <article class="project-card reveal">
+        <div class="project-card-head">
+          <span class="project-number">03</span>
+          <div>
+            <h2>Bio-Innovation Center</h2>
+            <p class="project-description">
+              An architectural concept developed in SolidWorks around innovation,
+              collaboration, research, interaction, and flexible spaces.
+            </p>
+          </div>
+        </div>
 
+        <div class="project-media">
+          <div class="project-images" aria-label="Three Bio-Innovation Center design images">
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/bio-center-design-01.jpg" alt="Bio-Innovation Center design view 1">
+            </figure>
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/bio-center-design-02.jpg" alt="Bio-Innovation Center design view 2">
+            </figure>
+            <figure class="project-media-card is-lightbox-trigger">
+              <img src="assets/bio-center-design-03.jpg" alt="Bio-Innovation Center design view 3">
+            </figure>
+          </div>
+          <figure class="project-media-card project-video">
+            <iframe class="youtube-project-video"
+              src="https://www.youtube.com/embed/s1YPHLPjr1g?si=Blh8f_tiwOO3Vq2S"
+              title="YouTube project video"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </figure>
+        </div>
 
-# create a pdf file object
-pdfFileObj = open(file, "rb")
+        <!-- <div class="section-heading reveal" style="margin:22px 28px 0;">
+          <div>
+            <p class="section-label">Code / Implementation</p>
+            <h3 style="margin:0;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:600;letter-spacing:-.06em;">Project code</h3>
+          </div>
+          <p class="section-intro">A compact view of the code and implementation behind this project.</p>
+        </div>
 
-# create a pdf reader object
-pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+        <div class="code-layout-project" style="padding:0 28px 22px;">
+          <div class="project-code-card">
+            <div class="project-code-top">
+              <strong>bio-innovation-center.js</strong>
+              <span>Source code</span>
+            </div>
+            <pre class="project-code-window"><code>// Bio-Innovation Center
+// Add your project-specific design or interaction code here.
 
-# pages of the pdf file
-pages = pdfReader.numPages
+function exploreDesign(view) {
+  // Load selected design view
+  // Update the interactive presentation
+}</code></pre>
+          </div>
+          <div class="project-code-info">
+            <h3>Implementation notes</h3>
+            <p>Replace this example with the actual source code, logic, or embedded implementation for this project.</p>
+          </div>
+        </div> -->
 
-# where do you want to start
-speak("Where do you wish to start")
-begin = int(input('Where do you wish to start : '))
+        <div class="project-actions">
+          <span class="project-note">SolidWorks + Architecture + Visualization</span>
+          <div class="project-links">
+            <!-- <a class="project-link secondary" href="YOUR_BIO_CENTER_3D_MODEL_LINK" target="_blank" rel="noopener">Interact with 3D ↗</a> -->
+            <a class="project-link" href="project.html">View project <span class="arrow">↘</span></a>
+          </div>
+        </div>
+      </article>
 
-
-# create pdfplumber object and loop through the number of pages in pdf
-with pdfplumber.open(file) as pdf:
-    # loop through the number fo pages
-    for i in range(begin-1, pages):
-        print("\n \nPage " + str(i + 1) + "/" + str(pages) + "\n\n")
-        page = pdf.pages[i]
-        text = page.extract_text()
-        print(text, "\n")
-        speak(text)
-
-
-</code>
-</pre>
-        </article>
-        <aside class="project-code-info reveal">
-          <p class="eyebrow">Description</p>
-          <h3>Supporting logic.</h3>
-          <p>I made this code in my early python encounter to facilitate my learning. This is an Audio Book code that reads off pdf.</p>
-        </aside>
-      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section" id="discussion" aria-labelledby="discussion-title">
-    <div class="shell discussion">
-      <div class="discussion-copy reveal">
-        <p class="section-label">09 / Discussion</p>
-        <h2 id="discussion-title">Now make room for questions.</h2>
-        <p>Use the form to collect feedback, questions, or collaboration ideas. It opens the visitor's email client with the message prepared.</p>
-        <a class="button secondary" href="mailto:juniorcesarkore@gmail.com">Email Junior Cesar directly 
-          <span class="arrow">↗</span>
-        </a>
-      </div>
-      <form class="discussion-form reveal" id="discussionForm">
-        <div class="field">
-          <label for="visitorName">Your name</label>
-          <input id="visitorName" name="name" type="text" placeholder="Name" required>
-        </div>
-        <div class="field">
-          <label for="visitorEmail">Your email</label>
-          <input id="visitorEmail" name="email" type="email" placeholder="name@example.com" required>
-        </div>
-        <div class="field">
-          <label for="visitorMessage">Question or project idea</label>
-          <textarea id="visitorMessage" name="message" placeholder="What would you like to discuss?" required></textarea>
-        </div>
-        <button class="button" type="submit">Prepare message 
-          <span class="arrow">↗</span>
-        </button>
-        <p class="form-feedback" id="formFeedback" aria-live="polite"></p>
-      </form>
+<section class="section" aria-labelledby="projects-close-title">
+  <div class="shell discussion">
+    <div class="discussion-copy reveal">
+      <p class="section-label">02 / More to come</p>
+      <h2 id="projects-close-title">More ideas. More builds.</h2>
     </div>
-  </section>
+    <div class="reveal">
+      <p class="section-intro">
+        This page can grow with the portfolio. New projects can be added using the
+        same three-image, video, 3D, and project-story structure without changing
+        the visual language.
+      </p>
+    </div>
+  </div>
+</section>
 </main>
+
 <footer class="shell">
   <p>© <span id="year"></span> Junior Cesar Kore</p>
-  <p class="accent">Project discussion page</p>
+  <p class="accent">LET’S MAKE IT POSSIBLE!</p>
 </footer>
+
+
+<div class="project-lightbox" aria-hidden="true">
+  <div class="project-lightbox-content" role="dialog" aria-modal="true" aria-label="Project media viewer">
+    <button class="project-lightbox-button project-lightbox-close" type="button" aria-label="Close">×</button>
+    <button class="project-lightbox-button project-lightbox-prev" type="button" aria-label="Previous media">‹</button>
+    <div class="project-lightbox-media"></div>
+    <button class="project-lightbox-button project-lightbox-next" type="button" aria-label="Next media">›</button>
+    <div class="project-lightbox-counter" aria-live="polite"></div>
+  </div>
+</div>
+
 <script>
-const navToggle=document.querySelector('.nav-toggle');const nav=document.querySelector('.nav');navToggle.addEventListener('click',()=>{const isOpen=nav.classList.toggle('is-open');navToggle.setAttribute('aria-expanded',String(isOpen))});nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('is-open');navToggle.setAttribute('aria-expanded','false')}));
-const revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');revealObserver.unobserve(entry.target)}})},{threshold:.12});document.querySelectorAll('.reveal').forEach((element,index)=>{element.style.transitionDelay=`${Math.min(index*35,240)}ms`;revealObserver.observe(element)});document.getElementById('year').textContent=new Date().getFullYear();
-const discussionForm=document.getElementById('discussionForm');const feedback=document.getElementById('formFeedback');discussionForm.addEventListener('submit',event=>{event.preventDefault();const data=new FormData(discussionForm);const subject=encodeURIComponent('Project discussion with Junior Cesar Kore');const body=encodeURIComponent(`Name: ${data.get('name')}\nEmail: ${data.get('email')}\n\nMessage:\n${data.get('message')}`);feedback.textContent='Opening your email app...';window.location.href=`mailto:juniorcesarkore@gmail.com?subject=${subject}&body=${body}`});
+const navToggle=document.querySelector('.nav-toggle');
+const nav=document.querySelector('.nav');
+navToggle.addEventListener('click',()=>{
+  const isOpen=nav.classList.toggle('is-open');
+  navToggle.setAttribute('aria-expanded',String(isOpen));
+});
+nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{
+  nav.classList.remove('is-open');
+  navToggle.setAttribute('aria-expanded','false');
+}));
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((element,index)=>{
+  element.style.transitionDelay=`${Math.min(index*35,240)}ms`;
+  revealObserver.observe(element);
+});
+document.getElementById('year').textContent=new Date().getFullYear();
+const projectLightbox=document.querySelector('.project-lightbox');
+const projectLightboxMedia=document.querySelector('.project-lightbox-media');
+const projectLightboxPrev=document.querySelector('.project-lightbox-prev');
+const projectLightboxNext=document.querySelector('.project-lightbox-next');
+const projectLightboxClose=document.querySelector('.project-lightbox-close');
+const projectLightboxCounter=document.querySelector('.project-lightbox-counter');
+let activeProjectMedia=[];
+let activeProjectIndex=0;
+
+function getProjectMedia(card){
+  return Array.from(card.querySelectorAll('.project-media-card.is-lightbox-trigger'));
+}
+
+function renderProjectLightboxMedia(){
+  projectLightboxMedia.innerHTML='';
+  const mediaCard=activeProjectMedia[activeProjectIndex];
+  if(!mediaCard)return;
+
+  const image=mediaCard.querySelector('img');
+  const video=mediaCard.querySelector('video');
+
+  if(image){
+    const enlarged=document.createElement('img');
+    enlarged.src=image.currentSrc||image.src;
+    enlarged.alt=image.alt||'Project image';
+    projectLightboxMedia.appendChild(enlarged);
+  }else if(video){
+    const enlarged=document.createElement('video');
+    enlarged.controls=true;
+    enlarged.autoplay=true;
+    enlarged.playsInline=true;
+    enlarged.preload='metadata';
+    if(video.poster)enlarged.poster=video.poster;
+    const source=video.querySelector('source');
+    if(source){
+      const enlargedSource=document.createElement('source');
+      enlargedSource.src=source.src;
+      enlargedSource.type=source.type||'video/mp4';
+      enlarged.appendChild(enlargedSource);
+    }else if(video.currentSrc){
+      enlarged.src=video.currentSrc;
+    }
+    projectLightboxMedia.appendChild(enlarged);
+    enlarged.play().catch(()=>{});
+  }
+
+  projectLightboxCounter.textContent=`${activeProjectIndex+1} / ${activeProjectMedia.length}`;
+  projectLightboxPrev.hidden=activeProjectMedia.length<2;
+  projectLightboxNext.hidden=activeProjectMedia.length<2;
+}
+
+function openProjectLightbox(card,index){
+  activeProjectMedia=getProjectMedia(card);
+  activeProjectIndex=index;
+  renderProjectLightboxMedia();
+  projectLightbox.classList.add('is-open');
+  projectLightbox.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+
+function closeProjectLightbox(){
+  projectLightbox.classList.remove('is-open');
+  projectLightbox.setAttribute('aria-hidden','true');
+  projectLightboxMedia.innerHTML='';
+  document.body.style.overflow='';
+  activeProjectMedia=[];
+  activeProjectIndex=0;
+}
+
+function moveProjectLightbox(step){
+  if(!activeProjectMedia.length)return;
+  activeProjectIndex=(activeProjectIndex+step+activeProjectMedia.length)%activeProjectMedia.length;
+  renderProjectLightboxMedia();
+}
+
+document.querySelectorAll('.project-card').forEach(card=>{
+  getProjectMedia(card).forEach((mediaCard,index)=>{
+    mediaCard.addEventListener('click',event=>{
+      if(event.target.closest('video'))return;
+      openProjectLightbox(card,index);
+    });
+  });
+});
+
+projectLightboxPrev.addEventListener('click',()=>moveProjectLightbox(-1));
+projectLightboxNext.addEventListener('click',()=>moveProjectLightbox(1));
+projectLightboxClose.addEventListener('click',closeProjectLightbox);
+
+projectLightbox.addEventListener('click',event=>{
+  if(event.target===projectLightbox)closeProjectLightbox();
+});
+
+document.addEventListener('keydown',event=>{
+  if(!projectLightbox.classList.contains('is-open'))return;
+  if(event.key==='Escape')closeProjectLightbox();
+  if(event.key==='ArrowLeft')moveProjectLightbox(-1);
+  if(event.key==='ArrowRight')moveProjectLightbox(1);
+});
+
 </script>
 </body>
+
 </html>
