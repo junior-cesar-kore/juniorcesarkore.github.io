@@ -176,7 +176,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
     </div>
     <div class="hero-visual reveal">
       <figure class="project-image image-empty">
-        <img src="./03/intro_image.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
+        <img src="./04/intro_image.jpg" alt="Main image for the project" onerror="this.parentElement.classList.add('image-empty')" onload="this.parentElement.classList.remove('image-empty')">
         <figcaption class="image-caption">Project image</figcaption>
       </figure>
       <div class="hero-meta">
@@ -194,14 +194,27 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p class="section-label">01 / Overview</p>
           <h2 id="overview-title">Give the audience the reason first.</h2>
         </div>
-        <p class="section-intro">A strong project conversation does not begin with a list of tools. It begins with the need, the people affected, and the outcome you wanted to create.</p>
+        <p class="section-intro">This project was proposed by Academic City University while I was on the ETHOS
+            program there. We were a group of 5 people at first: Maya Perez, Durmas Togla,Evan Sahouegon, Yanbing Jin, and Junior Cesar Kore.
+            After the program, Evan and I planned on completing the project as our final year.
+          </p>
       </div>
       <div class="snapshot">
         <article class="statement reveal">
           <h3>The challenge is simple to state. The solution is not.</h3>
-          <p>The project was developed to create a mobile robot capable of moving across different floor levels without relying on conventional elevators or ramps.<br>
-          Normal wheeled robots work well on flat surfaces, but stairs create a major mobility problem. A robot designed only for flat-ground movement can lose contact, become unstable, or tip over when it encounters a step.<br>
-          The aim was therefore to develop a stair-climbing mechanism that can lift, support, and reposition the robot while maintaining stability.</p>
+          <p>
+            Fonio is a traditional grain with potential as an important food crop, but
+            <strong>dehusking is still a difficult and labor-intensive stage of processing</strong>.
+            The project was therefore started to develop a machine that can make fonio
+            dehusking faster, easier, safer, and more efficient.<br>
+            The long-term goal is not just to build a machine that removes the husk. The
+            goal is to develop a <strong>multipurpose, household-friendly dehusking machine
+            that can operate with minimal human interaction</strong>.<br>
+            The intended user should be able to:
+            <strong>Feed the machine → Turn it on → Allow the machine to process the
+            batch → Receive the finished product</strong><br>
+
+        </p>
         </article>
         <div class="project-facts reveal" aria-label="Project facts">
           <div class="fact">
@@ -283,32 +296,61 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="story-piece reveal">
           <span class="number">01 / Need</span>
           <h3>What needed solving?</h3>
-          <p>The main problem was simple:How can a mobile robot move from one level to another using stairs while remaining stable and controllable?<br>
-            A normal four-wheel arrangement cannot simply drive up a staircase because the wheels cannot continuously maintain the required contact with the stair surfaces.
+          <p>
+            The main problem was:
+            <strong>How can we design a machine that efficiently dehusks fonio while
+            reducing manual effort and making the process safe and simple
+            enough for household use?</strong><br>
+            The challenge is that fonio is small and delicate. The machine therefore needs
+            to provide enough mechanical action to remove the husk without unnecessarily
+            damaging the grain.<br>
+            At the same time, the machine has to handle:<br>
+            - Feeding<br>
+            - Dehusking<br>
+            - Material movement<br>
+            - Separation<br>
+            - Collection<br>
+            - Safety<br>
+            - Automatic operation
           </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">02 / Decision</span>
           <h3>Why this approach?</h3>
-          <p>The project explored a mechanical climbing mechanism where the robot does more than simply rotate its wheels.<br>
-
-            The mechanism must:<br>
-
-            Support the robot's weight.<br>
-            Lift the robot to the next step.<br>
-            Move the robot forward.<br>
-            Maintain balance during lifting.<br>
-            Return to a stable position before the next climbing cycle.<br>
-
-            This makes the project both a mechanical design problem and a control problem.
+          <p>
+            Instead of designing only a simple dehusking mechanism, the project focuses
+            on developing a complete processing system.<br>
+            The machine is designed around several stages that work together:
+            <strong>Feeding → Processing → Dehusking → Separation → Collection</strong><br>
+            The approach also considers the real user.
+            A machine can technically work but still fail as a product if it is:<br>
+            - Difficult to operate.<br>
+            - Unsafe.<br>
+            - Difficult to clean.<br>
+            - Too expensive.<br>
+            - Too complicated to maintain.<br>
+            - Too dependent on an operator.<br>
+            Therefore, ease of operation and safety became important design
+            requirements.
           </p>
         </article>
         <article class="story-piece reveal">
           <span class="number">03 / Result</span>
           <h3>What works now?</h3>
-          <p>The working concept is based on coordinating the drive system, lifting mechanism, and control sequence.<br>
-
-            Instead of trying to force the wheels to climb the stair directly, the mechanism helps reposition the robot onto the next step.
+          <p>
+            The machine uses a mechanical processing system to apply controlled forces to
+            the fonio.<br>
+            The design process combines:<br>
+            - Mechanical design<br>
+            - CAD modeling<br>
+            - Flow simulation<br>
+            - Shaft design<br>
+            - Structural design<br>
+            - Fabrication<br>
+            - Testing<br>
+            - Iteration<br>
+            The final direction is toward an automated processing cycle, where the
+            operator does not need to continuously interact with the machine
           </p>
         </article>
       </div>
@@ -328,329 +370,354 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
         <article class="process-step reveal">
           <span class="process-number">01</span>
           <h3>Problem definition</h3>
-          <p>The first step was to define the mobility problem.<br>
-
-            The robot needed to:<br>
-
-            - Detect/approach a stair.<br>
-            - Position itself correctly.<br>
-            - Lift or reposition its body.<br>
-            - Move onto the next step.<br>
-            - Stabilize itself.<br>
-            - Repeat the sequence until the staircase is completed.<br>
-
-            The major engineering challenge was maintaining stability while the robot's center of gravity changes during climbing.
+          <p>
+            The first step was to clearly define the problem.
+            The machine needs to:<br>
+            1. Accept fonio as input.<br>
+            2. Move the grain through the processing system.<br>
+            3. Remove the husk.<br>
+            4. Reduce unnecessary grain damage.<br>
+            5. Separate the processed material.<br>
+            6. Collect the output.<br>
+            7. Stop automatically when the batch is completed.<br>
+            The central engineering question became:
+            How do we create enough mechanical action for effective dehusking
+            while maintaining controlled grain movement and minimizing
+            damage?
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">02</span>
           <h3>Requirements and constraints</h3>
-          <p>The design requirements included:<br>
-
-            - Ability to climb stairs.<br>
-            - Stable movement.<br>
-            - Sufficient lifting force.<br>
-            - Controlled motor movement.<br>
-            - Controlled servo/mechanical movement.<br>
-            - Compact mechanical structure.<br>
-            - Reasonable weight.<br>
-            - Strong enough frame.<br>
+          <p>
+            The main requirements are:<br><br>
+            <strong>Functional requirements</strong><br>
+            - Efficient dehusking.<br>
+            - Continuous material movement.<br>
+            - Automatic operation.<br>
+            - Automatic shutoff after processing.<br>
             - Safe operation.<br>
-            - Repeatable climbing sequence.<br>
-
-            Important constraints included:<br>
-
-            - Motor torque.<br>
-            - Servo torque.<br>
-            - Robot weight.<br>
-            - Stair height.<br>
-            - Stair depth.<br>
-            - Available space for the mechanism.<br>
-            - Battery capacity.<br>
-            - Material strength.<br>
-            - Manufacturing limitations.
+            - Easy feeding.<br>
+            - Easy collection.<br>
+            - Easy cleaning and maintenance.<br><br>
+            <strong>Design requirements</strong><br>
+            - Compact enough for household use.<br>
+            - Strong structural frame.<br>
+            - Reliable shaft system.<br>
+            - Appropriate motor power.<br>
+            - Proper material flow.<br>
+            - Accessible components.<br>
+            - Manufacturable design.<br><br>
+            <strong>Constraints</strong><br>
+            The design is affected by:<br>
+            - Fonio grain size.<br>
+            - Grain quantity.<br>
+            - Shaft dimensions.<br>
+            - Chamber length.<br>
+            - Motor capacity.<br>
+            - Available materials.<br>
+            - Manufacturing methods.<br>
+            - Cost.<br>
+            - Safety.<br>
+            - Space limitations
 
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">03</span>
           <h3>Research and investigation</h3>
-          <p>Different stair-climbing approaches were investigated, including:<br>
-
-            - Wheel-based systems.<br>
-            - Tracked systems.<br>
-            - Legged mechanisms.<br>
-            - Triangular wheel arrangements.<br>
-            - Articulated mechanisms.<br>
-            - Lifting mechanisms.<br>
-
-            The research helped identify what each approach does well and where it becomes difficult.<br>
-
-            The important question was not simply: "Which mechanism can climb stairs?"<br>
-
-            but: "Which mechanism can climb the required stairs using the components, manufacturing methods, and control system available to us?"
+          <p>
+            Research was carried out into existing grain-processing and dehusking systems.
+            The purpose was not simply to copy an existing machine.<br>
+            Instead, the research helped answer:<br>
+            - How is mechanical dehusking normally achieved?<br>
+            - How does grain move through the machine?<br>
+            - What types of shafts and chambers are used?<br>
+            - How can grain damage be reduced?<br>
+            - How can the process be automated?<br>
+            - How can the machine be made suitable for smaller-scale users?<br>
+            This led to the idea of combining mechanical dehusking with controlled
+            material flow and automatic operation
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">04</span>
           <h3>System architecture</h3>
-          <p>The robot can be divided into several major subsystems:<br>
-
-            Mechanical System :<br>
-
-            - Frame<br>
-            - Wheels<br>
-            - Lifting mechanism<br>
-            - Servo mechanisms<br>
-           -  Mechanical joints<br>
-
-            Drive System :<br>
-
-            - DC motors<br>
-            - Motor driver<br>
-            - Wheels<br>
-
-            Control System :<br>
-
-            - Microcontroller<br>
-            - Control logic<br>
-            - Servo control<br>
-            - Motor control<br>
-
-            Sensing System :<br>
-
-            - Ultrasonic sensor(s)<br>
-            - Position/distance feedback<br>
-
-            Power System :<br>
-
-            - Battery<br>
-            - Voltage regulation<br>
-            - Motor supply<br>
-            - Servo supply<br>
-
-            The complete system works by coordinating these subsystems rather than treating them as separate components.
+          <p>
+            The machine can be divided into several major subsystems:<br>
+            <strong>1. Feeding system: </strong>
+            Controls how fonio enters the machine.<br>
+            <strong>2. Dehusking system: </strong>
+            Provides the mechanical action required to remove the husk.<br>
+            <strong>3. Shaft and drive system: </strong>
+            Transfers rotational power from the motor to the processing mechanism.<br>
+            <strong>4. Processing chamber: </strong>
+            Contains and guides the fonio during dehusking.<br>
+            <strong>5. Separation system: </strong>
+            Helps separate husk from processed grain.<br>
+            <strong>6. Collection system: </strong>
+            Collects the final output.<br>
+            <strong>7. Control system: </strong>
+            Controls machine operation and automatic stopping.<br>
+            <strong>8. Safety system: </strong>
+            Reduces the risk of accidental contact with moving components<br>
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">05</span>
           <h3>Concept development</h3>
-          <p>Several concepts can be considered before selecting the final mechanism.<br>
-
-            Each concept is evaluated based on:<br>
-
-            - Stability<br>
-            - Complexity<br>
-            - Cost<br>
-            - Manufacturability<br>
-            - Weight<br>
-            - Torque requirements<br>
-            - Control difficulty<br>
-            - Stair dimensions<br>
-
-            The selected concept should provide the best balance between these requirements.
-            
+          <p>
+            Different mechanical concepts were considered for how the fonio could be
+            transported and dehusked.<br><br>
+            The concepts were evaluated based on:<br>
+            - Dehusking efficiency.<br>
+            - Grain damage.<br>
+            - Material flow.<br>
+            - Mechanical simplicity.<br>
+            - Manufacturability.<br>
+            - Cost.<br>
+            - Maintenance.<br>
+            - Safety.<br>
+            The selected concept was then developed further in CAD.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">06</span>
           <h3>Detailed design and modelling</h3>
-          <p>The mechanical structure was then developed in SolidWorks.<br>
-
-            The modeling stage involved:<br>
-
-            - Creating the robot frame.<br>
-            - Designing the lifting mechanism.<br>
-            - Positioning the motors.<br>
-            - Designing servo mounting points.<br>
-            - Designing wheel locations.<br>
-            - Checking clearances.<br>
-            - Checking mechanical interference.<br>
-            - Estimating the center of gravity.<br>
-            - Preparing components for fabrication.<br>
-
-            This stage allowed mechanical problems to be identified before building the physical prototype.
+          <p>
+            SolidWorks was used to develop and refine the machine.
+            The design work included components such as:<br>
+            - Main frame.<br>
+            - Processing chamber.<br>
+            - Shaft.<br>
+            - Feed system.<br>
+            - Upper stations/attachments.<br>
+            - Gas chamber.<br>
+            - Supporting structures.<br>
+            - Connections and mounting points<br>
+            One important part of the design was understanding how the shaft interacts
+            with the processing chamber.
+            During development, it became clear that the original straight-shaft concept
+            was not suitable for the chamber length and required material movement.
+            The design was therefore modified to introduce a small incline to the
+            shaft/system.<br>
+            This is an important part of the project's story because the final design was not
+            simply the first CAD concept—it changed based on engineering analysis and
+            practical requirements
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">07</span>
           <h3>Simulation and analysis</h3>
-          <p>Before fabrication, the design can be analyzed to determine whether it can withstand the expected loads.<br>
-
-            Important calculations include:<br>
-
-            Motor torque<br>
-
-             T = F * r <br>
-
+          <p>
+            Simulation was used to understand how the design would behave before and
+            during fabrication.<br>
+            For the fonio machine, SolidWorks Flow Simulation was particularly useful
+            for investigating material movement and the behavior of the processing
+            system.
+            Mechanical analysis can also be used to examine:<br>
+            - Shaft loading.<br>
+            - Frame strength.<br>
+            - Bending.<br>
+            - Stress concentration.<br>
+            - Deformation.<br>
+            - Motor requirements.<br>
+            For example, shaft torque can be considered using:<br>
+            T =F*r<br>
             where:<br>
+            - T= torque<br>
+            - F= tangential force<br>
+            - r= shaft radius<br>
+            
+            The objective is to ensure that the shaft and drive system can provide the
+            required mechanical action without excessive deformation or failure.
 
-            T = required torque<br>
-            F = required force<br>
-            r = effective wheel/mechanism radius<br>
-
-            For the lifting mechanism, the robot's weight creates a moment around the mechanism:<br>
-
-            M = W * d <br>
-
-            where:<br>
-
-            W = robot weight<br>
-            d = perpendicular distance from the pivot.<br>
-
-            The simulation and calculations help answer:<br>
-
-            Can the mechanism physically lift and support the robot?
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">08</span>
           <h3>Prototype and fabrication</h3>
-          <p>After the design was finalized, the components were fabricated and assembled.<br>
-
-            This stage revealed an important engineering reality:<br>
-
-              A design that works in CAD does not automatically work perfectly in the physical world.<br>
-
-            Manufacturing tolerances, friction, material flexibility, screw alignment, motor positioning, and assembly errors can all affect performance.
+          <p>
+            After the CAD and analysis stages, the machine moved into fabrication.
+            The frame required practical manufacturing processes such as:<br>
+            - Measuring.<br>
+            - Cutting.<br>
+            - Positioning.<br>
+            - Welding.<br>
+            - Drilling.<br>
+            - Assembly.<br>
+            This stage introduced practical constraints that are difficult to completely
+            capture in CAD.<br><br>
+            For example, the fabricated structure may not perfectly match the CAD model
+            because of:<br>
+            - Welding distortion.<br>
+            - Measurement errors.<br>
+            - Material variation.<br>
+            - Assembly tolerances.<br>
+            - Component availability.<br>
+            This required the design to be reviewed and adjusted.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">09</span>
           <h3>Subsystem testing</h3>
-          <p>Instead of testing the complete robot immediately, individual subsystems were tested first.<br>
-
-            For example:<br>
-
-            Motor system<br>
-
-            - Forward<br>
-            - Reverse<br>
-            - Left<br>
-            - Right<br>
-            - Stop<br>
-
-            Servo system<br>
-
-            - Starting position<br>
-            - Lifting position<br>
-            - Returning position<br>
-
-            Sensor system<br>
-
-            - Distance measurement<br>
-            - Obstacle detection<br>
-
-            Power system<br>
-
-            - Voltage levels<br>
-            - Current requirements<br>
-            - Servo supply<br>
-            - Motor supply<br>
-
-            This makes troubleshooting much easier.
+          <p>
+            Each major subsystem should be tested independently.<br><br>
+            <strong>Frame</strong><br>
+            - Structural rigidity.<br>
+            - Alignment.<br>
+            - Welding quality.<br>
+            - Stability.<br>
+            <strong>Shaft</strong><br>
+            - Rotation.<br>
+            - Alignment.<br>
+            - Bearing support.<br>
+            - Vibration.<br>
+            - Load behavior.<br>
+            <strong>Feeding system</strong><br>
+            - Consistent material entry.<br>
+            - Blockages.<br>
+            - Flow rate.<br>
+            <strong>Processing system</strong><br>
+            - Dehusking effectiveness.<br>
+            - Grain movement.<br>
+            - Grain damage.<br>
+            <strong>Drive system</strong><br>
+            - Motor rotation.<br>
+            - Speed.<br>
+            - Torque.<br>
+            - Heating.<br>
+            - Vibration
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">10</span>
           <h3>Integration and system testing</h3>
-          <p>Once the individual subsystems worked, they were integrated.<br>
-
-              The complete sequence could then be tested:<br>
-
-              Approach → Detect → Position → Lift → Move → Stabilize → Repeat<br>
-
-              This is where problems that do not appear during individual subsystem testing can become visible.<br>
-
-              For example, a servo may work perfectly by itself but struggle when carrying the actual robot load.
+          <p>
+            After individual components were tested, the complete machine was
+            integrated.<br>
+            The desired sequence becomes:<br>
+            Load fonio<br>
+            ↓<br>
+            Start machine<br>
+            ↓<br>
+            Automatic feeding<br>
+            ↓<br>
+            Dehusking<br>
+            ↓
+            Separation<br>
+            ↓<br>
+            Collection<br>
+            ↓<br>
+            Batch complete<br>
+            ↓<br>
+            Automatic shutdown<br>
+            The objective is to minimize the need for the operator to interact with the
+            machine during processing
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">11</span>
           <h3>Failure analysis and iteration</h3>
-          <p>Failures are not simply problems; they provide engineering information.<br>
-
-              Possible failures include:<br>
-
-              - Insufficient motor torque.<br>
-              - Servo struggling under load.<br>
-              - Robot losing balance.<br>
-              - Wheels slipping.<br>
-              - Mechanism binding.<br>
-              - Frame deformation.<br>
-              - Incorrect timing between motors and servos.<br>
-              - Sensor giving unreliable readings.<br>
-              - Robot stopping at the wrong position.<br>
-
-              Each failure leads to a question:<br>
-
-              Why did it happen?<br>
-
-              Then:<br>
-
-              Failure → Cause → Modification → Retest<br>
-
-              This cycle is one of the most important parts of the project
+          <p>
+            This is one of the strongest parts of the project story.
+            The original design did not simply move directly from CAD to a perfect
+            machine.<br>
+            For example, the straight shaft concept was found to be unsuitable for
+            the chamber length and material movement requirements.
+            Instead of treating this as a failure of the project, it became part of the
+            engineering process.<br>
+            The design was modified by introducing a <strong>small incline</strong> to improve the
+            movement of material through the system.
+            This demonstrates the actual engineering cycle:
+            <strong>Design → Simulate → Build → Test → Identify failure → Modify → Test
+            again</strong><br>
+            The same approach can be applied to future issues such as:<br>
+            - Poor material flow.<br>
+            - Incomplete dehusking.<br>
+            - Excessive grain damage.<br>
+            - Shaft vibration.<br>
+            - Blockage.<br>
+            - Insufficient throughput.<br>
+            - Excessive motor load.<br>
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">12</span>
           <h3>Validation and final evaluation</h3>
-          <p>The final design should be tested against the original requirements.<br>
+          <p>
+            The final machine should be evaluated against measurable requirements.
+            Important performance parameters include:<br><br>
+            <strong>Dehusking efficiency</strong><br>
+            Efficiency = (Successfully dehusked fonio / Total fonio processed)*100<br><br>
 
-            For example:<br>
+            <strong></strong>Throughput<br>
+            Throughput =  Mass processed / Processing time<br>
+            For example, the machine can be evaluated in kg/hour.<br><br>
+            Grain damage<br>
+            The percentage of damaged or broken grain should also be measured.<br><br>
+            <strong></strong>Safety<br>
+            The machine should be evaluated for:<br>
+            - Moving-part protection.<br>
+            - Emergency stopping.<br>
+            - Heat.
+            - Electrical safety.<br>
+            - Operator access.<br>
+            - Automatic shutdown.<br><br>
+            The final question is:
+            Does the machine actually solve the original problem while meeting
+            the requirements established at the beginning?
 
-            Requirement	              Test<br><br>
-            Climb stairs	            Complete multiple stair cycles<br>
-            Maintain stability	      Observe robot during lifting<br>
-            Lift robot	              Measure/verify lifting capability<br>
-            Detect obstacle	          Test ultrasonic response<br>
-            Repeat operation	        Perform multiple cycles<br>
-            Safe operation	          Check emergency/stop behavior<br>
-
-            The goal is not simply to show that the robot moves.<br>
-
-            The goal is to demonstrate that it meets the engineering requirements that were defined at the beginning.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">13</span>
           <h3>Engineering lessons</h3>
-          <p>The stair-climbing robot demonstrates several important engineering lessons:<br>
-
-            - Design starts with the problem, not the component.<br>
-            - CAD is important, but physical testing is essential.<br>
-            - Mechanical design and electronics must be developed together.<br>
-            - Torque requirements must be calculated before selecting actuators.<br>
-            - Stability is as important as movement.<br>
-            - Subsystem testing makes troubleshooting easier.<br>
-            - Failure is part of the engineering process.<br>
-            - Small mechanical changes can have a major effect on system performance.<br>
-            - A successful prototype is the result of repeated design → build → test → improve cycles.
+          <p>
+            The fonio machine teaches several important engineering lessons:
+            - A good engineering design starts with understanding the real problem.<br>
+            - CAD is a design tool, not proof that the physical machine will work.<br>
+            - Simulation can identify problems before fabrication.<br>
+            - Manufacturing introduces constraints that must be considered during
+            design.<br>
+            - Material flow is just as important as mechanical strength.<br>
+            - The shaft, chamber, feeding system, and motor cannot be designed
+            independently.<br>
+            - Safety must be designed into the machine rather than added at the end.<br>
+            - Automation should reduce unnecessary human interaction.<br>
+            - Failure provides information for improving the design.<br>
+            - Engineering is an iterative process.<br>
+            Most importantly:
+            The goal is not just to build a working machine. The goal is to build
+            a machine that works reliably, safely, efficiently, and for the person
+            who will actually use it.
           </p>
         </article>
         <article class="process-step reveal">
           <span class="process-number">14</span>
           <h3>Documentation and next iteration</h3>
-          <p>The final stage is documenting:
-
-            - Original problem.
-            - Design requirements.
-            - Research.
-            - Concepts considered.
-            - Selected concept.
-            - CAD models.
-            - Calculations.
-            - Simulation results.
-            - Fabrication process.
-            - Circuit/control system.
-            - Testing results.
-            - Failures.
-            - Modifications.
-            - Final performance.
-            - Lessons learned.
-
-            The next iteration can then focus on improvements such as greater stability, higher climbing speed, better weight distribution, improved sensing, stronger mechanical components, and more autonomous control.
+          <p>
+            The project documentation should capture the complete journey:
+            Problem → Research → Requirements → Concepts → CAD → Simulation
+            → Fabrication → Testing → Failure → Modification → Retesting →
+            Validation<br><br>
+            The next iteration can focus on:<br>
+            - Improving dehusking efficiency.<br>
+            - Reducing grain damage.<br>
+            - Improving material flow.<br>
+            - Increasing throughput.<br>
+            - Improving automatic feeding.<br>
+            - Improving separation.<br>
+            - Improving safety.<br>
+            - Making the machine easier to clean.<br>
+            - Reducing overall size and cost.<br>
+            - Improving automatic batch detection and shutdown.<br>
+            The whole project story in one line:<br>
+            The Fonio Dehusking Machine began with the need to reduce the
+            difficulty of fonio processing and evolved through research, CAD,
+            simulation, fabrication, testing, and iteration toward a safe,
+            efficient, household-friendly machine that can process a batch with
+            minimal human interaction
           </p>
         </article>
       </div>
@@ -674,7 +741,7 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Use this for the strongest image, render, or diagram.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/solidworks Wp.jpg" alt="Fonio machine design view 3">
+            <img src="./04/make_image_.jpg" alt="Fonio machine design view 3">
           </div>
         </article>
         <div class="gallery-slot reveal">
@@ -682,17 +749,16 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
           <p>Show an intermediate step, test setup, or technical detail.</p>
           <div class="gallery-placeholder">
             <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/Stair Master circuit.jpg" alt="Fonio machine design view 3">
+            <img src="./04/make_image_.jpg" alt="Fonio machine design view 3">
           </div>
         </div>
-        <div class="gallery-slot reveal">
+        <!-- <div class="gallery-slot reveal">
           <h3>Result or test</h3>
           <p>Show the proof that the project works.</p>
           <div class="gallery-placeholder">
-            <!-- Add image at assets/project-result.jpg -->
-            <img src="./base media/krojecs printer.jpg" alt="Fonio machine design view 3">
+            <img src="./04/image.jpg" alt="Fonio machine design view 3">
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -710,7 +776,25 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:18px;pa
       <div class="project-showcase">
         <article class="project-showcase-card reveal">
           <div class="project-showcase-media">
-            <img src="./base media/aaenics rover.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+            <img src="./04/image.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+          </div>
+          <div class="project-showcase-info">
+            <h3>01 / SolidWorks model</h3>
+            <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
+          </div>
+        </article>
+        <article class="project-showcase-card reveal">
+          <div class="project-showcase-media">
+            <img src="./04/image.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
+          </div>
+          <div class="project-showcase-info">
+            <h3>01 / SolidWorks model</h3>
+            <p>Use this space to describe the CAD model, key dimensions, assemblies, mechanisms, materials, or design decisions that should be noticed in the image.</p>
+          </div>
+        </article>
+        <article class="project-showcase-card reveal">
+          <div class="project-showcase-media">
+            <img src="./04/image.jpg" alt="SolidWorks CAD design" onerror="this.parentElement.innerHTML='<div style=&quot;padding:30px;text-align:center;color:var(--muted)&quot;>Add your SolidWorks image at<br><strong>assets/solidworks-design.jpg</strong></div>'">
           </div>
           <div class="project-showcase-info">
             <h3>01 / SolidWorks model</h3>
